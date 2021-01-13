@@ -24,7 +24,7 @@ $ systemctl restart mysqld
 
 4. Hvilken prosess-id og port er i bruk til styrekonsollet og serverne (hint: taskmgr for PID)?
 
-Finne prosess-ui:
+Finne prosess-di:
 $ ps -ef | grep mysqld
 mysql     2728     1  0 13:21 ?        00:00:00 /usr/sbin/mysqld
 prosess-id = 2728
