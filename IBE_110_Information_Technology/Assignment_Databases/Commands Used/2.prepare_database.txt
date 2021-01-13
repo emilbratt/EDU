@@ -1,0 +1,81 @@
+
+Create a stored procedure for the orderplace
+################################
+DELIMITER $$
+
+CREATE PROCEDURE ADDORDER(IN customer INT, article INT)
+BEGIN
+
+INSERT INTO orderplace()VALUES();
+
+SET @id = (SELECT MAX(order_id) FROM orderplace);
+
+    /*could instead use the function
+        SELECT LAST_INSERT_ID();
+            to get order_id, but I learned that just now*/
+
+INSERT INTO orderdata(order_id, customer_id, article_id)
+VALUES(@id,customer,article);
+
+END$$
+DELIMITER ; $$
+################################
+
+
+
+Populate country table with all country-codes and country-names
+(the csv file is located in the folder "countrycodes"
+################################
+LOAD DATA LOCAL INFILE '/your/path/to/c_p_t.csv'
+INTO TABLE country
+FIELDS TERMINATED BY '\t'
+ENCLOSED BY '|'
+LINES TERMINATED BY '\n'
+IGNORE 1 ROWS;
+################################
+Countrycodes following the ISO3166 standard and grabbed from:
+https://en.wikipedia.org/wiki/ISO_3166-1#Officially_assigned_code_elements
+
+
+Create another column in customer data for last name
+################################
+ALTER TABLE customer
+ADD last_name TINYTEXT NOT NULL;
+################################
+DESC customer;
+################################
+
+
+
+Rename to a more fitting name
+column email_home to email_private in customer_email table
+################################
+ALTER TABLE customer_email
+CHANGE COLUMN email_home email_private TINYTEXT;
+
+
+
+Rename to a more fitting name
+column phone_home to phone_private in customer_phone table
+################################
+ALTER TABLE customer_phone
+CHANGE COLUMN phone_home phone_private INT;
+
+
+
+add column for phone for in customer_phone table
+################################
+ALTER TABLE customer_phone
+ADD COLUMN phone_work INT;
+################################
+
+
+remove columng phone_country and
+cell_phone from customer_phone table
+################################
+ALTER TABLE customer_phone
+DROP COLUMN phone_country;
+
+ALTER TABLE customer_phone
+DROP COLUMN cell_phone;
+################################

@@ -1,0 +1,40 @@
+Assignment: Databases
+Student: Emil Bratts Børsting
+Student ID.: *******
+DBMS: MariaDB
+
+
+Task/Mission:
+Design a simple database that serves as a "starting point" for a retail store.
+Note: A retail store would have many more tables and columns describing for example
+flow of the gods/articles when imported, sold, lost, etc..
+This is a project that only serves the purpose of me proving the understanding of the concept of relatioal databases.
+
+Database SCHEMA/DESIGN
+The tables fall mainly into 3 categories.
+Customer, Articles and Orders/Sales.
+For a visual overview of the tables see "Schema.txt".
+
+Normalization
+To reach 3rd normal form I had to use additional tables to ones that I already created.
+The customer_phone and customer_email holds phone and email records for customers
+having multiple of those values.
+I needed to auto_increment and reference a Primary Key from
+the customer_id to each Foreign Key in the customer_id columns in the phone and email tables.
+I also added a separate country table with each country code as a Primary Key that references the
+Foreign Key for countrycodes on the customer table.
+With all this being said, the same principles go for articles and orders.
+On articles where several articles will be the same brand I used the
+unique identifier brand_id as a Foreign Key in the article table that references the Primary Key
+of the brand_id in the brand table. I also added a Primary Key for the article table named article_id
+for use with orders/sales. Every order identifies one sale.
+I did not get around to make an "order_article" table. I could reference
+Foreign Keys from each order_id and article_id table to generate what would be a table with only 2 columns
+that would allow for multiple items in one order (a many to many relation).
+
+
+Opimization and indexing.
+For optimization we could have inedxed data that is often read.
+I did not index any columns in any table but it would however
+make sense to index tables and columns for article (especially the article names)
+as these would be data that would be retrieved often in a real environment.

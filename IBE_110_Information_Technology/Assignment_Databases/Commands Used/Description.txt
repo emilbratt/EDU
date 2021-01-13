@@ -1,0 +1,5 @@
+The textfiles in this directory contains instruction along with
+shell commands that we feed the mariadb console with.
+By running each command in order, we end up with a database populated with some values
+which we in turn do some SELECT queries against.
+

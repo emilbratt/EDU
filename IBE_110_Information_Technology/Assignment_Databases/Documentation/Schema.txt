@@ -1,0 +1,100 @@
+List of Tables
+
+SHOW TABLES;
++------------------+
+| Tables_in_IBE151 |
++------------------+
+| article          |
+| brand            |
+| country          |
+| customer         |
+| customer_email   |
+| customer_phone   |
+| orderdata        |
+| orderplace       |
++------------------+
+############################################################################################
+Customer DATA
+
+Customer
++--------------+------------+------+-----+---------+----------------+
+| Field        | Type       | Null | Key | Default | Extra          |
++--------------+------------+------+-----+---------+----------------+
+| customer_id  | int(11)    | NO   | PRI | NULL    | auto_increment |
+| first_name   | tinytext   | NO   |     | NULL    |                |
+| street       | tinytext   | NO   |     | NULL    |                |
+| street_nr    | int(11)    | NO   |     | NULL    |                |
+| area_code    | int(11)    | NO   |     | NULL    |                |
+| region       | tinytext   | NO   |     | NULL    |                |
+| country_code | varchar(2) | NO   | MUL | NULL    |                |
+| last_name    | tinytext   | NO   |     | NULL    |                |
++--------------+------------+------+-----+---------+----------------+
+
+customer_email
++---------------+----------+------+-----+---------+-------+
+| Field         | Type     | Null | Key | Default | Extra |
++---------------+----------+------+-----+---------+-------+
+| customer_id   | int(11)  | NO   | MUL | NULL    |       |
+| email_work    | tinytext | YES  |     | NULL    |       |
+| email_private | tinytext | YES  |     | NULL    |       |
++---------------+----------+------+-----+---------+-------+
+
+customer_phone
++---------------+---------+------+-----+---------+-------+
+| Field         | Type    | Null | Key | Default | Extra |
++---------------+---------+------+-----+---------+-------+
+| customer_id   | int(11) | NO   | MUL | NULL    |       |
+| phone_private | int(11) | YES  |     | NULL    |       |
+| phone_work    | int(11) | YES  |     | NULL    |       |
++---------------+---------+------+-----+---------+-------+
+############################################################################################
+Article DATA
+
+article
++---------------------+---------------+------+-----+---------+----------------+
+| Field               | Type          | Null | Key | Default | Extra          |
++---------------------+---------------+------+-----+---------+----------------+
+| article_id          | int(11)       | NO   | PRI | NULL    | auto_increment |
+| brand_id            | int(11)       | NO   | MUL | NULL    |                |
+| article_name        | tinytext      | NO   |     | NULL    |                |
+| article_description | varchar(255)  | YES  |     | NULL    |                |
+| article_price       | decimal(10,2) | NO   |     | NULL    |                |
++---------------------+---------------+------+-----+---------+----------------+
+
+brand
++------------+--------------+------+-----+---------+----------------+
+| Field      | Type         | Null | Key | Default | Extra          |
++------------+--------------+------+-----+---------+----------------+
+| brand_id   | int(11)      | NO   | PRI | NULL    | auto_increment |
+| brand_name | varchar(255) | NO   |     | NULL    |                |
++------------+--------------+------+-----+---------+----------------+
+############################################################################################
+Country DATA
+
+country
++--------------+------------+------+-----+---------+-------+
+| Field        | Type       | Null | Key | Default | Extra |
++--------------+------------+------+-----+---------+-------+
+| country_code | varchar(2) | NO   | PRI | NULL    |       |
+| country_name | tinytext   | NO   |     | NULL    |       |
++--------------+------------+------+-----+---------+-------+
+############################################################################################
+Sales DATA
+
+orderdata
++-------------+---------+------+-----+---------+-------+
+| Field       | Type    | Null | Key | Default | Extra |
++-------------+---------+------+-----+---------+-------+
+| order_id    | int(11) | NO   | MUL | NULL    |       |
+| customer_id | int(11) | NO   | MUL | NULL    |       |
+| article_id  | int(11) | NO   | MUL | NULL    |       |
++-------------+---------+------+-----+---------+-------+
+
+orderplace
++------------+----------+------+-----+---------------------+-------------------------------+
+| Field      | Type     | Null | Key | Default             | Extra                         |
++------------+----------+------+-----+---------------------+-------------------------------+
+| order_id   | int(11)  | NO   | PRI | NULL                | auto_increment                |
+| order_time | datetime | YES  |     | current_timestamp() | on update current_timestamp() |
++------------+----------+------+-----+---------------------+-------------------------------+
+############################################################################################

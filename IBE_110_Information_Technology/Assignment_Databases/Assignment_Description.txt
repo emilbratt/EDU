@@ -1,0 +1,17 @@
+Use what we have learned about databases.
+
+Create a database of your choice. The topic can be what you want.
+Make at least 3 tables and use constraints.
+Insert values to the tables.
+Create queries against the tables.
+
+I decided to make a simple retail store database
+(which is not at all suitable for production
+but rather a showcase of how parts of the database might be desigend).
+
+
+I did make a rather dum mistake throughout this assignment naming the
+database IBE151 (which was another course I took at the same time).
+And I realised after delivery.
+
+Oh well.

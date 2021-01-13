@@ -1,0 +1,7 @@
+The countrycodes are fetched from wikipedia.com
+
+We use the filtered version which only contains the countryname and countrycode.
+We change delimiter from: , to: \t
+We change value encloser from: " to: |
+And in the sql script we do: IGNORE 1 ROWS; to ignore the column-names.
+

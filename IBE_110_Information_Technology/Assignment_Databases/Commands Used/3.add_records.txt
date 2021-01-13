@@ -1,0 +1,222 @@
+
+Select database
+################################
+USE IBE151;
+################################
+
+
+
+Insert row(s) into brand
+################################
+INSERT INTO brand(
+brand_name
+)
+VALUES(
+'Dell'
+),
+(
+'HP'
+)
+;
+################################
+
+
+
+Insert row(s) into article
+################################
+INSERT INTO article(
+brand_id,
+article_name,
+article_description,
+article_price
+)
+VALUES(
+'1',
+'desktop pc for office',
+'super duper computer for old timers',
+'250'
+),
+(
+'1',
+'gamer desktop',
+'super duper computer for gamers',
+'450.79'
+),
+(
+'2',
+'laptop 15 inch',
+'super duper computer for students',
+'350.99'
+)
+;
+################################
+
+
+
+Insert a row into article where we dont add data to the column that allows NULL value
+################################
+INSERT INTO article(
+brand_id,
+article_name,
+article_price
+)
+VALUES(
+'2',
+'desktop pc pro for office',
+'249.50'
+)
+;
+################################
+
+
+
+Insert row(s) into customer
+################################
+INSERT INTO customer(
+first_name,
+last_name,
+street,
+street_nr,
+area_code,
+region,
+country_code
+)
+VALUES(
+'John',
+'Johnson',
+'Baker st.',
+'15',
+'4362',
+'California',
+'US'
+),
+(
+'Jostein',
+'Bæver',
+'Knarkersvingen',
+'22',
+'7054',
+'Trndelag',
+'NO'
+),
+(
+'Claire',
+'Tucker',
+'Red st.',
+'11',
+'4261',
+'New-York',
+'US'
+)
+;
+################################
+
+
+
+add emails to each customer
+################################
+Insert phone and email for each
+INSERT INTO customer_email(
+customer_id,
+email_work,
+email_private)VALUES(
+'1',
+'johnpaajobb@jobben.no',
+'john_fjorten@hotmail.com'
+),
+(
+'2',
+'never_say@never.no',
+'bieber4life@hotmail.com'
+),
+(
+'3',
+'claireatwork@realwork.com',
+'clairetruckertucker@gmail.com'
+)
+;
+################################
+
+
+
+add additional email to John
+################################
+INSERT INTO customer_email(
+customer_id,
+email_work,
+email_private)VALUES(
+'1',
+'johnpaadenandrejobben@jobben.no',
+'john_femten@hotmail.com'
+)
+;
+################################
+
+
+
+add phone numbers to each
+################################
+INSERT INTO customer_phone(
+customer_id,
+phone_private,
+phone_work)VALUES(
+'1',
+'93136125',
+'95553311'
+),
+(
+'2',
+'93456125',
+'01234567'
+),
+(
+'3',
+'93827156',
+'93847261'
+)
+;
+################################
+
+
+
+add even more phone numbers because... we can
+################################
+INSERT INTO customer_phone(
+customer_id,
+phone_private,
+phone_work)VALUES(
+'1',
+'76436125',
+'54673311'
+),
+(
+'2',
+'12356125',
+'35464567'
+),
+(
+'3',
+'93123456',
+'93123561'
+)
+;
+################################
+
+
+
+Invoke stored procedure to insert rows where
+Claire (customer_id 3) buys a
+15 inch laptop (article_id 3)
+John (customer_id 1) buys a
+desktop pc for office (article_id 1)
+and justin bieber buys whatever cuz he rich
+################################
+CALL ADDORDER('3','3');
+CALL ADDORDER('1','1');
+CALL ADDORDER('2','1');
+CALL ADDORDER('2','2');
+CALL ADDORDER('2','2');
+CALL ADDORDER('2','2');
+CALL ADDORDER('2','2');
+CALL ADDORDER('2','3');
+################################

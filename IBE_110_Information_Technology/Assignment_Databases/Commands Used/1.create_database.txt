@@ -1,0 +1,128 @@
+mariadb on server
+
+Create and use database named IBE151
+################################
+CREATE DATABASE IBE151;
+USE IBE151;
+################################
+
+
+
+Create table for brands
+################################
+CREATE TABLE brand(
+	brand_id INT NOT NULL AUTO_INCREMENT,
+	brand_name VARCHAR(255) NOT NULL,
+	PRIMARY KEY (brand_id)
+);
+################################
+DESC brand;
+################################
+
+
+
+Create table for all articles
+################################
+CREATE TABLE article (
+	article_id INT NOT NULL AUTO_INCREMENT,
+	brand_id INT NOT NULL,
+	article_name TINYTEXT NOT NULL,
+	article_description VARCHAR(255),
+	article_price DECIMAL(10,2) NOT NULL,
+	PRIMARY KEY (article_id),
+	FOREIGN KEY (brand_id) REFERENCES brand(brand_id)
+);
+################################
+DESC article;
+################################
+
+
+
+Create country table and import all codes
+################################
+CREATE TABLE country(
+	country_code VARCHAR(2) NOT NULL,
+    country_name TINYTEXT NOT NULL,
+	PRIMARY KEY (country_code)
+);
+################################
+DESC country;
+
+
+
+Create table for customer data
+################################
+CREATE TABLE customer(
+	customer_id INT NOT NULL AUTO_INCREMENT,
+	first_name TINYTEXT NOT NULL,
+    street TINYTEXT NOT NULL,
+    street_nr INT NOT NULL,
+    area_code INT NOT NULL,
+    region TINYTEXT NOT NULL,
+    country_code VARCHAR(2) NOT NULL,
+	PRIMARY KEY (customer_id),
+    FOREIGN KEY (country_code) REFERENCES country(country_code)
+);
+################################
+DESC customer;
+################################
+
+
+
+Create an additional table holding phonenumbers
+where a customer is able to store multiples
+################################
+CREATE TABLE customer_phone(
+	customer_id INT NOT NULL,
+    phone_country INT,
+    phone_home INT,
+    cell_phone INT,
+	FOREIGN KEY (customer_id) REFERENCES customer(customer_id)
+);
+################################
+DESC customer_phone;
+################################
+
+
+
+Create an additional table holding emails
+where a customer is able to store multiples
+################################
+CREATE TABLE customer_email(
+	customer_id INT NOT NULL,
+    email_work TINYTEXT,
+    email_home TINYTEXT,
+	FOREIGN KEY (customer_id) REFERENCES customer(customer_id)
+);
+################################
+DESC customer_email;
+################################
+
+
+
+Create table for each order
+################################
+CREATE TABLE orderplace(
+    order_id INT NOT NULL AUTO_INCREMENT,
+    order_time DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (order_id)
+);
+################################
+DESC orderplace;
+################################
+
+
+
+Create additional table needed to store data for each order
+################################
+CREATE TABLE orderdata(
+    order_id INT NOT NULL,
+    customer_id INT NOT NULL,
+    article_id  INT NOT NULL,
+    FOREIGN KEY (customer_id) REFERENCES customer(customer_id),
+    FOREIGN KEY (order_id) REFERENCES orderplace(order_id),
+    FOREIGN KEY (article_id) REFERENCES article(article_id)
+);
+################################
+DESC orderdata;
+################################

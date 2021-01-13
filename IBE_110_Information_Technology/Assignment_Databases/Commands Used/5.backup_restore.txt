@@ -1,0 +1,7 @@
+The database dump file resides in the folder "mysqldump".
+
+Do a backup/save of the Database to a file
+$ mysqldump --databases IBE151 > IBE151.sql
+
+Load the file and re-create the database and all records
+$ mysql < IBE151.sql

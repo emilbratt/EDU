@@ -1,0 +1,1 @@
+This folder contains a simple bakup of our database after building and inserting values to it.

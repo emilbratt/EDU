@@ -1,0 +1,86 @@
+Some practical SQL statements
+
+show all databases
+SHOW DATABASES;
+
+chose which database to use (if db name is IBE151)
+USE IBE151;
+
+show all tables
+SHOW TABLES;
+
+describe a particular table (if table name is article)
+DESC article;
+
+show how a table was created (for table named article)
+SHOW CREATE TABLE article;
+
+delete table (for table named my_table)
+DROP TABLE  my_table;
+
+
+fix autoincrement starting point
+To start with an AUTO_INCREMENT value other than 1 you have to
+CREATE TABLE (if not exist) then ALTER TABLE, like this:
+################################
+CREATE TABLE my_table(
+	my_id INT NOT NULL AUTO_INCREMENT,
+	my_name VARCHAR(255) NOT NULL,
+	PRIMARY KEY (my_id)
+);
+
+ALTER TABLE my_table
+AUTO_INCREMENT = 100;
+
+INSERT INTO my_table(
+my_name
+)
+VALUES(
+'Carrie'
+),
+(
+'Tyler'
+)
+;
+
+SELECT * FROM my_table;
+################################
+
+
+auto commit and roll back
+################################
+# turn off autocommit (is on/1 as default)
+SET AUTOCOMMIT=0;
+#  update something that you will regret
+UPDATE customer SET first_name = 'woooo';
+# show that all first_names are wooo
+SELECT * FROM customer;
+# if your happy with this stupid update statement
+COMMIT;
+# if not (hopefully your not)
+ROLLBACK;
+SET AUTOCOMMIT=1;
+################################
+
+
+
+transaction with multiple queries
+you will get output as if they where executed
+################################
+SET AUTOCOMMIT=0;
+START TRANSACTION;
+
+UPDATE customer SET first_name = 'hei';
+UPDATE customer SET last_name = 'hade';
+
+COMMIT;
+SET AUTOCOMMIT=1;
+################################
+
+
+
+
+delete stored procedure (if you want to..)
+################################
+DROP PROCEDURE ADDORDER;
+################################

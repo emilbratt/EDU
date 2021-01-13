@@ -1,0 +1,204 @@
+
+Select database
+################################
+USE IBE151;
+################################
+
+
+
+Show product info
+################################
+SELECT
+brand.brand_name AS Brand,
+article.article_name AS Name,
+article.article_price AS Price
+FROM
+brand
+INNER JOIN
+article
+ON
+brand.brand_id = article.brand_id;
++-------+---------------------------+--------+
+| Brand | Name                      | Price  |
++-------+---------------------------+--------+
+| Dell  | desktop pc for office     | 250.00 |
+| Dell  | gamer desktop             | 450.79 |
+| HP    | laptop 15 inch            | 350.99 |
+| HP    | desktop pc pro for office | 249.50 |
++-------+---------------------------+--------+
+################################
+
+
+
+Show all customers
+################################
+SELECT customer.first_name, customer.last_name, customer.country_code
+FROM customer;
++------------+-----------+--------------+
+| first_name | last_name | country_code |
++------------+-----------+--------------+
+| John       | Johnson   | US           |
+| Jostein    | Bæver     | NO           |
+| Claire     | Tucker    | US           |
++------------+-----------+--------------+
+################################
+
+
+
+Show Justin Biebers phone numbers
+################################
+SELECT
+customer_phone.phone_work,
+customer_phone.phone_private
+FROM customer
+INNER JOIN customer_phone
+ON customer.customer_id = customer_phone.customer_id
+WHERE customer.customer_id = '2';
++------------+---------------+
+| phone_work | phone_private |
++------------+---------------+
+|    1234567 |      93456125 |
+|   51234567 |      93256135 |
+|   35464567 |      12356125 |
++------------+---------------+
+################################
+
+
+
+Show Justin Biebers emails
+################################
+SELECT
+customer_email.email_work,
+customer_email.email_private
+FROM customer
+INNER JOIN customer_email
+ON customer.customer_id = customer_email.customer_id
+WHERE customer.customer_id = '2';
++--------------------+-------------------------+
+| email_work         | email_private           |
++--------------------+-------------------------+
+| never_say@never.no | bieber4life@hotmail.com |
++--------------------+-------------------------+
+################################
+
+
+Show emails and phonenumbers for Justin Bieber
+(looks ugly when different amount of rows for each table, but it works)
+################################
+SELECT
+customer_phone.phone_work,
+customer_phone.phone_private,
+customer_email.email_work,
+customer_email.email_private
+FROM customer
+INNER JOIN customer_email
+ON customer.customer_id = customer_email.customer_id
+INNER JOIN customer_phone
+ON customer.customer_id = customer_phone.customer_id
+WHERE customer.customer_id = '2';
++------------+---------------+--------------------+-------------------------+
+| phone_work | phone_private | email_work         | email_private           |
++------------+---------------+--------------------+-------------------------+
+|    1234567 |      93456125 | never_say@never.no | bieber4life@hotmail.com |
+|   51234567 |      93256135 | never_say@never.no | bieber4life@hotmail.com |
+|   35464567 |      12356125 | never_say@never.no | bieber4life@hotmail.com |
++------------+---------------+--------------------+-------------------------+
+################################
+
+
+
+Show who bought what
+################################
+SELECT customer.first_name,
+customer.last_name,
+article.article_name
+FROM customer
+INNER JOIN orderdata
+ON customer.customer_id = orderdata.customer_id
+INNER JOIN article
+ON orderdata.article_id = article.article_id;
++------------+-----------+-----------------------+
+| first_name | last_name | article_name          |
++------------+-----------+-----------------------+
+| Claire     | Tucker    | gamer desktop         |
+| Claire     | Tucker    | laptop 15 inch        |
+| John       | Johnson   | desktop pc for office |
+| Jostein    | Bæver     | desktop pc for office |
+| Jostein    | Bæver     | gamer desktop         |
+| Jostein    | Bæver     | gamer desktop         |
+| Jostein    | Bæver     | gamer desktop         |
+| Jostein    | Bæver     | gamer desktop         |
+| Jostein    | Bæver     | laptop 15 inch        |
++------------+-----------+-----------------------+
+################################
+
+
+
+List all items Justin ordered
+################################
+    SELECT article.article_name,
+    brand.brand_name
+    FROM customer
+    INNER JOIN orderdata
+    ON customer.customer_id = orderdata.customer_id
+    INNER JOIN article
+    ON orderdata.article_id = article.article_id
+    INNER JOIN orderplace
+    ON orderdata.order_id = orderplace.order_id
+    INNER JOIN brand
+    ON article.brand_id = brand.brand_id
+    WHERE customer.customer_id ='2';
++-----------------------+
+| Items_Justin_Ordered  |
++-----------------------+
+| desktop pc for office |
+| gamer desktop         |
+| gamer desktop         |
+| gamer desktop         |
+| gamer desktop         |
+| laptop 15 inch        |
++-----------------------+
+################################
+
+
+
+Use a SQL function to calculate total Justin Bieber
+has spent on computer hardware
+################################
+SELECT SUM(article.article_price)
+FROM customer
+INNER JOIN orderdata
+ON customer.customer_id = orderdata.customer_id
+INNER JOIN article
+ON orderdata.article_id = article.article_id
+INNER JOIN orderplace
+ON orderdata.order_id = orderplace.order_id
+WHERE customer.customer_id ='2';
+################################
+
+
+
+Show expanded data on Justin Biebers orders
+################################
+SELECT customer.first_name, article.article_name, brand.brand_name, orderplace.order_id, orderplace.order_time
+FROM customer
+INNER JOIN orderdata
+ON customer.customer_id = orderdata.customer_id
+INNER JOIN article
+ON orderdata.article_id = article.article_id
+INNER JOIN orderplace
+ON orderdata.order_id = orderplace.order_id
+INNER JOIN brand
+ON article.brand_id = brand.brand_id
+WHERE customer.customer_id ='2';
++------------+-----------------------+------------+----------+---------------------+
+| first_name | article_name          | brand_name | order_id | order_time          |
++------------+-----------------------+------------+----------+---------------------+
+| Jostein    | desktop pc for office | Dell       |        4 | 2020-11-05 17:39:09 |
+| Jostein    | gamer desktop         | Dell       |        5 | 2020-11-05 17:39:09 |
+| Jostein    | gamer desktop         | Dell       |        6 | 2020-11-05 17:39:09 |
+| Jostein    | gamer desktop         | Dell       |        7 | 2020-11-05 17:39:09 |
+| Jostein    | gamer desktop         | Dell       |        8 | 2020-11-05 17:39:09 |
+| Jostein    | laptop 15 inch        | HP         |        9 | 2020-11-05 17:39:09 |
++------------+-----------------------+------------+----------+---------------------+
+################################
