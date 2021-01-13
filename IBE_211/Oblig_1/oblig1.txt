@@ -1,0 +1,134 @@
+Oblig1
+Student-ID: *******
+Studentnavn: Emil Bratt Børsting
+
+
+1. Hvor ligger programvaren du har installert?
+
+/usr/bin/mysql -> bane til mariadb
+
+
+2. Hva heter programfilene som kjører serverne?
+
+/usr/sbin/mysqld -> denne starter mariadb
+
+
+3. Hva heter programfilen til styrekonsollet der du starter og stopper serverne?
+
+Jeg bruker ikke xammp
+tilsvarende for en mariadb-server installasjon i linux blir: systemctl option service
+eksempel:
+$ systemctl restart mysqld
+(for å restarte mariadb server)
+
+
+4. Hvilken prosess-id og port er i bruk til styrekonsollet og serverne (hint: taskmgr for PID)?
+
+Finne prosess-ui:
+$ ps -ef | grep mysqld
+mysql     2728     1  0 13:21 ?        00:00:00 /usr/sbin/mysqld
+prosess-id = 2728
+
+Finne lytteport (og sette ny om ønskelig):
+$ cat /etc/mysql/mariadb.conf.d/50-server.cnf | grep port
+#port                   = 3306
+
+Portnr er her som standard kommentert ut. Standard lytteport er 3306.
+Du kan bytte lytteport ved å fjerne "#" foran port og sette et annet tall.
+
+5. Hvor mange tabeller ligger nå opprettet i Hobbyhuset?
+
+For å velge database:
+# USE
+#     Hobbyhuset;
+
+
+For å vise tabeller:
+# SHOW
+#     TABLES;
+
+    +----------------------+
+    | Tables_in_Hobbyhuset |
+    +----------------------+
+    | Ansatt               |
+    | Kategori             |
+    | Kunde                |
+    | Ordre                |
+    | Ordrelinje           |
+    | Poststed             |
+    | Prishistorikk        |
+    | Vare                 |
+    +----------------------+
+
+
+6. Er disse tabellene de samme tabellene som skulle være med ifølge designet (se fex Vedlegg B)?
+
+Ja, det ser ut til å stemme.
+
+
+7. Hvor mange ordrer ligger i databasen?
+
+Vi bruker tablennen Ordre til å finne ut av dette.
+Hver ordre (som kan ha flere ordrelinjer Ref: Ordrelinje-tabellen)
+har en unik ID (kolonnen: OrdreNr) i forma av en primærnøkkel.
+Dette betyr at vi kan summere antall ordre ved å gjøre en "Count" på
+kolonnen OrdreNr i Ordre-tabellen.
+
+# SELECT
+#     COUNT(OrdreNr)
+# FROM
+#     Ordre;
+
+    +----------------+
+    | COUNT(OrdreNr) |
+    +----------------+
+    |           2192 |
+    +----------------+
+
+
+8. Hvor ligger selve databasefilene?
+Link til dokumentasjon anngående databasefilene.
+https://mariadb.com/kb/en/default-data-directory-for-mariadb/
+Jeg gjør en ls får å se om dettestemmer:
+$ sudo ls -l /var/lib/mysql
+
+-rw-rw---- 1 mysql mysql    16384 jan.  13 13:21 aria_log.00000001
+-rw-rw---- 1 mysql mysql       52 jan.  13 13:21 aria_log_control
+-rw-r--r-- 1 root  root         0 jan.  10 22:07 debian-10.3.flag
+drwx------ 2 mysql mysql     4096 jan.  13 13:58 Hobbyhuset
+-rw-rw---- 1 mysql mysql      976 jan.  13 13:21 ib_buffer_pool
+-rw-rw---- 1 mysql mysql 12582912 jan.  13 13:59 ibdata1
+-rw-rw---- 1 mysql mysql 50331648 jan.  13 13:59 ib_logfile0
+-rw-rw---- 1 mysql mysql 50331648 jan.  10 22:07 ib_logfile1
+-rw-rw---- 1 mysql mysql 12582912 jan.  13 13:21 ibtmp1
+-rw-rw---- 1 mysql mysql        0 jan.  10 22:07 multi-master.info
+drwx------ 2 mysql mysql     4096 jan.  10 22:07 mysql
+-rw-rw---- 1 root  root        16 jan.  10 22:07 mysql_upgrade_info
+drwx------ 2 mysql mysql     4096 jan.  10 22:07 performance_schema
+-rw-rw---- 1 mysql mysql    24576 jan.  13 13:21 tc.log
+
+Her ligger blant annet Hobbyhuset som en egen mappe.
+Så jeg gjør enda en ls:
+$ sudo ls -l /var/lib/mysql/Hobbyhuset
+Og får opp dette:
+
+-rw-rw---- 1 mysql mysql   2652 jan.  13 13:58 Ansatt.frm
+-rw-rw---- 1 mysql mysql 114688 jan.  13 13:58 Ansatt.ibd
+-rw-rw---- 1 mysql mysql     67 jan.  13 13:54 db.opt
+-rw-rw---- 1 mysql mysql   1146 jan.  13 13:58 Kategori.frm
+-rw-rw---- 1 mysql mysql  98304 jan.  13 13:58 Kategori.ibd
+-rw-rw---- 1 mysql mysql   2332 jan.  13 13:58 Kunde.frm
+-rw-rw---- 1 mysql mysql 147456 jan.  13 13:58 Kunde.ibd
+-rw-rw---- 1 mysql mysql   1532 jan.  13 13:58 Ordre.frm
+-rw-rw---- 1 mysql mysql 229376 jan.  13 13:58 Ordre.ibd
+-rw-rw---- 1 mysql mysql   1518 jan.  13 13:58 Ordrelinje.frm
+-rw-rw---- 1 mysql mysql 507904 jan.  13 13:58 Ordrelinje.ibd
+-rw-rw---- 1 mysql mysql   1164 jan.  13 13:58 Poststed.frm
+-rw-rw---- 1 mysql mysql 278528 jan.  13 13:58 Poststed.ibd
+-rw-rw---- 1 mysql mysql    996 jan.  13 13:58 Prishistorikk.frm
+-rw-rw---- 1 mysql mysql 147456 jan.  13 13:58 Prishistorikk.ibd
+-rw-rw---- 1 mysql mysql   1972 jan.  13 13:58 Vare.frm
+-rw-rw---- 1 mysql mysql 114688 jan.  13 13:58 Vare.ibd
+
+
+/var/lib/mysql/Hobbyhuset -> Her ligger atlså databasen "Hobbyhuset" lagret.
