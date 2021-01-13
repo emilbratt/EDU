@@ -1,0 +1,170 @@
+Oblig2
+Student-ID: ******
+Studentnavn: Emil Bratt Børsting
+
+Legge inn Filmtabellen i databasen Hobbyhuset:
+
+Laster ned scriptet
+$ wget https://www.dbsys.info/Databasesystemer/1_Datasett/kap2_film.sql
+
+
+Redigerer kap2_film.sql med teksteditor og legger til øverst i scriptet:
+USE Hobbyhuset;
+slik at tabellen Film blir laget i denne databasen.
+Fjerner også kommentering på:
+--DROP TABLE IF EXISTS Film;
+slik at script kan kjøres om igjen for å "gjenoppbygge Film-tabellen"
+hvis vi ødelegger/sletter data.
+
+Laster inn filmtabellen inn i databasen (kjører sql script i mariadb):
+$ sudo mariadb < /mappesti/til/kap2_film.sql
+
+
+På quiz for kapitel 2 fikk jeg først 60% riktig.
+Jeg bommet på spm nr 2, 5 og 6.
+
+Jeg gjorde den en gang til rett etterpå og klarte full score.
+
+
+Her kommer spørringene i rekkefølge fra Boken (2.8 Oppgaver).
+(a) All informasjon om filmer produsert i 1988.
+SELECT
+    *
+FROM
+    Film
+WHERE
+    Film.År = '1988';
+
+(b) Tittel på amerikanske filmer produsert på 1980-tallet.
+
+SELECT
+    Tittel
+FROM
+    Film
+WHERE
+    Film.Land = 'USA' AND
+    Film.År BETWEEN '1980' AND '1990';
+
+(c) Komedier med aldersgrense under 10 år og spilletid under
+130 minutter.
+SELECT
+    *
+FROM
+    Film
+WHERE
+    Film.Sjanger = 'Komedie' AND
+    Film.Alder < '10' AND
+    Film.Tid < '130';
+
+(d) Tittel på alle action- og westernfilmer.
+SELECT
+    Tittel
+FROM
+    Film
+WHERE
+    Film.Sjanger = 'Action' OR
+    Film.Sjanger = 'Western';
+
+(e) Alle produksjonsland, sortert og uten gjentakelser.
+SELECT DISTINCT
+    Land
+FROM
+    Film
+ORDER BY
+    Land;
+
+(f) Korteste og lengste spilletid innen hver sjanger.
+SELECT
+    Sjanger,
+    MIN(Tid), MAX(Tid)
+FROM
+    Film
+GROUP BY
+    Film.Sjanger;
+
+(g) Antall filmer som ikke er til salgs.
+SELECT
+    COUNT(FNr) AS Ant_Ikke_Salg
+FROM
+    Film
+WHERE
+    Film.Pris IS NULL;
+
+(h) Antall filmer under 100 kr.
+SELECT
+    COUNT(FNr) AS ant_under_100_kr
+FROM
+    Film
+WHERE
+    Film.Pris IS NOT NULL AND
+    Film.Pris <'100';
+
+(i) Filmer med tittel som slutter på 'now'.
+SELECT
+    *
+FROM
+    Film
+WHERE
+    Film.Tittel
+LIKE '%now';
+
+(j) Gjennomsnittspris for sjangre med flere enn 2 filmer.
+SELECT
+    Sjanger,
+    AVG(Pris) AS Gj_Pris
+FROM
+    Film
+GROUP BY
+    Film.Sjanger
+HAVING
+    COUNT(Film.Sjanger) > 2;
+
+
+(k) Differansen mellom dyreste og billigste film innen hver.
+sjanger.
+SELECT
+    Sjanger,
+    MAX(Pris)-MIN(Pris) AS Differanse
+FROM
+    Film
+WHERE
+    Film.Pris IS NOT NULL
+GROUP BY
+    Film.Sjanger;
+
+(l) Totalt antall filmer og antall filmer til salgs, fordelt
+på produksjonsland
+SELECT
+    COUNT(FNr) AS Ant_Filmer
+FROM
+    Film
+WHERE
+    Pris IS NOT NULL
+UNION ALL
+SELECT
+    COUNT(FNr) AS Ant_Filmer
+FROM
+    Film
+WHERE
+    Pris IS NOT NULL
+GROUP BY Land;
+
+Svar fra dbsys.info
+SELECT Land, COUNT(*) AS TotaltAntall,
+  COUNT(Pris) AS AntallTilSalgs
+FROM Film
+GROUP BY Land
+
+
+(m) Antall år siden utgivelse for filmer eldre enn 60 år. Tips:
+Vedlegg A lister navn på noen datofunksjoner. Du trenger
+kanskje en funksjon for å finne dagens dato, og en funksjon fo
+å trekke ut årstallet fra en dato.
+SELECT
+    Tittel,
+    YEAR(CURDATE())-År AS Aar_siden_lansering
+FROM
+    Film
+WHERE
+    YEAR(CURDATE())-År > 60;
+
