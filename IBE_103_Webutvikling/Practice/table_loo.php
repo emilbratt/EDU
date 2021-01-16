@@ -1,10 +1,4 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <title>Table Example With While Loop</title>
-</head>
-
 <!--
 Taking another shot at tables.
 Dont know if focusing on neat html formating
@@ -16,30 +10,37 @@ I opted for a nice html source-code this time
 Guess I gotta see how I adapt as I move forward
 with this new language
 -->
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Table Example With While Loop</title>
 
-<html>
+    <!--CSS-->
+    <style>
+        table {
+          font-family: arial;
+          border-collapse: collapse; /*no boarder between each cell*/
+          width: 100%; /* take up whole horizontal space in browser */
+        }
+
+        caption,td, th {
+          border: 3px solid #CFE3E5;
+          padding: 8px;
+          text-align: center;
+        }
+        caption, tr:nth-child(even) {
+          background-color: #9BC1D1;
+        }
+        tr:nth-child(odd) {
+          background-color: #7BA3B4;
+        }
+    </style>
+</head>
+
+
+
 <body>
 
-<!--CSS-->
-<style>
-    table {
-      font-family: arial;
-      border-collapse: collapse; /*no boarder between each cell*/
-      width: 100%; /* take up whole horizontal space in browser */
-    }
-
-    caption,td, th {
-      border: 3px solid #CFE3E5;
-      padding: 8px;
-      text-align: center;
-    }
-    caption, tr:nth-child(even) {
-      background-color: #9BC1D1;
-    }
-    tr:nth-child(odd) {
-      background-color: #7BA3B4;
-    }
-</style>
 
 <!--PHP CREATE TABLE-->
 <?php
@@ -72,6 +73,36 @@ with this new language
     echo "
 </table>";
 ?>
+
+<br>
+
+<?php
+    $iter = 5; // FOR TABLE WITH MULTIPLE ROWS, SET COUNT
+    echo"
+<table>
+    <caption>Kolonne med flere verdier</caption>
+    <tr>
+        <th>En verdi</th>
+        <th>Flere verdier</th>
+    </tr>
+    <tr>
+    <th rowspan=$iter>Nummer:</th>
+    <td>$iter</td>
+    ";
+    while ($iter > 1) {
+            $iter = ($iter -1);
+        echo "
+    <tr>
+    <td>".$iter."</td>
+    </tr>"; // VALUE THAT IS PRINTED
+
+    }
+    echo "
+</table>";
+?>
+
+
+
 
 </body>
 </html>
