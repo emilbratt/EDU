@@ -62,3 +62,11 @@ lastebil eller buss.
 verdier fra en gitt liste med verdier. Hvordan kan dette gjøres
 ved hjelp av fremmednøkler?
 </pre>
+
+<h1>Oppgave Besvarelse</h1>
+<pre>
+Filen oppg3.sql er scripted som skal kjøres.
+Sørg for at du har endret linje nr 92 og 104 før du kjører scriptet.
+Dette må gjøres fordi scripted avhenger av en absolutt fil-referanse til
+de 2 inkluderende csv-filene som ligger her (ref: Gruppe.csv og Kommune.csv).
+</pre>
