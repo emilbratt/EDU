@@ -1,0 +1,37 @@
+Tabell: Gruppe
++-------------+------------------+------+-----+---------+----------------+
+| Field       | Type             | Null | Key | Default | Extra          |
++-------------+------------------+------+-----+---------+----------------+
+| gruppe_id   | int(10) unsigned | NO   | PRI | NULL    | auto_increment |
+| gruppe_navn | varchar(30)      | NO   |     | NULL    |                |
++-------------+------------------+------+-----+---------+----------------+
+
+Tabell: Kommune
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| kom_id   | char(4)     | NO   | PRI | NULL    |       |
+| kom_navn | varchar(40) | NO   |     | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+
+Tabell: Bilmodell
++-----------+------------------+------+-----+---------+-------+
+| Field     | Type             | Null | Key | Default | Extra |
++-----------+------------------+------+-----+---------+-------+
+| merke     | varchar(30)      | NO   | PRI | NULL    |       |
+| modell    | varchar(30)      | NO   | PRI | NULL    |       |
+| gruppe_id | int(10) unsigned | NO   | MUL | NULL    |       |
+| hk        | smallint(6)      | NO   |     | NULL    |       |
++-----------+------------------+------+-----+---------+-------+
+
+Tabell: Bilsalg
++--------+----------------------+------+-----+---------+-------+
+| Field  | Type                 | Null | Key | Default | Extra |
++--------+----------------------+------+-----+---------+-------+
+| merke  | varchar(30)          | NO   | PRI | NULL    |       |
+| modell | varchar(30)          | NO   | PRI | NULL    |       |
+| kom_id | char(4)              | NO   | MUL | NULL    |       |
+| aar    | smallint(5) unsigned | NO   | PRI | NULL    |       |
+| maaned | smallint(5) unsigned | NO   | PRI | NULL    |       |
+| antall | smallint(5) unsigned | NO   |     | NULL    |       |
++--------+----------------------+------+-----+---------+-------+

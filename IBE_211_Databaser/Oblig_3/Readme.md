@@ -70,4 +70,5 @@ Filen oppg3.sql skal kjøres i din sql-klient (Kun tested på MariaDB-Server).
 Sørg for at du har endret linje nr 92 og 104 før du kjører filen.
 Dette må gjøres fordi filen avhenger av en absolutt fil-referanse til
 de 2 inkluderende csv-filene som ligger her (ref: Gruppe.csv og Kommune.csv).
+Filen tabellstruktur.txt viser hvordan tabelenne er "deisgnet".
 </pre>
