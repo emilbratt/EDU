@@ -44,6 +44,7 @@ inneholde repetisjoner.
 (b) Registrer en ny bilmodell.
 
 (c) Endre antall hestekrefter for bilmodellen du registrerte i 1b.
+
 (d) Slett bilmodellen du registrerte i 1b.
 
 2.)
@@ -56,6 +57,7 @@ lastebil eller buss.
 (c) Bilsalg.År skal være mellom 1980 og 2100.
 
 (d) Bilsalg.Måned skal være mellom 1 og 12.
+
 (e) Kolonnen Bilmodell.Gruppe skal bare kunne inneholde
 verdier fra en gitt liste med verdier. Hvordan kan dette gjøres
 ved hjelp av fremmednøkler?
