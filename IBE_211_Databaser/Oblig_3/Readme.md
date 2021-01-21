@@ -25,7 +25,8 @@ NB: Noen kan oppleve fremmednøkler som ignoreres
 
 
 OPPGAVER FRA BOKA
-1. Betrakt følgende database med aggregerte data om bilsalg:
+1.)
+Betrakt følgende database med aggregerte data om bilsalg:
 Bilmodell(Bilmerke, Bilmodell, Gruppe, AntallHK)
 Bilsalg(Bilmerke*, Bilmodell*, KommNr*, År, Måned, Antall)
 Kommune(KommNr, KommNavn)
@@ -45,7 +46,8 @@ inneholde repetisjoner.
 (c) Endre antall hestekrefter for bilmodellen du registrerte i 1b.
 (d) Slett bilmodellen du registrerte i 1b.
 
-2. Definer følgende valideringsregler med SQL:
+2.)
+Definer følgende valideringsregler med SQL:
 (a) Bilmodell.Gruppe skal være enten personbil, varebil,
 lastebil eller buss.
 
