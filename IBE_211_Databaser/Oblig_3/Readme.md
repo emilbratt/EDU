@@ -22,6 +22,8 @@ Som svar på oblig laster du opp filen oblig3.sql (ren tekstfil, ikke Word, PDF,
 
 NB: Noen kan oppleve fremmednøkler som ignoreres
 
+
+
 OPPGAVER FRA BOKA
 1. Betrakt følgende database med aggregerte data om bilsalg:
 Bilmodell(Bilmerke, Bilmodell, Gruppe, AntallHK)
