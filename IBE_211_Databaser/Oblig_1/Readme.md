@@ -17,7 +17,8 @@ Foreslått fremgangsmåte:
 
 Spør gjerne spørsmål i diskusjonen.
 
-Her er noen spørsmål til installasjonen, som kan være nyttig å svare på, kanskje mest for refleksjon rundt det dere har holdt på med:
+Her er noen spørsmål til installasjonen, som kan være nyttig å svare på,
+kanskje mest for refleksjon rundt det dere har holdt på med:
 
     Hvor ligger programvaren du har installert?
     Hva heter programfilene som kjører serverne?
