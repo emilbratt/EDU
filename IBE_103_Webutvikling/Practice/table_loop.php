@@ -16,12 +16,16 @@ with this new language
     <title>Table Example With While Loop</title>
 </head>
 
+
+
+
+<body>
 <?php
     // SET COLOUR FOR TABLES
     $even = array(
-        "#f2f0eb",
-        "#c7c2b5",
-        "#dedbd5"
+        "#F2F0EB",
+        "#DEDBD5",
+        "#C7C2B5"
     );
 
     $odd = array(
@@ -63,10 +67,6 @@ with this new language
     </style>
     ";
 ?>
-
-
-<body>
-
 
 <!--PHP CREATE STANDARD TABLE WITH A CAPTION-->
 <?php
