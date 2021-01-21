@@ -65,8 +65,8 @@ ved hjelp av fremmednøkler?
 
 <h1>Oppgave Besvarelse</h1>
 <pre>
-Filen oppg3.sql er scripted som skal kjøres.
-Sørg for at du har endret linje nr 92 og 104 før du kjører scriptet.
-Dette må gjøres fordi scripted avhenger av en absolutt fil-referanse til
+Filen oppg3.sql skal kjøres i din sql-klient (Kun tested på MariaDB-Server).
+Sørg for at du har endret linje nr 92 og 104 før du kjører filen.
+Dette må gjøres fordi filen avhenger av en absolutt fil-referanse til
 de 2 inkluderende csv-filene som ligger her (ref: Gruppe.csv og Kommune.csv).
 </pre>
