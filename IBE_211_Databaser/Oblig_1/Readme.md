@@ -11,7 +11,9 @@ Foreslått fremgangsmåte:
     Før du går i gang, er det fint å ha sett på kap 1.5 om Hobbyhuset, og Vedlegg B bakerst i boka som viser datamodell og SQL-kode.
     Installer databasen XAMPP på en maskin, gjerne din egen hjemme-PC.
     Sjekk at både webserver og databaseserver er i gang og virker ved å åpne http://localhost/phpmyadmin (Lenker til en ekstern side.)
-    Last ned SQL-scriptet for Hobbyhuset og last det inn med phpmyadmin, slik vist i video.  Du kan evt. ta den "tunge vei" med mysql-konsoll. Merk: I forelesningsvideoene bruker jeg mye mysql-konsoll, men det skal gå an å gjøre det meste via phpmyadmin.
+    Last ned SQL-scriptet for Hobbyhuset og last det inn med phpmyadmin, slik vist i video.
+    Du kan evt. ta den "tunge vei" med mysql-konsoll.
+    Merk: I forelesningsvideoene bruker jeg mye mysql-konsoll, men det skal gå an å gjøre det meste via phpmyadmin.
 
 Spør gjerne spørsmål i diskusjonen.
 
