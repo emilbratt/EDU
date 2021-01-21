@@ -52,7 +52,7 @@ CREATE TABLE Bilmodell(
         Gruppe (gruppe_id)
 );
 
--- legge til en constring som begrenser hk verdier
+-- legge til en constraint som begrenser hk verdier
 ALTER TABLE Bilmodell
     ADD CONSTRAINT Bilmodell_hk_limit
     CHECK (hk BETWEEN 1 AND 299);
@@ -129,7 +129,7 @@ VALUES
     ('Wolksvagen','Caravelle','2','160')
 ;
 
--- gjøre en select med join for å vise data over bilene
+-- gjøre en select med join for å hente data om bilene
 SELECT
     merke, modell, hk, gruppe_navn
 FROM
