@@ -44,6 +44,6 @@ og vises med IMG src=logoer/<ticker>.png.
 
 <h1>Oppgave Besvarelse</h1>
 <pre>
-Filen oblig3.php er filen som jeg leverer.
+Filen oblig3.php sammen med mappen "logoer er filene som jeg leverer.
 Mappen "logoer" inneholder bildefiler som oblig3.php er avhengig av.
 </pre>
