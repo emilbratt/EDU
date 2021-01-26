@@ -1,3 +1,5 @@
+<h1>Oppgave Beskrivelse</h1>
+<pre>
 Her skal du trene på varierte måter å organisere data på i matriser, samt gjenta litt om gjentakelser og HTML.
 
 Først leser du kap 4.1 om matriser.  Resten av kap 4 kommer i neste modul.
@@ -38,4 +40,10 @@ Disse lagres i mappe "kryptovaluta/logoer/<ticker>.png"
 f.eks. "ETH.png" for valuta med ticker ETH.
 Dermed kan logonavnet beregnes (trenger ikke lagre det)
 og vises med IMG src=logoer/<ticker>.png.
+</pre>
 
+<h1>Oppgave Besvarelse</h1>
+<pre>
+Filen oblig3.php er filen som jeg leverer.
+Mappen "logoer" inneholder bildefiler som oblig3.php er avhengig av.
+</pre>
