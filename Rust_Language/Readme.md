@@ -8,7 +8,7 @@ have been the main reason for the "why"
 
 After some back and forth comparing
 this vs. that, "googling the why"
- and consulting people with with years
+and consulting people with with years
 of programming/devops experience,
 I`ve finally settled on Rust
 
