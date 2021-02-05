@@ -1,0 +1,329 @@
+Oblig 4 IBE 211 Databaser
+Studentnr: 201080
+Studentnavn: Emil Bratt Børsting
+
+Oppgaver i lærebok bruker datasettet fra Hobbyhuset (se filen hobbyhuset.sql).
+Etter å ha kjørt scriptet så kan vi begynne med å spørre.
+
+
+Oppg. 1 fra kapittel 4 i læreboka.
+
+(a) Anta vi har 161 varer plassert i 21 kategorier. Hvor mange
+rader gir spørringen SELECT * FROM Vare, Kategori?
+
+Svar:
+Vi får 3381 rader.
+
+
+(b) Hvor mange rader vil en likekobling av tabellene Vare og
+Kategori med hensyn på KatNr inneholde? Skriv SQL-koden.
+Hva skjer hvis noen av varene ikke er plassert i en kategori?
+
+Svar:
+Jeg brukte spørringen under
+SELECT
+    COUNT(Kategori.KatNr)
+FROM
+    Vare
+INNER JOIN
+    Kategori
+ON
+    Vare.KatNr = Kategori.KatNr
+;
+Fikk 161 totalt
+
+Utredning:
+Hvis en vare ikke er plassert i en kategori, altså hvis verdien i
+kolonnen er lik NULL, så vil spørringen hoppe over denne varen.
+Så lenge det er oppført en verdi i kollonen, så vil den telles med.
+
+
+
+(c) Vis alle ordrelinjer, men ta dessuten med varenavn
+(Betegnelse) og ordredato i utskriften.
+
+Svar:
+Jeg brukte spørringen under hvor jeg velger ut
+Dato fra Ordre, Betegnelse fra Vare og bruker tabellen
+Ordrelinje i FROM-delen. Joiner dermed resultatene
+fra likekobling mellom Ordre og Vare.
+SELECT
+	O.OrdreDato,
+	V.Betegnelse
+FROM
+	Ordrelinje AS L
+INNER JOIN
+	Vare AS V
+ON
+	L.VNr = V.VNr
+INNER JOIN
+	Ordre AS O
+ON
+	L.OrdreNr = O.OrdreNr
+;
+
+Dette ga meg 6603 linjer som er eksakt antall ordrelinjer (ikke ordre)
+som er registrert.
+
+
+
+(d) Utvid SQL-koden fra oppgave 1c med en ny kolonne som
+viser totalbeløp for hver ordrelinje.
+
+Svar:
+SELECT
+	O.OrdreDato,
+	V.Betegnelse,
+	L.PrisPrEnhet
+FROM
+	Ordrelinje AS L
+INNER JOIN
+	Vare AS V
+ON
+	L.VNr = V.VNr
+INNER JOIN
+	Ordre AS O
+ON
+	L.OrdreNr = O.OrdreNr
+;
+
+6603 rader
+
+
+(e) Vis samlet beløp hver kunde har handlet for.
+
+Svar:
+SELECT
+	K.KNr,
+	O.OrdreDato,
+	V.Betegnelse,
+	SUM(L.PrisPrEnhet)
+FROM
+	Ordrelinje AS L
+INNER JOIN
+	Vare AS V
+ON
+	L.VNr = V.VNr
+INNER JOIN
+	Ordre AS O
+ON
+	L.OrdreNr = O.OrdreNr
+INNER JOIN
+	Kunde AS K
+ON
+	O.KNr = K.KNr
+GROUP BY
+	K.KNr
+;
+
+405 rader
+
+
+(f) Prøv å utvide SQL-koden fra oppgave 1e med en ny
+kolonne som viser antall ordrer for hver kunde. Hva erproblemet?
+
+Svar:
+Vi summerte PrisPrEnhet i Ordrelinje-tabellen for å
+finne ut hvor mye hver kunde hadde handlet for.
+Dette gjorde vi ved å gruppere sammen kundenummer og summere
+pris for hver ordrelinjer som hver kunde hadde oppført.
+Hvis vi skal finne ut hvor mange ordrer hver kunde har
+i samme spørring så må vi først fjerne GROUP BY Kundenummer for å
+i det hele tatt ha mulighet til å telle antall ordrer
+for hver kunde.
+Dette blir et enten eller problem hvor vi rett og slett
+må velge hva vi ønsker å gjøre da det blir en logisk
+konflikt om vi ønsker å gjøre begge dele samtidig i
+en enkelt spørring uten å likekoble flere spørringer.
+
+Uansett, denne løser problemet ved å koble sammen resultat
+fra de spørringene som løser hvert sitt logiske problem.
+
+/*Avansert spørring med delspørringer og kolbing av disse*/
+/*Her velger vi kolonner fra resultatet av delspørringer */
+SELECT
+	b.Fornavn,
+	b.Etternavn,
+	a.Kundenummer,
+	a.Dato,
+	b.Ordreantall,
+	a.Totalsum
+
+/*Setter resultatet av delspørring a i FROM klausul*/
+FROM
+(
+	SELECT
+		K.KNr AS Kundenummer,
+		O.OrdreDato AS Dato,
+		SUM(L.PrisPrEnhet) AS Totalsum
+	FROM
+		Ordrelinje AS L
+	INNER JOIN
+		Vare AS V
+	ON
+		L.VNr = V.VNr
+	INNER JOIN
+		Ordre AS O
+	ON
+		L.OrdreNr = O.OrdreNr
+	INNER JOIN
+		Kunde AS K
+	ON
+		O.KNr = K.KNr
+	GROUP BY
+		K.KNr
+)a
+
+/*Setter resultatet fra delspørring b i venstre ytre kobling*/
+LEFT JOIN
+(
+	SELECT
+		COUNT(O.KNr) AS Ordreantall,
+		K.KNr AS Kundenummer,
+		K.Fornavn,
+		K.Etternavn
+	FROM
+		Ordrelinje AS L
+	INNER JOIN
+		Ordre AS O
+	ON
+		L.OrdreNr = O.OrdreNr
+	INNER JOIN
+		Kunde AS K
+	ON
+		O.KNr = K.KNr
+	GROUP BY
+		K.KNr
+)b
+
+/*Så bruker primærnøkkel fra tabell a og b for sammenkolbing*/
+ON
+	a.Kundenummer = b.Kundenummer
+
+ORDER BY
+	a.Dato
+;
+
+
+(g) Vis samlet beløp pr. ordre.
+
+Svar:
+SELECT
+	OrdreNr,
+	SUM(PrisPrEnhet)
+FROM
+	Ordrelinje
+GROUP BY
+	OrdreNr
+;
+
+
+
+(h) Lag en vareliste som for hver vare viser antall enheter på
+lager og samlet lagerverdi for denne varen.
+
+Svar:
+SELECT
+    VNr,
+    Betegnelse,
+    Antall,
+    SUM(Antall*Pris) AS Samlet_Verdi
+FROM
+    Vare
+GROUP BY
+    Betegnelse
+ORDER BY
+    VNr
+;
+
+
+(i) Finn samlet verdi av varelageret.
+
+Svar:
+SELECT
+    SUM(Antall*Pris) AS Lagerverdi
+FROM
+    Vare
+WHERE
+    Antall > '0'
+;
+
+
+(j) Finn ut hvor mye hver varekategori har solgt for.
+Lag en sortert liste med bestselgerne først,
+og få med navn på kategori i utskriften.
+
+Svar:
+SELECT
+	K.Navn AS Kategorinavn,
+	L.Antall,
+	SUM(L.Antall*L.PrisPrEnhet) AS Totalsalg_Kr
+FROM
+	Kategori AS K
+INNER JOIN
+	Vare AS V
+ON
+	K.KatNr = V.KatNr
+INNER JOIN
+	Ordrelinje AS L
+ON
+	V.VNr = L.VNr
+GROUP BY
+	Kategorinavn
+ORDER BY
+	Antall DESC
+;
+
+
+(k) Vis alle postnumre der det enten bor en ansatt eller en
+kunde. Hvordan få med steder der det bor både en ansatt og
+en kunde? Hva kan du gjøre for å få med navn på poststedet?
+
+Svar:
+Bruke likekobling -> INNER JOIN (kun rader med treff blir koblet sammen)
+Da kan vi også vise navnene på disse og om det er kunde eller ansatt.
+SELECT
+    Poststed.Poststed,
+	Poststed.PostNr,
+	Kunde.Fornavn AS Kundenavn,
+	Ansatt.Fornavn AS Ansattnavn
+FROM
+    Poststed
+INNER JOIN
+	Ansatt
+ON
+	Poststed.PostNr = Ansatt.PostNr
+INNER JOIN
+	Kunde
+ON
+	Poststed.PostNr = Kunde.PostNr
+;
+
+
+Denne viser kun poststedet.
+Her bruker vi istedet en indre SELECT i WHERE klausul
+hvor begge må være oppfylt, dermed unngår vi likekobling.
+SELECT
+    Poststed,
+    PostNr
+FROM
+    Poststed
+WHERE
+	PostNr
+IN
+(
+	SELECT
+	    PostNr
+	FROM
+	    Kunde
+)
+AND
+	PostNr
+IN
+(
+	SELECT
+	    PostNr
+	FROM
+	    Ansatt
+)
+;
