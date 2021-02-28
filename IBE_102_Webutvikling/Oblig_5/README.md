@@ -52,6 +52,13 @@ Lever en pakkefil med nettstedet, slik det nå fremstår
 Jeg øvde litt på OOP da jeg gjorde denne oppgaven og lagde
 en klasse i felles.php som de andre filene kan "instantiate".
 
-Legg kildekoden (alle filene utenom denne, i webroot)
-index.php åpnes automatisk
+Det er meget mulig at måten jeg har strukturert og håndtert inklusjon
+på gir et ytelsestap i forhold til en optimalisert løsning.
+
+Ved å referer til Main i alle filene så blir det sikkert et
+potensial for ekstra "overhead", men dette var som sagt kun
+for å bli kjent med OOP i PHP.
+
+Legg kildekoden i webroot og deretter
+åpne en nettleser å naviger deg til korrekt adresse.
 </pre>
