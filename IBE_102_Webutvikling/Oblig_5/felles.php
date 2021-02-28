@@ -4,7 +4,7 @@
 
     class Main{
 
-        public  $PROGNAVN = 'Kryptovaluta A/S';
+        public static $PROGNAVN = 'Kryptovaluta A/S';
         private $caller;
         private $files = [ // alias => filename
             'oblig 2 variabler og løkker' => 'oblig2.php',
@@ -20,7 +20,7 @@
 
         public function __construct($arg = false) {
             // for debugging we can see what script creates an object
-            // pass the option true when instantiating to print out the filename 
+            // pass the option true when instantiating to print out the filename
             $this->caller = $_SERVER['SCRIPT_NAME'];
             if($arg == true) {
                 echo "

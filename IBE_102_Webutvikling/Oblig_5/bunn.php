@@ -2,15 +2,15 @@
 include_once 'felles.php';
 $libMain = new Main();
 
-echo <<<EOT
+echo '
 
     <HR>
     <footer>
         <p>
-            <i>Om nettstedet</i>: $libMain->PROGNAVN<br>
+            <i>Om nettstedet</i>:'.Main::$PROGNAVN.'<br>
             Ansvarlig: Meg Selv. Tlf. 123123.
         </p>
-EOT;
+    ';
 $libMain->showHelpButton();
 echo "
     </footer>

@@ -52,13 +52,13 @@ echo "
     }
 
     </style>
-    <title>$libMain->PROGNAVN</title>
+    <title>".Main::$PROGNAVN."</title>
 </head>
 
 <body>
     <table>
       <tr>
-        <td >Velkommen til $libMain->PROGNAVN</td>
+        <td >Velkommen til ".Main::$PROGNAVN."</td>
         <td>";
         echo "
         <ul>";
