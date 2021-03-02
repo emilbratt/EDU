@@ -1,5 +1,5 @@
 <?php
-include_once 'felles.php';
+require_once 'felles.php';
 $libMain = new Main();
 
 echo '
@@ -7,7 +7,7 @@ echo '
     <HR>
     <footer>
         <p>
-            <i>Om nettstedet</i>:'.Main::$PROGNAVN.'<br>
+            <i>Om nettstedet</i>:'.$libMain::PROGNAVN.'<br>
             Ansvarlig: Meg Selv. Tlf. 123123.
         </p>
     ';

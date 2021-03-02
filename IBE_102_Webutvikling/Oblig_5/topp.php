@@ -22,7 +22,7 @@ else {
 ?>
 
 <?php
-include_once 'felles.php';
+require_once 'felles.php';
 $libMain = new Main();
 include $libMain->getFilename('news');
 
@@ -52,13 +52,13 @@ echo "
     }
 
     </style>
-    <title>".Main::$PROGNAVN."</title>
+    <title>".$libMain::PROGNAVN."</title>
 </head>
 
 <body>
     <table>
       <tr>
-        <td >Velkommen til ".Main::$PROGNAVN."</td>
+        <td >Velkommen til ".$libMain::PROGNAVN."</td>
         <td>";
         echo "
         <ul>";
@@ -76,5 +76,4 @@ echo "
     </table>
     <HR>
 ";
-
 ?>

@@ -4,7 +4,7 @@
 
     class Main{
 
-        public static $PROGNAVN = 'Kryptovaluta A/S';
+        const PROGNAVN = 'Kryptovaluta A/S';
         private $caller;
         private $files = [ // alias => filename
             'oblig 2 variabler og løkker' => 'oblig2.php',
