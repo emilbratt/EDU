@@ -19,7 +19,6 @@ brukernavn og passord er det selvsagt helt greit.
 En algoritme som kan brukes for "login.php" er:
 <strong>
 (start algoritme)
-
 start sesjon (må alltid gjøres først!)
 hvis bruker har fylt ut skjema:
    hvis godkjent bruker og passord (kombinasjon)
@@ -27,7 +26,6 @@ hvis bruker har fylt ut skjema:
 
 hvis ikke innlogget (altså sesjonens brukerID ikke satt):
    vis skjema (brukernavn og passord)
-
 (slutt algoritme).
  </strong>
 Hukommelsen består da kun av to variabler:  "brukerID" som er navnet på den som er innlogget.
