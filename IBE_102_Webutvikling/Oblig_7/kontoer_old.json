@@ -1,0 +1,16 @@
+{
+  "Per": {
+    "sex": "Mann",
+    "born": "1985",
+    "city": "Molde",
+    "nation": "NOR",
+    "password": "$2y$10$kvag.Iry8bZtR4lzI/bdTuvT7QFTEsakRT3m.edWTq8kskPFlmhXG"
+  },
+  "Kari": {
+    "sex": "Kvinne",
+    "born": "1983",
+    "city": "Bodø",
+    "nation": "NOR",
+    "password": "$2y$10$m47uwL49ST8MA0oqwPJPHOSYMecKJSls9JgGvlanlp3CCL85EFCKW"
+  }
+}
