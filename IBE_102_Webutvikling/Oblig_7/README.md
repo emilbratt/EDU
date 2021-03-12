@@ -54,4 +54,7 @@ Det var veldig gøy å fortsette med OOP fordi denne oppgaven ga en ekstra utfor
 Implementering av innlogging var litt knotete i starten, men gikk veldig greit
 da jeg klarte å skjønne hvordan strukturen i OOP gjorde at dette føltes riktig
 sett fra et logiskt perspektiv.
+Vi benytter konstruerings funksjonen "\__construct()" for klassen som alle sidene initialiserer.
+Ved å plassere @session_start() i construct så sikrer vi at alle sidene sjekker at den har lastet inn sesjonen.
+Jeg lagde også en blokk som sjekker om innlogging er gyldig i denne. Da har vi slått 2 fluer i en smekk.
 </pre>
