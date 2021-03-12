@@ -13,10 +13,13 @@ Etter godkjent innlogging vil login.php vise "Trykk her for å gå videre",
 som lenker til hovedsiden index.php.
 Se eksempelkjøring: http://webutvikling.stud.himolde.no/~kd/IBE102/kryptovaluta/
 
-Frivillig: Om du ønsker å være mer avansert og søke gjennom en tabell med registrerte brukernavn og passord er det selvsagt helt greit.
+Frivillig: Om du ønsker å være mer avansert og søke gjennom en tabell med registrerte
+brukernavn og passord er det selvsagt helt greit.
 
 En algoritme som kan brukes for "login.php" er:
 <strong>
+(start algoritme)
+
 start sesjon (må alltid gjøres først!)
 hvis bruker har fylt ut skjema:
    hvis godkjent bruker og passord (kombinasjon)
@@ -24,8 +27,10 @@ hvis bruker har fylt ut skjema:
 
 hvis ikke innlogget (altså sesjonens brukerID ikke satt):
    vis skjema (brukernavn og passord)
+
+(slutt algoritme).
  </strong>
-(slutt algoritme). Hukommelsen består da kun av to variabler:  "brukerID" som er navnet på den som er innlogget.
+Hukommelsen består da kun av to variabler:  "brukerID" som er navnet på den som er innlogget.
 Og, "starttid" som husker når innloggingen ble godkjent.
 
 Skriv om "topp.php" slik at den i tillegg viser "Innlogget som bruker <brukerID> siden <starttid>".
