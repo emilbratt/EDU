@@ -33,7 +33,7 @@
             }
 
             // make sure that every script that is not login.php is checked for login verification
-            if($_SERVER['SCRIPT_NAME'] != "/oblig/7_innlogging/login.php") {
+            if(basename($_SERVER['SCRIPT_NAME'], '.php') != "login") {
 
                 // if login is not verified, load login.php
                 if(!isset($_SESSION['verified'])) {
