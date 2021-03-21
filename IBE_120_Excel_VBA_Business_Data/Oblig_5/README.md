@@ -58,25 +58,15 @@ helikopterpassasjerer og hvor stor andel som var flypassasjerer.
 
 <h1>Læremål</h1>
 <pre>
-
 Importere data fra en Access-database
-
 Importere data fra en XML-fil
-
 Lage og bruke et beregnet felt i en pivottabell
-
 Kunne lage og bruke et beregnet element i en pivottabell
-
 Importere data til regnearkets datamodell
-
 Kunne finne gjennomsnitt og antall med pivottabell
-
 Vite hvordan data skal være organisert for at de skal kunne brukes i en pivottabell
-
 Lage en makro som fyller ut tomme celler i regnearket
-
 Bruke Power Query eller makroer til å tilrettelegge data for behandling med pivottabell
-
 Kunne vise beregnenede verdier som prosent
 </pre>
 
