@@ -41,28 +41,24 @@ Oppgave 3
 Filen passasjerer.xlsx inneholder data om passasjertrafikk ved noen norske lufthavner i september en
 del år. Filen er ikke så stor, den kunne vært mye større. Du skal tilrettelegge filen for analyse med
 pivottabell.
-
 a) Lag en makro som fyller ut tomme celler i A-kolonnen.
-
 b) Tilrettelegg dataene for analyse med pivottabell. Du kan enten gjøre dette med en makro
 eller bruke muligheter i Power-pivot.
 Hvis du lager makro er dette en mulig framgangsmåte:
     •Sett inn to nye kolonner til høyre for B-kolonnen. (Dette kan du gjøre før du lager
     makroen)
-
 Lag en eller flere makroer som gjør følgende:
     • Kopiere navnet på lufthavnene og flytype (kolonne A og B) tilstrekkelig mange ganger
     • Sette inn årstall i den nye C-kolonnen
     • Sette inn passasjertall i den nye D-kolonnen
-
 c) Bruk Pivottabell til å finne ut hvilken lufthavn som har mest mest trafikk i 2018.
-
 d) Finn, ved hjelp av pivottabell, hvor stor andel av passasjerene på Sola som var
 helikopterpassasjerer og hvor stor andel som var flypassasjerer.
 </pre>
 
 <h1>Læremål</h1>
 <pre>
+
 Importere data fra en Access-database
 
 Importere data fra en XML-fil
