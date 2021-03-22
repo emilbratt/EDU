@@ -18,15 +18,15 @@ Se: filen mysql_workbench.mwb kan åpnes i MySQL Workbench.
 <strong>Oversikt</strong>
 Tabellen "konsulent" inneholder kun data om konsulentene som er ansatt
 og vil være nok til å identifisere hver konsulent.
-
+<br>
 Tabellen "kunde" inneholder kun data om selve kunden og vil også identifisere
 hver kunde uten andre avhengigheter.
-
+<br>
 Tabellen oppdrag vil ha en rad for hvert oppdrag. Tabellen skal kun vise
 når oppdrag starter og avsluttes og hvilke oppdrag som hører til hvilke kunder.
 En verdi i feltet "dato_slutt" vil også være tilstrekkelig
 for å kunne identifisere dette oppdraget som "ferdig".
-
+<br>
 Tabellen "oppdrag_timeliste" inneholder beskrivende data om hvert oppdrag.
 Tabellen danner et mange-til-mange forhold som en naturlig følge
 av at den knytter to ulike par av fremmednøkler til hver sine respektive primærnøkler
@@ -46,8 +46,7 @@ et tredjeparts brukergrensesnitt enklere. Jeg føler at det er mere hensiktsmess
 biten gjennom applikasjonslogikken til et eventuelt brukergrensesnitt som blir
 bygget for denne databasen. Dette viller vært noe å evaluere avhengig av
 om skalering/tilpassing kontra utviklingstid er av interesse for oppdragsgiver.
-
-
+<br>
 Tabeller (Entiteter):
     konsulent
         id_konsulent (pk) (en-til-mange mot oppdrag_timeliste)
