@@ -46,13 +46,15 @@ et tredjeparts brukergrensesnitt enklere. Jeg føler at det er mere hensiktsmess
 biten gjennom applikasjonslogikken til et eventuelt brukergrensesnitt som blir
 bygget for denne databasen. Dette viller vært noe å evaluere avhengig av
 om skalering/tilpassing kontra utviklingstid er av interesse for oppdragsgiver.
-<br>
-Tabeller (Entiteter):
+</pre>
+
+<h3>Tabeller (Entiteter):</h3>
+<pre>
 <strong>konsulent</strong>
 id_konsulent (pk) (en-til-mange mot oppdrag_timeliste)
 fornavn
 etternavn
-
+<br>
 <strong>oppdrag_timeliste</strong>
 id_oppdrag (fk) (mange-til-en mot oppgrad)
 id_konsulent (fk) (mange-til-en mot konsulent)
@@ -60,14 +62,14 @@ dato
 timer_fra
 timer_til
 beskrivelse
-
+<br>
 <strong>oppdrag</strong>
 id_oppdrag (pk) (en-til-mange mot oppdrag_timeliste)
 id_kunde (fk) (mange-til-en mot kunde)
 navn
 dato_start
 dato_slutt
-
+<br>
 <strong>kunde</strong>
 id_kunde (pk) (en-til-mange mot oppdrag)
 fornavn
