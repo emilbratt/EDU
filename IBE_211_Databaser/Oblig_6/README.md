@@ -49,12 +49,12 @@ om skalering/tilpassing kontra utviklingstid er av interesse for oppdragsgiver.
 
 
 Tabeller (Entiteter):
-    <strong>konsulent</strong>
+    konsulent
         id_konsulent (pk) (en-til-mange mot oppdrag_timeliste)
         fornavn
         etternavn
 
-    <strong>oppdrag_timeliste</strong>
+    oppdrag_timeliste
         id_oppdrag (fk) (mange-til-en mot oppgrad)
         id_konsulent (fk) (mange-til-en mot konsulent)
         dato
@@ -62,14 +62,14 @@ Tabeller (Entiteter):
         timer_til
         beskrivelse
 
-    <strong>oppdrag</strong>
+    oppdrag
         id_oppdrag (pk) (en-til-mange mot oppdrag_timeliste)
         id_kunde (fk) (mange-til-en mot kunde)
         navn
         dato_start
         dato_slutt
 
-    <strong>kunde</strong>
+    kunde
         id_kunde (pk) (en-til-mange mot oppdrag)
         fornavn
         etternavn
