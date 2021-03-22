@@ -46,35 +46,34 @@ et tredjeparts brukergrensesnitt enklere. Jeg føler at det er mere hensiktsmess
 biten gjennom applikasjonslogikken til et eventuelt brukergrensesnitt som blir
 bygget for denne databasen. Dette viller vært noe å evaluere avhengig av
 om skalering/tilpassing kontra utviklingstid er av interesse for oppdragsgiver.
-</pre>
-<p>Tabeller (Entiteter):</p>
-<pre>
-konsulent
-  id_konsulent (pk) (en-til-mange mot oppdrag_timeliste)
-  fornavn
-  etternavn
-
-oppdrag_timeliste
-  id_oppdrag (fk) (mange-til-en mot oppgrad)
-  id_konsulent (fk) (mange-til-en mot konsulent)
-  dato
-  timer_fra
-  timer_til
-  beskrivelse
-
-oppdrag
-  id_oppdrag (pk) (en-til-mange mot oppdrag_timeliste)
-  id_kunde (fk) (mange-til-en mot kunde)
-  navn
-  dato_start
-  dato_slutt
-
-kunde
-  id_kunde (pk) (en-til-mange mot oppdrag)
-  fornavn
-  etternavn
-</pre>
 <br>
+Tabeller (Entiteter):
+<strong>konsulent</strong>
+id_konsulent (pk) (en-til-mange mot oppdrag_timeliste)
+fornavn
+etternavn
+
+<strong>oppdrag_timeliste</strong>
+id_oppdrag (fk) (mange-til-en mot oppgrad)
+id_konsulent (fk) (mange-til-en mot konsulent)
+dato
+timer_fra
+timer_til
+beskrivelse
+
+<strong>oppdrag</strong>
+id_oppdrag (pk) (en-til-mange mot oppdrag_timeliste)
+id_kunde (fk) (mange-til-en mot kunde)
+navn
+dato_start
+dato_slutt
+
+<strong>kunde</strong>
+id_kunde (pk) (en-til-mange mot oppdrag)
+fornavn
+etternavn
+</pre>
+
 <figure>
     <figcaption style="margin-left: 10px">ER-Diagram</figcaption>
     <img src="screen_shot.png" alt="Image not found" style="width:50%">
