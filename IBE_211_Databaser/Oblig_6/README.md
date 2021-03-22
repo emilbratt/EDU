@@ -14,7 +14,7 @@ I denne oppgaven har jeg kun tatt med det mest grunnleggende
 for å komme i gang med en database for et bruksområde som er
 etterspurt i oppgaven.
 Se: filen mysql_workbench.mwb kan åpnes i MySQL Workbench.
-
+<br>
 <strong>Oversikt</strong>
 Tabellen "konsulent" inneholder kun data om konsulentene som er ansatt
 og vil være nok til å identifisere hver konsulent.
