@@ -46,9 +46,9 @@ et tredjeparts brukergrensesnitt enklere. Jeg føler at det er mere hensiktsmess
 biten gjennom applikasjonslogikken til et eventuelt brukergrensesnitt som blir
 bygget for denne databasen. Dette viller vært noe å evaluere avhengig av
 om skalering/tilpassing kontra utviklingstid er av interesse for oppdragsgiver.
-<br>
-Tabeller (Entiteter):
-<br>
+</pre>
+<p>Tabeller (Entiteter):</p>
+<pre>
 konsulent
   id_konsulent (pk) (en-til-mange mot oppdrag_timeliste)
   fornavn
