@@ -48,7 +48,7 @@ bygget for denne databasen. Dette viller vært noe å evaluere avhengig av
 om skalering/tilpassing kontra utviklingstid er av interesse for oppdragsgiver.
 </pre>
 
-<h3>Tabeller (Entiteter):</h3>
+<h1>Tabeller/Entiteter</h1>
 <pre>
 <strong>konsulent</strong>
 id_konsulent (pk) (en-til-mange mot oppdrag_timeliste)
@@ -77,6 +77,6 @@ etternavn
 </pre>
 
 <figure>
-    <figcaption style="margin-left: 10px">ER-Diagram</figcaption>
+    <figcaption style="margin-left: 10px"><h3>ER-Diagram</h3></figcaption>
     <img src="screen_shot.png" alt="Image not found" style="width:50%">
 </figure>
