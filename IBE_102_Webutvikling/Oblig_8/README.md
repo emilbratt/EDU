@@ -23,7 +23,7 @@ Deretter skal chattesiden (referer) automatisk lastet inn. Det kan gjøres med h
 <strong>
 // chatinnlegg.php
 // legg innlegget inn i chat.txt
-header('Location: ' . $\_SERVER['HTTP_REFERER']);
+header('Location: ' . $_SERVER['HTTP_REFERER']);
 </strong>
 Tekstfilen "chat.txt" har 1 linje per innlegg.
 Fint om de vises nyeste-først.
