@@ -1,0 +1,17 @@
+Beskrivelse: Beskriv informasjonen dataene gir deg med en tekst på ca. 100 ord.
+
+Besvarelse:
+Totalsum er nok atllit veldig relevant data å sette som grunnlag for
+videre inspisering av enkeltområder.
+
+Ser man på de 3 diagrammene så kan man se sammenheng mellom dataene.
+Ser man på sum av slakt, så er Gris det som slaktes mest av uten tvil.
+Siden det er relativt få kunder som leverer gris, så vil det være naturlig
+å ha et høyt gjennomsnitt pr. levering. Dette kan man lese av i
+diagrammet under. Legg merke til at med Kalkuen så er dette enda tydeligere.
+
+Videre ser man at ku er den mest populære slakten (flest kunder leverer).
+Siden ku er nummer to på listen over antall Kg totalt, så kan man konkludere
+at høyt antall slakt og høytantall kunder betyr en stor sjanse for
+at hver kunde leverer lite.
+Dette ser vi også at er tilfellet siden ku har lavt gjennomsnitt pr. levering.
