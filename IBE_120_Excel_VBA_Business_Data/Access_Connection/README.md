@@ -7,7 +7,7 @@ not work with your setup without tweaking.
 NB: Also remember to reference the correct libraries
 before you try to run the code.
 See details in makro under the comment:
-'..prepare excel for connecting to Access
+'..GUIDE
 </pre>
 
 <h1>Do a test-run with files provided</h1>
