@@ -1,7 +1,6 @@
 <h1>Oppgave Beskrivelse</h1>
 <pre>
-Vi skal her levere logisk design for forrige oppgave.
-<br>
+Vi skal her levere logisk design for forrige oppgave.<br>
 Forrige oppgave:
 Konsulentene i en bedrift leverer timelister en gang i måneden.
 En konsulent jobber for flere kunder i løpet av en måned.
