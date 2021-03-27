@@ -2,6 +2,7 @@
 <pre>
 Vi skal her levere logisk design for forrige oppgave.
 
+
 Forrige oppgave:
 Konsulentene i en bedrift leverer timelister en gang i måneden.
 En konsulent jobber for flere kunder i løpet av en måned.
