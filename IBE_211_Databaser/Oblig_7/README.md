@@ -37,27 +37,24 @@ ment å skal fungere i praksis.
 <h1>Tabeller/Entiteter</h1>
 <pre>
 <strong>konsulent</strong>
-    id_konsulent (pk) (en-til-mange mot oppdrag_timeliste)
-    fornavn
-    etternavn
-    <br>
-<strong>oppdrag_timeliste</strong>
-    id_oppdrag (pk) (mange-til-en mot oppdrag)
-    id_konsulent (pk) (mange-til-en mot konsulent)
-    dato (pk)
-    timer_fra
-    timer_til
-    beskrivelse
-    <br>
-<strong>oppdrag</strong>
-    id_oppdrag (pk) (en-til-mange mot oppdrag_timeliste)
-    id_kunde (fk) (mange-til-en mot kunde)
-    navn
-    dato_start
-    dato_slutt
-    <br>
-<strong>kunde</strong>
-    id_kunde (pk) (en-til-mange mot oppdrag)
-    fornavn
-    etternavn
+id_konsulent (pk) (en-til-mange mot oppdrag_timeliste)
+fornavn
+etternavn
+<br><strong>oppdrag_timeliste</strong>
+id_oppdrag (pk) (mange-til-en mot oppdrag)
+id_konsulent (pk) (mange-til-en mot konsulent)
+dato (pk)
+timer_fra
+timer_til
+beskrivelse
+<br><strong>oppdrag</strong>
+id_oppdrag (pk) (en-til-mange mot oppdrag_timeliste)
+id_kunde (fk) (mange-til-en mot kunde)
+navn
+dato_start
+dato_slutt
+<br><strong>kunde</strong>
+id_kunde (pk) (en-til-mange mot oppdrag)
+fornavn
+etternavn
 </pre>
