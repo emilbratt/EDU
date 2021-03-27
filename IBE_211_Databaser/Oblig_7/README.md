@@ -7,7 +7,7 @@ En konsulent jobber for flere kunder i løpet av en måned.
 For hver sammenhengende arbeidsperiode for samme kunde,
 noterer konsulenten antall arbeidstimer.
 
-Lag datamodell i form av ER-diagram basert på beskrivelsen over."
+Lag datamodell i form av ER-diagram basert på beskrivelsen over
 </pre>
 
 <h1>Oppgave Besvarelse</h1>
