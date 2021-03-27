@@ -25,11 +25,9 @@ rader for samme oppdrag på samme dato da dette er uhensiktsmessig.
 Vi har ingen gjentagende data da oppdrag, oppdragstittel, dato
 for start og dato for slutt er i sin egen tabell "oppdrag".
 Konsulent-data er i tabellen "konsulent"og kunde-data er i sin
-egen tabell som heter "kunde".
-
+egen tabell som heter "kunde".<br>
 Jeg legger ved en mwb fil som kan åpnes i MySQL workbench som viser
-det logiske designet visuelt. (Har ikke tatt med kompositnøkkel på denne..)
-
+det logiske designet visuelt. (Har ikke tatt med kompositnøkkel på denne..)<br>
 Filen run.sql er et script som lager denne databasen ut ifra
 det logiske designet og legger inn noen få rader med data.
 Den gjør noen SELECT spørringer for å vise hvordan den er
