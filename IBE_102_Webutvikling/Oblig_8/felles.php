@@ -198,7 +198,7 @@
             // convert to our characterset and sanitize input
 
             mb_convert_encoding($msg, "UTF-8", "ISO-8859-1");
-            htmlentities($msg);
+            $msg = htmlentities($msg);
 
             // append html tags for nice presentation of chat
             $row = '
