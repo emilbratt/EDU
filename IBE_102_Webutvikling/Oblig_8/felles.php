@@ -225,7 +225,7 @@
             }
             echo '
             <div style="margin-left: 50px;">
-                <form action="" method="post" style="text-aling: center;">
+                <form action="" method="post">
                     '.$msg.$_SESSION['user'].' å skrive i dag?
                     <input type="text"  autofocus="autofocus" onfocus="this.select()" name="chatmsg">
                     <input type="submit" name="chatbtn" value="Send inn!">
