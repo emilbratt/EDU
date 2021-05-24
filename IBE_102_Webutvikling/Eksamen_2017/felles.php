@@ -60,15 +60,15 @@ class Credential {
 
     public function verify($usr, $pwd) {
         $stmt = $this->cnxn->prepare('
-            SELECT username, password FROM accounts
-            WHERE username = :u
+            SELECT brukernavn, passord FROM brukere
+            WHERE brukernavn = :u
         ');
         $stmt->bindParam(':u', $usr);
         $res = $stmt->execute();
         $res = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if($res) {
-            $pwd_hash = $res['password'];
+            $pwd_hash = $res['passord'];
             if(password_verify($pwd, $pwd_hash)) {
                 $_SESSION['user'] = $usr;
                 $_SESSION['verified'] = true;
@@ -94,8 +94,8 @@ class Credential {
 
         // CHECK IF USER EXISTS
         $stmt = $this->cnxn->prepare('
-            SELECT username FROM accounts
-            WHERE username = :u
+            SELECT brukernavn FROM brukere
+            WHERE brukernavn = :u
         ');
         $stmt->bindParam(':u', $usr);
         $res = $stmt->execute();
@@ -109,8 +109,8 @@ class Credential {
         $pwd_hash = password_hash($pwd, PASSWORD_ARGON2ID);
 
         $stmt = $this->cnxn->prepare('
-        INSERT INTO accounts
-            (username, password)
+        INSERT INTO brukere
+            (brukernavn, passord)
         VALUES
             (:u, :p)
         ');
