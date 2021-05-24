@@ -81,6 +81,7 @@ class Credential {
 
     public function register($usr, $pwd, $pwd_) {
 
+        // PASS 2 STEPS FOR VALID PASSWORD
         if($pwd !== $pwd_) {
             $this->msg = 'Passord er ikke like';
             return false;
@@ -88,7 +89,6 @@ class Credential {
 
         if(strlen($pwd) < 10) {
             $this->msg = 'Passord må være lengre enn 10 tegn';
-            // echo 'Passord må være lengre enn 10 tegn';
             return false;
         }
 
