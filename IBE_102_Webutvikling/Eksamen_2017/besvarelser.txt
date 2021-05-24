@@ -1,0 +1,21 @@
+/* Oppgave 2. Sikkerhetskrav
+
+    ● Passordene skal ikke lagres i klartekst.
+        bruker password_hash(passord, algoritme)
+
+    ● Passordene skal ikke vises på skjermen.
+        Bruker type="password" som parameter i <input>
+
+    ● Passordene skal ikke kunne fanges opp under transport.
+        Her må man ha en webside som benytter seg av tls (wrapper for http som gjør at all kommunikajson er kryptert)
+
+    ● SQL Injection skal ikke være mulig.
+        vi bruker perpared statements og binder parametere (verdier) for spørringen
+
+    ● Ingenting skal vises i adresselinjen (URL).
+        igjen, vi bruker POST
+
+    ● Brukere skal logges ut automatisk etter 1 time uten aktivitet.
+        vi setter en session variable med tidsstempel-funksjonen time(). hver gang en side lastes så sjekkes denne mot "nåtid".
+        mere enn 3600 sekunder siden sist innlasting resulterer i automatisk utlogging
+        pseudokode: if(time() - 3600) > ($_SESSION['timestamp']) -> logg ut
