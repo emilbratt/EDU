@@ -48,10 +48,11 @@ class Database {
     }
 }
 
-
 class Credential {
 
     protected $cnxn;
+    protected $msg;
+    protected $link = 'Gå <a href="login.php">tilbake</a>';
 
     function __construct() {
         $this->cnxn = Database::connect();
@@ -59,15 +60,15 @@ class Credential {
 
     public function verify($usr, $pwd) {
         $stmt = $this->cnxn->prepare('
-            SELECT brukernavn, passord FROM brukere
-            WHERE brukernavn = :u
+            SELECT username, password FROM accounts
+            WHERE username = :u
         ');
         $stmt->bindParam(':u', $usr);
         $res = $stmt->execute();
         $res = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if($res) {
-            $pwd_hash = $res['passord'];
+            $pwd_hash = $res['password'];
             if(password_verify($pwd, $pwd_hash)) {
                 $_SESSION['user'] = $usr;
                 $_SESSION['verified'] = true;
@@ -81,43 +82,48 @@ class Credential {
     public function register($usr, $pwd, $pwd_) {
 
         if($pwd !== $pwd_) {
-            echo 'Passord er ikke like';
+            $this->msg = 'Passord er ikke like';
             return false;
         }
 
         if(strlen($pwd) < 10) {
-            echo 'Passord må være lengre enn 10 tegn';
+            $this->msg = 'Passord må være lengre enn 10 tegn';
+            // echo 'Passord må være lengre enn 10 tegn';
             return false;
         }
 
         // CHECK IF USER EXISTS
         $stmt = $this->cnxn->prepare('
-            SELECT brukernavn FROM brukere
-            WHERE brukernavn = :u
+            SELECT username FROM accounts
+            WHERE username = :u
         ');
         $stmt->bindParam(':u', $usr);
         $res = $stmt->execute();
         $res = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if($res) {
-            echo 'Brukeren eksisterer';
+            $this->msg = 'Brukeren eksisterer';
+            // echo 'Brukeren eksisterer';
             return false;
         }
         $pwd_hash = password_hash($pwd, PASSWORD_ARGON2ID);
 
         $stmt = $this->cnxn->prepare('
-        INSERT INTO brukere
-            (brukernavn, passord)
+        INSERT INTO accounts
+            (username, password)
         VALUES
             (:u, :p)
         ');
         $stmt->bindParam(':u', $usr);
         $stmt->bindParam(':p', $pwd_hash);
         $stmt->execute();
-        echo 'Bruker ' . $usr . ' ble opprettet';
         return true;
     }
 
-}
+    public function message() {
+        echo $this->msg;
+        echo '<br>';
+        echo $this->link;
+    }
 
-?>
+}
