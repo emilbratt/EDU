@@ -1,0 +1,17 @@
+
+table, th, td {
+    border: 1px solid black;
+    padding: 1px;
+}
+
+#inline {
+    display: inline-block;
+}
+
+.green {
+    color: green;
+}
+
+.red {
+    color: red;
+}

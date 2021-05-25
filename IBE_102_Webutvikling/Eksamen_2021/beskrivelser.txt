@@ -1,0 +1,34 @@
+oppgave 1.
+    Setter egen stylesheet for fargene
+    Regner med det er ok å bruke sort() for å sortere.
+
+
+oppgave 2
+    Vi bruker htmlentities for å ufarliggjøre brukerinput for cross site scripting
+    tabellen finnes som en funksjon i lib.php.
+    Vi bruker en timestamp og lagrer denne i cookies også. Hver gang scriptet kjøres
+    så sjekker vi denne først, er scripet eldre enn 3600 sekunder
+    altså: timestamp < time()+3600 så sletter vi cookieverdiene.
+
+oppgave 3
+    I regulære uttrykk så har eg satt et tak på maks tre siffer for romnummer
+    Slik ser den ut:
+    /^[A-C]{1}(Kj|Loft|[1-3])-[0-9]{1,3}-[0-8]$/
+
+    Jeg valgte også engelske navn på databasevariablene da det går raskest for meg
+    byggdata = exam2021
+    opunkt = address
+    id = adr (og med egen identifiseringskolonne: key_id)
+
+
+oppg 4
+    Skulle gjerne brukt ?21=on for å markere tallet 21 og det samme 24=on for det samme for tallet 24.
+    Fint for å sikre at man har satt verdien i den globale get matrisen. Jeg valgte heller en
+    while loop for å lage alle tallene som skal kjøres. Da kan den brukes i en foreach loop både
+    når man skal lage html-form for alle avkryssningsboksene samt når man skal gjøre en
+    if(isset($_GET['matriseverdi'])) for å sjekke om verdien er sendt.
+    Det ble relativt greit å inkludere session da du registrer verdier i session for hver verdi
+    som er sent med get. Det samme med utskrift av avhukingskjema, men motsatt. Du skriver ikke ut
+    avkryssningsbokser hvos verdien eksisterer i sessionvariabelen.
+    Skulle helst sett at vi fikk bruke POST for dette da url blir temmelig lang ved mange
+    nummere som blir sendt, hehe
