@@ -16,7 +16,7 @@ MOUNT_PATH_HOST_home=$(pwd)/scripts
 MOUNT_PATH_CONTAINER_home=$HOME/scripts
 MOUNT_PATH_HOST_notebooks=$(pwd)/notebooks
 MOUNT_PATH_CONTAINER_notebooks=/opt/notebooks
-STATUS_RUN_VALUE='\033[0;32mrunning\033[0m\n'
+STATUS_RUN_VALUE='\033[0;32mRunning\033[0m\n'
 STATUS_STOP_VALUE='\033[0;35mStopped\033[0m\n'
 STATUS_NOT_INSTALLED_VALUE='\033[0;35mNot Installed\033[0m\n'
 
