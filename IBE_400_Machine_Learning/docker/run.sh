@@ -156,6 +156,7 @@ function _list_options () {
 function _mainloop () {
 
   declare status
+  echo ''
 
   docker images | grep -q "$REPO_MAINTAINER/$REPO_NAME" && status=$STATUS_NOT_INSTALLED_VALUE
   docker ps -a | grep -q "$REPO_MAINTAINER/$REPO_NAME" && status=$STATUS_STOP_VALUE
@@ -163,6 +164,7 @@ function _mainloop () {
   URL=''
 
   if [[ -z ${status+x} ]]; then
+    echo '--Anaconda Options--'
     _list_options \
       "1. Download and start $DOCKER_NAME" \
       '0. Exit'
@@ -186,7 +188,6 @@ function _mainloop () {
 
   fi
 
-  echo ''
   echo '--Anaconda Options--'
   _list_options \
     "1. Start $DOCKER_NAME" \
