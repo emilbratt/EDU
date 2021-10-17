@@ -122,9 +122,22 @@ function _run_python_script () {
   fi
   echo 'Place your python scripts here:'
   printf "\033[0;32m$MOUNT_PATH_HOST_notebooks\033[0m\n"
-  echo 'Type in the name of the python script you want to run and press enter'
-  printf 'Type: '; read  name
-  docker exec -it $DOCKER_NAME python $MOUNT_PATH_CONTAINER_home/$name
+  _list_options \
+    "1. Open python shell" \
+    "2. Open python file" \
+    '0. Exit'
+
+  printf 'Type: '; read _OPTN
+
+  if [[ $_OPTN == 1 ]]; then
+    docker exec -it $DOCKER_NAME python
+  elif [[ $_OPTN == 2 ]]; then
+    echo 'Type in the name of the python script you want to run and press enter'
+    printf 'Type: '; read  name
+    docker exec -it $DOCKER_NAME python $MOUNT_PATH_CONTAINER_home/$name
+  elif [[ $_OPTN == 3 ]]; then
+    exit
+  fi
 }
 
 
