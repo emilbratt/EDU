@@ -201,7 +201,7 @@ function _mainloop () {
   printf 'Put your jupyter notebooks here: '
   printf "\033[0;32m$MOUNT_PATH_HOST_notebooks\033[0m\n"
   printf 'Put anything else here: '
-  printf "\033[0;32m$MOUNT_PATH_HOST_notebooks\033[0m\n"
+  printf "\033[0;32m$MOUNT_PATH_HOST_home\033[0m\n"
   echo $URL | grep -q 'http' &&
     printf 'Visit Jupyter server at: ' &&
     printf "\033[0;32m$URL\033[0m\n" &&
