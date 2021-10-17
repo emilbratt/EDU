@@ -1,72 +1,222 @@
 #!/usr/bin/env bash
+#────────────────────────────────────────────#
+# Author(s):
+#   Emil Bratt Børsting
+#────────────────────────────────────────────#
+# Description:
+#   easy to get up and running with a local anacondas jupyter notebook
+#────────────────────────────────────────────#
 
-_REPO_MAINTAINER='continuumio' # set docker image repository alias
-_REPO_NAME='anaconda3' # set docker image name
-_DOCKER_NAME='anaconda' # set docker container service name
-_TAG='latest'
-_PORT='8888:8888' # connect to service through port 80 (service inside runs on port 8080)
-_MOUNT_PATH_HOST_notebooks="$(pwd)/notebooks"
-_MOUNT_PATH_CONTAINER_notebooks='/opt/notebooks'
+REPO_MAINTAINER=continuumio # set docker image repository alias
+REPO_NAME=anaconda3 # set docker image name
+DOCKER_NAME=anaconda # set docker container service name
+TAG=latest
+PORT=8888
+MOUNT_PATH_HOST_home=$(pwd)/scripts
+MOUNT_PATH_CONTAINER_home=$HOME/scripts
+MOUNT_PATH_HOST_notebooks=$(pwd)/notebooks
+MOUNT_PATH_CONTAINER_notebooks=/opt/notebooks
+STATUS_RUN_VALUE='\033[0;32mrunning\033[0m\n'
+STATUS_STOP_VALUE='\033[0;35mStopped\033[0m\n'
+STATUS_NOT_INSTALLED_VALUE='\033[0;35mNot Installed\033[0m\n'
 
-# create notebook dir for persistancy if not exist
-if [[ ! -d $_MOUNT_PATH_HOST_notebooks ]]; then
-  mkdir -p $_MOUNT_PATH_HOST_notebooks
-fi
 
-_run () {
-  docker ps | grep -q continuumio/anaconda3 && docker stop $_DOCKER_NAME
-  docker ps -a | grep -q continuumio/anaconda3 && docker rm $_DOCKER_NAME
-  docker run -i -t -p $_PORT \
-    --volume "$_MOUNT_PATH_HOST_notebooks":"$_MOUNT_PATH_CONTAINER_notebooks" \
-    --name $_DOCKER_NAME \
-     $_REPO_MAINTAINER/$_REPO_NAME \
+function _start () {
+
+  if [[ "$status" == "$STATUS_NOT_INSTALLED_VALUE" ]]; then
+    unset status
+    _run
+  fi
+
+  mkdir -p "$MOUNT_PATH_HOST_home"
+  mkdir -p "$MOUNT_PATH_HOST_notebooks"
+
+  # if running, just return 0
+  docker ps | grep -q "$REPO_MAINTAINER/$REPO_NAME" && return 0
+
+  echo 'Starting..'
+  docker start $DOCKER_NAME 1> /dev/null
+  n=1
+  while [[ true ]]; do
+    # wait for container to start until returning 0
+    sleep 0.5
+    docker ps | grep -q "$REPO_MAINTAINER/$REPO_NAME" &&
+      status=$STATUS_RUN_VALUE && return 0
+
+    # watchdog if it never started as a safeguard
+    ((n=n+1))
+    if [[ $n -gt 20 ]]; then
+      exit 1
+    fi
+  done
+}
+
+
+function _run () {
+
+  # we only start and stop the container for anaconda to be installed
+
+  mkdir -p "$MOUNT_PATH_HOST_home"
+  mkdir -p "$MOUNT_PATH_HOST_notebooks"
+  echo 'Installing Anaconda..'
+  docker run -id -t -p $PORT:$PORT \
+    --volume "$MOUNT_PATH_HOST_home":"$MOUNT_PATH_CONTAINER_home" \
+    --volume "$MOUNT_PATH_HOST_notebooks":"$MOUNT_PATH_CONTAINER_notebooks" \
+    --name $DOCKER_NAME \
+     $REPO_MAINTAINER/$REPO_NAME \
      /bin/bash -c "\
       conda install jupyter -y --quiet && \
-      mkdir -p /opt/notebooks && \
+      mkdir -p '$MOUNT_PATH_CONTAINER_notebooks' && \
+      mkdir -p '$MOUNT_PATH_CONTAINER_home' && \
       jupyter notebook \
-      --notebook-dir=/opt/notebooks --ip='*' --port=8888 \
-      --no-browser --allow-root"
+      --notebook-dir=/opt/notebooks --ip='*' --port=$PORT \
+      --no-browser --allow-root" 1> /dev/null
+  _stop
+  _start
 }
 
-_delete () {
-  docker rmi "$_REPO_MAINTAINER/$_REPO_NAME:$_TAG"
+
+function _stop () {
+  echo "Stopping $DOCKER_NAME continaer.."
+  docker stop $DOCKER_NAME 1> /dev/null
+
+  while [[ true ]]; do
+    # when we cant grep the container, is when we are sure it is stopped
+    docker ps | grep -q "$REPO_MAINTAINER/$REPO_NAME" || return 0
+  done
 }
 
-_stop () {
-  docker stop $_DOCKER_NAME
+
+function _remove () {
+  docker ps | grep -q "$REPO_MAINTAINER/$REPO_NAME" && _stop
+  echo "Removing $DOCKER_NAME contianer.."
+  docker rm $DOCKER_NAME
 }
 
-_enter_bash () {
-  docker exec -it $_DOCKER_NAME bash
+
+function _delete () {
+  docker ps | grep -q "$REPO_MAINTAINER/$REPO_NAME" && _stop
+  docker ps -a | grep -q "$REPO_MAINTAINER/$REPO_NAME" && _remove
+  echo "Deleting $DOCKER_NAME Images.."
+  docker rmi "$REPO_MAINTAINER/$REPO_NAME:$TAG" 1> /dev/null
 }
 
-_list_options () {
+
+function _exec () {
+  printf 'Type: '; read CMD
+  docker exec -it $DOCKER_NAME $CMD
+}
+
+
+function _enter_bash () {
+  if [[ $status != $STATUS_RUN_VALUE ]]; then
+    _start
+  fi
+  docker exec -it $DOCKER_NAME bash
+}
+
+
+function _run_python_script () {
+  if [[ $status != $STATUS_RUN_VALUE ]]; then
+    _start
+  fi
+  echo 'Place your python scripts here:'
+  printf "\033[0;32m$MOUNT_PATH_HOST_notebooks\033[0m\n"
+  echo 'Type in the name of the python script you want to run and press enter'
+  printf 'Type: '; read  name
+  docker exec -it $DOCKER_NAME python $MOUNT_PATH_CONTAINER_home/$name
+}
+
+
+function _list_options () {
   # prints out options loaded from arguments
   # takes an arbitrary amount of args, they will all be printed on separate lines
-  echo -e '\n----------------------------------------------'
+  echo -e '----------------------------------------------'
   for optn in "$@"
   do
     echo "$optn"
   done
-  echo -e '----------------------------------------------\n'
+  echo -e '----------------------------------------------'
 }
-_list_options '1. run' '2. shell' '3. stop' '4. delete' '0. exit'
 
-read _OPTN
 
-if [[ $_OPTN == 0 ]]; then
-  exit
+function _mainloop () {
 
-elif [[ $_OPTN == 1 ]]; then
-  _run    && echo 'ok' || echo 'error'
+  declare status
 
-elif [[ $_OPTN == 2 ]]; then
-  _enter_bash
+  docker images | grep -q "$REPO_MAINTAINER/$REPO_NAME" && status=$STATUS_NOT_INSTALLED_VALUE
+  docker ps -a | grep -q "$REPO_MAINTAINER/$REPO_NAME" && status=$STATUS_STOP_VALUE
+  docker ps | grep -q "$REPO_MAINTAINER/$REPO_NAME" && status=$STATUS_RUN_VALUE
+  URL=''
 
-elif [[ $_OPTN == 3 ]]; then
-  _stop   && echo 'ok' || echo 'error'
+  if [[ -z ${status+x} ]]; then
+    _list_options \
+      "1. Download and start $DOCKER_NAME" \
+      '0. Exit'
 
-elif [[ $_OPTN == 4 ]]; then
-  _delete
+    printf 'Type: '; read _OPTN
 
-fi
+    if [[ $_OPTN == 1 ]]; then
+      _run
+    else
+      exit
+    fi
+  fi
+
+  if [[ "$status" == "$STATUS_RUN_VALUE" ]]; then
+    echo 'Initializing..'
+    while [[ $URL == '' ]]; do
+      sleep 1
+      _url=$(docker exec -t $DOCKER_NAME jupyter notebook list | grep 'http' | cut -d ':' -f1-3)
+      echo $_url | grep -q 'http' && URL=$_url
+    done
+
+  fi
+
+  echo ''
+  echo '--Anaconda Options--'
+  _list_options \
+    "1. Start $DOCKER_NAME" \
+    "2. Open BASH shell inside $DOCKER_NAME" \
+    "3. Stop $DOCKER_NAME" \
+    "4. Remove $DOCKER_NAME container" \
+    "5. Delete image $REPO_MAINTAINER/$REPO_NAME" \
+    "6. Open python shell inside $DOCKER_NAME" \
+    '0. Exit'
+  printf "Status: $status"
+  printf 'Put your jupyter notebooks here: '
+  printf "\033[0;32m$MOUNT_PATH_HOST_notebooks\033[0m\n"
+  printf 'Put anything else here: '
+  printf "\033[0;32m$MOUNT_PATH_HOST_notebooks\033[0m\n"
+  echo $URL | grep -q 'http' &&
+    printf 'Visit Jupyter server at: ' &&
+    printf "\033[0;32m$URL\033[0m\n" &&
+  printf 'Type: '; read _OPTN
+
+  if [[ $_OPTN == 0 ]]; then
+    exit
+
+  elif [[ $_OPTN == '1' ]]; then
+    _start
+
+  elif [[ $_OPTN == 2 ]]; then
+    _enter_bash
+
+  elif [[ $_OPTN == 3 ]]; then
+    _stop
+
+  elif [[ $_OPTN == 4 ]]; then
+    _remove
+
+  elif [[ $_OPTN == 5 ]]; then
+    _delete
+
+  elif [[ $_OPTN == 6 ]]; then
+    _run_python_script
+
+  fi
+}
+
+
+### entrypoint ###
+while [[ true ]]; do _mainloop; done
