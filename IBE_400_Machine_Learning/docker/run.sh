@@ -204,8 +204,9 @@ function _mainloop () {
   printf "\033[0;32m$MOUNT_PATH_HOST_notebooks\033[0m\n"
   echo $URL | grep -q 'http' &&
     printf 'Visit Jupyter server at: ' &&
-    printf "\033[0;32m$URL\033[0m\n" &&
-  printf 'Type: '; read _OPTN
+    printf "\033[0;32m$URL\033[0m" &&
+
+  printf '\nType: '; read _OPTN
 
   if [[ $_OPTN == 0 ]]; then
     exit
