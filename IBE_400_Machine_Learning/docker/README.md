@@ -9,6 +9,6 @@
 * reading the output from your terminal, open one of the suggested links to access your notebook
 
 #### Some example images
-![](img/img/0.png?raw=true)
+![](mg/0.png?raw=true)
 ![](img/1.png?raw=true)
 ![](img/2.png?raw=true)
