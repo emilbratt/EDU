@@ -21,6 +21,12 @@ STATUS_STOP_VALUE='\033[0;35mStopped\033[0m\n'
 STATUS_NOT_INSTALLED_VALUE='\033[0;35mNot Installed\033[0m\n'
 
 
+function _confirm_docker_connection () {
+  docker ps > /dev/null 2>&1 && return 0
+  echo 'Make sure you have Docker installed and running'
+  return 1
+}
+
 function _start () {
 
   if [[ "$status" == "$STATUS_NOT_INSTALLED_VALUE" ]]; then
@@ -155,14 +161,16 @@ function _list_options () {
 
 function _mainloop () {
 
+  _confirm_docker_connection || exit 1
+
   declare status
-  echo ''
+
 
   docker images | grep -q "$REPO_MAINTAINER/$REPO_NAME" && status=$STATUS_NOT_INSTALLED_VALUE
   docker ps -a | grep -q "$REPO_MAINTAINER/$REPO_NAME" && status=$STATUS_STOP_VALUE
   docker ps | grep -q "$REPO_MAINTAINER/$REPO_NAME" && status=$STATUS_RUN_VALUE
-  URL=''
 
+  echo ''
   if [[ -z ${status+x} ]]; then
     echo '--Anaconda Options--'
     _list_options \
@@ -179,6 +187,7 @@ function _mainloop () {
   fi
 
   if [[ "$status" == "$STATUS_RUN_VALUE" ]]; then
+    local URL=''
     echo 'Initializing..'
     while [[ $URL == '' ]]; do
       sleep 1
@@ -204,7 +213,9 @@ function _mainloop () {
   printf "\033[0;32m$MOUNT_PATH_HOST_scripts\033[0m\n"
   echo $URL | grep -q 'http' &&
     printf 'Visit Jupyter server at: ' &&
-    printf "\033[0;32m$URL\033[0m\n" &&
+    printf "\033[0;32m$URL\033[0m\n"
+
+  # force sleep to let echo | grep finish to avoid suppressing next output
   sleep 0.2
   printf 'Type: '; read _OPTN
 
