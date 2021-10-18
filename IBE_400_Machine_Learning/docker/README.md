@@ -2,10 +2,11 @@
 
 #### How to use
 * download run.sh and place it wherever you want on your drive
-* navigate to the directory where you saved the run.sh file and do
-```
-./run.sh
-```
+* navigate to the directory where you saved the run.sh file and run it
+* the script will create two folders in the same directory
+* ./notebooks - for .ipynb files
+* ./scripts - for vanilla python files or any other file
+* where you place your
 * reading the output from your terminal, open one of the suggested links to access your notebook
 
 #### Some example images
