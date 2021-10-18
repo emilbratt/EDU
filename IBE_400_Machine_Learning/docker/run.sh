@@ -7,13 +7,13 @@
 #   easy to get up and running with a local anacondas jupyter notebook
 #────────────────────────────────────────────#
 
-REPO_MAINTAINER=continuumio # set docker image repository alias
-REPO_NAME=anaconda3 # set docker image name
-DOCKER_NAME=anaconda # set docker container service name
+REPO_MAINTAINER=continuumio
+REPO_NAME=anaconda3
+DOCKER_NAME=anaconda
 TAG=latest
 PORT=8888
-MOUNT_PATH_HOST_home=$(pwd)/scripts
-MOUNT_PATH_CONTAINER_home=$HOME/scripts
+MOUNT_PATH_HOST_scripts=$(pwd)/scripts
+MOUNT_PATH_CONTAINER_scripts=$HOME/scripts
 MOUNT_PATH_HOST_notebooks=$(pwd)/notebooks
 MOUNT_PATH_CONTAINER_notebooks=/opt/notebooks
 STATUS_RUN_VALUE='\033[0;32mRunning\033[0m\n'
@@ -28,7 +28,7 @@ function _start () {
     _run
   fi
 
-  mkdir -p "$MOUNT_PATH_HOST_home"
+  mkdir -p "$MOUNT_PATH_HOST_scripts"
   mkdir -p "$MOUNT_PATH_HOST_notebooks"
 
   # if running, just return 0
@@ -56,18 +56,18 @@ function _run () {
 
   # we only start and stop the container for anaconda to be installed
 
-  mkdir -p "$MOUNT_PATH_HOST_home"
+  mkdir -p "$MOUNT_PATH_HOST_scripts"
   mkdir -p "$MOUNT_PATH_HOST_notebooks"
   echo 'Installing Anaconda..'
   docker run -id -t -p $PORT:$PORT \
-    --volume "$MOUNT_PATH_HOST_home":"$MOUNT_PATH_CONTAINER_home" \
+    --volume "$MOUNT_PATH_HOST_scripts":"$MOUNT_PATH_CONTAINER_scripts" \
     --volume "$MOUNT_PATH_HOST_notebooks":"$MOUNT_PATH_CONTAINER_notebooks" \
     --name $DOCKER_NAME \
      $REPO_MAINTAINER/$REPO_NAME \
      /bin/bash -c "\
       conda install jupyter -y --quiet && \
       mkdir -p '$MOUNT_PATH_CONTAINER_notebooks' && \
-      mkdir -p '$MOUNT_PATH_CONTAINER_home' && \
+      mkdir -p '$MOUNT_PATH_CONTAINER_scripts' && \
       jupyter notebook \
       --notebook-dir=/opt/notebooks --ip='*' --port=$PORT \
       --no-browser --allow-root" 1> /dev/null
@@ -134,7 +134,7 @@ function _run_python_script () {
   elif [[ $_OPTN == 2 ]]; then
     echo 'Type in the name of the python script you want to run and press enter'
     printf 'Type: '; read  name
-    docker exec -it $DOCKER_NAME python $MOUNT_PATH_CONTAINER_home/$name
+    docker exec -it $DOCKER_NAME python $MOUNT_PATH_CONTAINER_scripts/$name
   elif [[ $_OPTN == 3 ]]; then
     exit
   fi
@@ -201,7 +201,7 @@ function _mainloop () {
   printf 'Put your jupyter notebooks here: '
   printf "\033[0;32m$MOUNT_PATH_HOST_notebooks\033[0m\n"
   printf 'Put anything else here: '
-  printf "\033[0;32m$MOUNT_PATH_HOST_home\033[0m\n"
+  printf "\033[0;32m$MOUNT_PATH_HOST_scripts\033[0m\n"
   echo $URL | grep -q 'http' &&
     printf 'Visit Jupyter server at: ' &&
     printf "\033[0;32m$URL\033[0m\n" &&
