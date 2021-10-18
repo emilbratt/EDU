@@ -8,7 +8,7 @@
 * ./scripts - for vanilla python files or any other file
 * the script will output the URL that you can paste into any web-browser
 
-#### Some example images
+#### Some sample images
 ![](img/0.png?raw=true)
 ![](img/1.png?raw=true)
 ![](img/2.png?raw=true)
