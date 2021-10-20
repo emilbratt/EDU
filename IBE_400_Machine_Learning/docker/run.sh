@@ -136,11 +136,13 @@ function _run_python_script () {
   printf 'Type: '; read _OPTN
 
   if [[ $_OPTN == 1 ]]; then
-    docker exec -it $DOCKER_NAME python
+    docker exec -it $DOCKER_NAME \
+      bash -c "cd $MOUNT_PATH_CONTAINER_scripts; python"
   elif [[ $_OPTN == 2 ]]; then
     echo 'Type in the name of the python script you want to run and press enter'
     printf 'Type: '; read  name
-    docker exec -it $DOCKER_NAME python $MOUNT_PATH_CONTAINER_scripts/$name
+    docker exec -it $DOCKER_NAME \
+      python $MOUNT_PATH_CONTAINER_scripts/$name
   elif [[ $_OPTN == 3 ]]; then
     exit
   fi
