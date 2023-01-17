@@ -1,7 +1,9 @@
-<h3>About</h3>
-<pre>
-This repository contains assignments, projects
-and other stuff related to education.
+### What`s this?
 
--Undergrad Student Emil Bratt
-</pre>
+```
+A repository for saving my educational related stuff.
+This includes my work from:
+  - educational institutions
+  - job-related training
+  - non-supervised study (self-study)
+```
