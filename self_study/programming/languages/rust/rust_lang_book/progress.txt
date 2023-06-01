@@ -38,3 +38,51 @@ https://doc.rust-lang.org/book/ch01-03-hello-cargo.html
 https://doc.rust-lang.org/book/ch02-00-guessing-game-tutorial.html
   $ cargo new guessing_game
   $ cd guessing_game
+
+  Importing and "Prelude".
+    Manually importing every single thing that you use is very verbose.
+    Automatically importing a lot of things that a program never uses is bloat.
+    A balance needs to be struck and that is the Prelude.
+    The prelude is the list of things that Rust automatically imports into every Rust program.
+
+    The use statement.
+      Importing is don with "use".
+
+  Importing standard io library (bringing the library into scope)
+    > use std::io;
+      this is used read input and writing output etc.
+
+  Variables.
+    > let mut <name> = <value>;
+
+    immutable
+      > let apples = 5;
+    mutable
+      > let mut bananas = 5;
+
+  Types
+    String: growable UTF-8 encoded bit of text
+
+  Syntax
+    :: Is an associated function of a type.
+      > String::new();
+        new is associated with the String type
+        new creates a new, empty string..
+
+    .name() Is a method
+      > io::stdin()
+      >   .read_line(&mut some_var)
+        here the read_line() is a method on stdin()
+
+    & Is a reference
+      > .read_line(&mut some_var)
+        referencing "some_var" Note: references are immutable
+
+    io::stdin().read_line() returns a "Result" value which is an "enumeration" (enum)
+      used to encode error-handling information with variants Ok and Err
+      enums are covered in chapter 6..
+      the "Result" value has an expect method
+      if value is Err -> expect(argument) will cause the program to crash and display the message passed as argument
+        most likely it would be OS related in this very case..
+
+https://doc.rust-lang.org/book/ch02-00-guessing-game-tutorial.html#generating-a-secret-number
