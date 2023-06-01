@@ -1,2 +1,11 @@
 https://doc.rust-lang.org/book/ch01-01-installation.html
+
 https://doc.rust-lang.org/book/ch01-02-hello-world.html
+
+https://doc.rust-lang.org/book/ch01-03-hello-cargo.html
+  Cargo is the build system and package manager
+  ..building your code, downloading the libraries (dependencies) your code depends on
+
+
+  Create new project
+  $ cargo new <project_name>
