@@ -36,3 +36,5 @@ https://doc.rust-lang.org/book/ch01-03-hello-cargo.html
       Cargo manages its contents for you.
 
 https://doc.rust-lang.org/book/ch02-00-guessing-game-tutorial.html
+  $ cargo new guessing_game
+  $ cd guessing_game
