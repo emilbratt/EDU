@@ -3,18 +3,29 @@ https://doc.rust-lang.org/book/ch01-01-installation.html
 https://doc.rust-lang.org/book/ch01-02-hello-world.html
 
 https://doc.rust-lang.org/book/ch01-03-hello-cargo.html
-  Cargo
-    the build system and package manager
-    ..building your code, downloading the libraries (dependencies) your code depends on
-
-    expects your source files to live inside the src directory
+  Cargo - the build system and package manager
+    It does multiple things:
+      - building your code
+      - downloading the libraries (dependencies)
+      - checks code
+      - runs the code
 
     create and run a new project
       $ cargo new <project_name>
+        source files will live inside the <project_name>/src
       $ cd <project_name>
-      $ cargo build # creates an executable file in ./target/debug/<project_name>
-      alternativley we can build and run with
-        $ cargo run
+        cd into the project directory to run additional cargo commands
+      $ cargo build
+        creates build directory target/debug
+        then compiles binary and places it in ./target/debug/<project_name>
+      $ cargo build --release
+        compile it with optimizations (faster execution)
+        NOTE: creates an executable in target/release instead of target/debug
+      $ cargo run
+        same as cargo build, but also runs the binary if compile succeeded
+        ..most developers use cargo run
+      $ cargo check
+        build a project without producing a binary to check for errors
 
     Crates
       packages of code are referred to as crates
@@ -23,3 +34,5 @@ https://doc.rust-lang.org/book/ch01-03-hello-cargo.html
       Keeps track of the exact versions of dependencies in your project.
       Won’t ever need to change this file manually.
       Cargo manages its contents for you.
+
+https://doc.rust-lang.org/book/ch02-00-guessing-game-tutorial.html
