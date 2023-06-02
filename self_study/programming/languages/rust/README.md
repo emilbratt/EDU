@@ -15,3 +15,6 @@ Fedora: $ sudo dnf install rust-rustfix+default-devel
 
 ### [clippy - code analyze/lints](https://doc.rust-lang.org/book/appendix-04-useful-development-tools.html#more-lints-with-clippy)
 Fedora: $ sudo dnf install clippy 
+
+### [Rust Packages - Crates](https://crates.io/)
+* where devs from Rust ecosystem post their open source Rust projects for others to use

@@ -86,3 +86,30 @@ https://doc.rust-lang.org/book/ch02-00-guessing-game-tutorial.html
         most likely it would be OS related in this very case..
 
 https://doc.rust-lang.org/book/ch02-00-guessing-game-tutorial.html#generating-a-secret-number
+  Generate secret number using a "crate"
+    ..a crate is a collection of Rust source code files
+  
+  $ cargo build
+  Cargo.lock
+    Rust creates the Cargo.lock file the first time you run cargo build.
+    This will force the use of same version if new versions of dependency is released.
+    This will reproduce builds identical to previous builds on unchanged source code.
+
+  $ cargo update
+    Ignore the Cargo.lock file and figure out all the latest versions in Cargo.toml.
+    It will still not update to new "major" versions, only "minor" versions.
+      see https://semver.org/
+
+  $ cargo doc --open
+    Automatically build documentation (HTML) provided for all dependencies
+    It will open your default browser when done.
+      If you are interested in other functionality in the rand crate,
+      run cargo doc --open and click rand in the sidebar on the left.
+
+  Shadowing
+    Avoid creating duplicate variables with unique names.
+    Creating a new variable with same name as an existing one will "shadow" the old value with new.
+
+https://doc.rust-lang.org/book/ch03-00-common-programming-concepts.html
+  Common Programming Concepts
+  
