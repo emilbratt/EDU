@@ -114,3 +114,9 @@ https://doc.rust-lang.org/book/ch03-00-common-programming-concepts.html
   Common Programming Concepts
   
   Rust encourages immutability, and this is the standard for variables unless specified.
+    can not change
+      > let  x = 5;
+    can change
+      > let mut x = 5;
+    can not change, ever (should always be written in upper case)
+      const THREE_HOURS_IN_SECONDS: u32 = 60 * 60 * 3;
