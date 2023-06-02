@@ -113,3 +113,4 @@ https://doc.rust-lang.org/book/ch02-00-guessing-game-tutorial.html#generating-a-
 https://doc.rust-lang.org/book/ch03-00-common-programming-concepts.html
   Common Programming Concepts
   
+  Rust encourages immutability, and this is the standard for variables unless specified.
