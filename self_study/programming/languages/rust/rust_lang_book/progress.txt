@@ -106,9 +106,6 @@ https://doc.rust-lang.org/book/ch02-00-guessing-game-tutorial.html#generating-a-
       If you are interested in other functionality in the rand crate,
       run cargo doc --open and click rand in the sidebar on the left.
 
-  Shadowing
-    Avoid creating duplicate variables with unique names.
-    Creating a new variable with same name as an existing one will "shadow" the old value with new.
 
 https://doc.rust-lang.org/book/ch03-00-common-programming-concepts.html
   Common Programming Concepts
@@ -120,3 +117,38 @@ https://doc.rust-lang.org/book/ch03-00-common-programming-concepts.html
       > let mut x = 5;
     can not change, ever (should always be written in upper case)
       const THREE_HOURS_IN_SECONDS: u32 = 60 * 60 * 3;
+        the result is calculated at compile time so that on execution time it does not have to
+
+  Shadowing (assign new value to immutable variable)
+    Rust helps you avoid creating duplicate variables with unique names.
+    Creating a new variable with same name as an existing one will "shadow" the old value with new.
+    Shadows are scope related, an inner scope does not shadow a variable from an outer scope.
+    When shadowing, the variable might also change type, not only value.
+
+
+https://doc.rust-lang.org/book/ch03-02-data-types.html
+  Data Types
+
+  Type anotation
+    specify type when declaring variables (sometimes required like in the line below)
+    > let guess: u32 = "42".parse().expect("Not a number!");
+      it is the value after :, in this case the anotation is "u32"
+
+  Integers (integer types default to i32 if not specified)
+    Length    Signed  Unsigned
+    8-bit	    i8  	  u8
+    16-bit	  i16     u16
+    32-bit    i32     u32
+    64-bit    i64     u64
+    128-bit   i128    u128
+    arch      isize   usize
+      ..each variant can be either signed (can be negative) or unsigned (only positive)
+
+      ..integer overflow (complement wrapping)
+        Variable starts from 0 and adds overflow value.
+        https://doc.rust-lang.org/book/ch03-02-data-types.html#integer-overflow
+
+  Floating points
+    f32 type is a single-precision
+    f64 has double precision
+      ..32 bits and 64 bits in size, respectively
