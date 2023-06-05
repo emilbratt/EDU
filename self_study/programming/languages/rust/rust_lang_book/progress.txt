@@ -149,6 +149,5 @@ https://doc.rust-lang.org/book/ch03-02-data-types.html
         https://doc.rust-lang.org/book/ch03-02-data-types.html#integer-overflow
 
   Floating points
-    f32 type is a single-precision
-    f64 has double precision
-      ..32 bits and 64 bits in size, respectively
+    f32 is a 32 bit value with single-precision
+    f64 is a 64 bit value with double precision
