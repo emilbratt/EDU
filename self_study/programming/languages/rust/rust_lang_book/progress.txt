@@ -151,3 +151,7 @@ https://doc.rust-lang.org/book/ch03-02-data-types.html
   Floating points
     f32 is a 32 bit value with single-precision
     f64 is a 64 bit value with double precision
+
+
+https://doc.rust-lang.org/book/ch03-03-how-functions-work.html
+  Functions
