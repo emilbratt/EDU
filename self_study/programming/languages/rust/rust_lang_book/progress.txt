@@ -188,3 +188,5 @@ https://doc.rust-lang.org/book/ch04-00-understanding-ownership.html
     Each value has an owner.
     Only one owner at a time.
     When owner goes out of scope, value is dropped.
+
+  Illustrating the ownership: https://doc.rust-lang.org/book/ch04-01-what-is-ownership.html#the-string-type
