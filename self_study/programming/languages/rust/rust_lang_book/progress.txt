@@ -158,3 +158,33 @@ https://doc.rust-lang.org/book/ch03-03-how-functions-work.html
 
 https://doc.rust-lang.org/book/ch03-05-control-flow.html
   Control flow
+
+https://doc.rust-lang.org/book/ch04-00-understanding-ownership.html
+  Ownership - memory handling in Rust
+
+    The Stack and the Heap
+      Both are parts of memory, but are structured in different ways.
+      Stack (stack based -> fast)
+        Stores values in the order it gets them and removes the values in the opposite order.
+          ..last in, first out e.g. push -> add and pop -> remove.
+      Heap (allocation/pointer based -> slower)
+        Is less organized: when you put data on the heap, you request a certain amount of memory space.
+        The memory allocator finds an empty spot in the heap that is big enough, mark it as being used.
+        It returns a pointer (the memory address of the location).
+          ..this is called "allocating on the heap"
+      When program calls a function,
+        the values passed into the function
+        and the functions local variables
+        ..get pushed onto the stack.
+      When the function is over,
+        ..those values get popped off the stack.
+
+  Following the ownership, the goal is to minimize the data stored as heap by..
+    ..keep track of what parts of code are using data on the heap
+    ..minimize the amount of data (especially duplicate) on the heap
+    ..and cleaning up unused data on the heap,
+
+  Ownership rules
+    Each value has an owner.
+    Only one owner at a time.
+    When owner goes out of scope, value is dropped.
