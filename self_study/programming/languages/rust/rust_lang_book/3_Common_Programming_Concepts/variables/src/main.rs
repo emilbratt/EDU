@@ -124,7 +124,7 @@ fn type_array() {
     // all values in arrays must be of same type and they store a fixed amount of elements
     println!("\nARRAY VALUES");
 
-    let array = [
+    let array: [&str; 12] = [
         "January", "February", "March",
         "April", "May", "June",
         "July", "August", "September",
