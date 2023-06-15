@@ -35,13 +35,15 @@ fn mutable_string_type() {
 fn heap_and_stack_example() {
     // the stack is push and pop (fast)
     // the heap is allocation based (not as fast as stack)
-    // some datatypes are stored on the stak by default because they are small and have consistend memory size
-    // other datatypes are stored on the heap because they are less predictable and larger..
+    // some datatypes are stored on the stak by default because they are small and have a fixed size
+    // other datatypes are stored on the heap because they are dynamically sized and usually larger..
 
+    // STACK
     let var_on_stack: u32 = 5;
     // ints are small and stored on the stack because compiler knows the memory size at compile time
     println!("this variable is stored on the stack and has the value {var_on_stack}");
 
+    // HEAP
     // strings are large and stored on the heap because compiler does not know size at compile time
     let var_on_heap = String::from("hello from the heap memory");
     println!("this variable is stored on the heap and has the value {var_on_heap}");
