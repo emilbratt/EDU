@@ -40,17 +40,19 @@ fn heap_and_stack_example() {
 
     // STACK
     let var_on_stack: u32 = 5;
-    // ints are small and stored on the stack because compiler knows the memory size at compile time
+    // ints are small
+    // ..so rust stores them on the stack because compiler knows the exact size at compile time
     let stack_variables_can_be_cloned_easily: u32 = var_on_stack;
     println!("this variable is stored on the stack and has the value {var_on_stack}");
     println!("this cloned variable is stored on the stack and has the value {stack_variables_can_be_cloned_easily}");
 
     // HEAP
-    // strings are large and stored on the heap because compiler does not know size at compile time
+    // strings are large
+    // ..so rust stores them on the heap because compiler can not know the exact size at compile time
     let var_on_heap = String::from("hello from the heap memory");
     println!("this variable is stored on the heap and has the value {var_on_heap}");
     let var_on_heap_must_be_moved_instead = var_on_heap;
-    // var_on_heap IS NOT AVAILABLE after re-assigning it to var_on_heap_must_be_moved_instead
+    // rust has now invalidated var_on_heap as it is now assigned to var_on_heap_must_be_moved_instead
     println!("this moved variable is stored on the heap and has the value {var_on_heap_must_be_moved_instead}");
 
 
