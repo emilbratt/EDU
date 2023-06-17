@@ -8,6 +8,15 @@ fn main() {
     immutable_string_literal();
     mutable_string_type();
     heap_and_stack_example();
+
+    // REFERENCE AND BORROWING
+    let mut some_string = String::from("some string");
+    // borrow: sending the variable to a function (we need the variable back for re-using it)
+    some_string = borrow_variable(some_string);
+    // reference: sending a pointer-like variable (we do not need the variable back for re-using it)
+    reference_variable(&some_string);
+    // here, we ar ere-using it without having it sent back
+    println!("{some_string}");
 }
 
 fn immutable_string_literal() {
@@ -54,6 +63,13 @@ fn heap_and_stack_example() {
     let var_on_heap_must_be_moved_instead = var_on_heap;
     // rust has now invalidated var_on_heap as it is now assigned to var_on_heap_must_be_moved_instead
     println!("this moved variable is stored on the heap and has the value {var_on_heap_must_be_moved_instead}");
+}
 
+fn borrow_variable(var: String) -> String {
+    println!("{var}");
+    var // rust is expression based, so we can (should) omit return key word
+}
 
+fn reference_variable(var: &String) {
+    println!("{var}");
 }
