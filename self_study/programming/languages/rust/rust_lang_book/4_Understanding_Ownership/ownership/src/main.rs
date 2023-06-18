@@ -16,7 +16,10 @@ fn main() {
     // reference: sending a pointer-like variable (we do not need the variable back for re-using it)
     reference_variable(&some_string); // just append "&" in front of variable
     // here, we ar ere-using it without having it sent back
+    modify_reference_not_allowed_by_default(&some_string);
+    modify_reference_allowed_with_mut(&mut some_string);
     println!("{some_string}");
+
 }
 
 fn immutable_string_literal() {
@@ -75,4 +78,15 @@ fn reference_variable(var: &String) { // append "&" in front of annotation
     println!("{var}");
     // Functions that takes references as params never gets ownership..
     // so we do not need to "send back" the value to keep using it.
+}
+
+fn modify_reference_not_allowed_by_default(var: &String) { // append "&" in front of annotation
+    println!("changing a referenced variable is not allowed for this var with value {var}");
+    // var.push_str(", adding this is not allowed")
+    // Uncommenting the above lin would result in compilation error due to no ownership.
+}
+
+fn modify_reference_allowed_with_mut(var: &mut String) { // append "&" in front of annotation
+    println!("changing a referenced variable is allowed using mut for this var with value {var}");
+    var.push_str(", adding this now allowed") // we have now changed the variable   
 }
