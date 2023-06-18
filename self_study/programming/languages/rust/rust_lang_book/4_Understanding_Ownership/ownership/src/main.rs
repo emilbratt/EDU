@@ -67,7 +67,6 @@ fn heap_and_stack_example() {
 
 fn borrow_variable(var: String) -> String {
     println!("{var}");
-
     var
     // rust is expression based, so we can (should) omit return key word when sending back
 }
@@ -75,5 +74,5 @@ fn borrow_variable(var: String) -> String {
 fn reference_variable(var: &String) { // append "&" in front of annotation
     println!("{var}");
     // Functions that takes references as params never gets ownership..
-    // so we do not need to "send back" the value..
+    // so we do not need to "send back" the value to keep using it.
 }
