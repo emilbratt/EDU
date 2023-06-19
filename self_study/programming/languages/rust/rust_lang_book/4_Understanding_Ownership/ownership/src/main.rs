@@ -19,6 +19,7 @@ fn main() {
     modify_reference_not_allowed_by_default(&some_string);
     modify_reference_allowed_with_mut(&mut some_string);
     println!("{some_string}");
+    multiple_references_and_scopes();
 
 }
 
@@ -89,4 +90,27 @@ fn modify_reference_not_allowed_by_default(var: &String) { // append "&" in fron
 fn modify_reference_allowed_with_mut(var: &mut String) { // append "&" in front of annotation
     println!("changing a referenced variable is allowed using mut for this var with value {var}");
     var.push_str(", adding this now allowed") // we have now changed the variable   
+}
+
+fn multiple_references_and_scopes() {
+    let mut s = String::from("a mutable string");
+    // NOT ALLOWED
+    // let _r1 = &mut s;
+    // let r2 = &mut s;
+
+    // ALLOWED (bacause after last usage in a function it is de-referenced..)
+    let r1 = &s;
+    println!("{r1} in a local scope");
+    let r1 = &mut s; // so we can actually re-reference it as mutable, cool
+    println!("{r1} in a local scope");
+    let r2 = &s;
+    println!("{r2} in a local scope");
+
+    // ALLOWED (because it is in its own scope using curly brackets)
+    {
+        let _r1 = &mut s;
+        // This is fine becase _r1 is in its own scope.
+    }
+    let r2 = &mut s;
+    println!("{r2} in the same scope");
 }
