@@ -5,6 +5,9 @@ Fedora: $ sudo dnf install rust cargo
 
 ### [Community](https://www.rust-lang.org/community)
 
+### [Rust by Example](https://doc.rust-lang.org/rust-by-example/index.html)
+* look up syntax for Rust with examples
+
 ### [rust-analyzer - language server protocol](https://rust-analyzer.github.io/)
 
 ### [rustfmt - auto formating](https://doc.rust-lang.org/book/appendix-04-useful-development-tools.html#automatic-formatting-with-rustfmt)
