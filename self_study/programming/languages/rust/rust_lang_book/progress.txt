@@ -204,5 +204,6 @@ https://doc.rust-lang.org/book/ch04-03-slices.html
     > let hello = &s[0..5];
     > let world = &s[6..11];
 
+
 https://doc.rust-lang.org/book/ch05-00-structs.html
   Structs
