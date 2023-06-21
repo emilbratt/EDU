@@ -196,3 +196,10 @@ https://doc.rust-lang.org/book/ch04-02-references-and-borrowing.html#references-
 
 https://doc.rust-lang.org/book/ch04-03-slices.html
   The Slice Type
+    ..slices let you reference a contiguous sequence of elements in a collection
+    ..rather than the whole collection.
+
+  A string slice is a reference to part of a String
+    > let s = String::from("hello world");
+    > let hello = &s[0..5];
+    > let world = &s[6..11];
