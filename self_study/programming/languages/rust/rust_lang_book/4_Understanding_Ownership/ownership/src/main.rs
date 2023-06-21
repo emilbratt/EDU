@@ -21,6 +21,7 @@ fn main() {
     println!("{some_string}");
     multiple_references_and_scopes();
 
+
 }
 
 fn immutable_string_literal() {
@@ -93,6 +94,8 @@ fn modify_reference_allowed_with_mut(var: &mut String) { // append "&" in front 
 }
 
 fn multiple_references_and_scopes() {
+    // NOTE: At any given time, you can have either one mutable reference or any number of immutable references.
+
     let mut s = String::from("a mutable string");
     // NOT ALLOWED
     // let _r1 = &mut s;
@@ -109,8 +112,17 @@ fn multiple_references_and_scopes() {
     // ALLOWED (because it is in its own scope using curly brackets)
     {
         let _r1 = &mut s;
-        // This is fine becase _r1 is in its own scope.
+        // This is fine becase _r1 is in its own scope. (to suppress compiler warning, var starts with _)
     }
     let r2 = &mut s;
     println!("{r2} in the same scope");
 }
+
+//// NOTE: this function will not compile and is commented out
+// fn dangling_reference() -> &String { //// dangle returns a reference to a String
+//
+//     let s = String::from("hello"); //// s is a new String
+//
+//     &s //// here is the returned reference (DANGLING REFERENCE)
+// }   //// here, s goes out of scope, and is dropped -> memory goes away -> Danger!
+//// we would have to return a "String" directly and not a reference, if we wanted it to work..
