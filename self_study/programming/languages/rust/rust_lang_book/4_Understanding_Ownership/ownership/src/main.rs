@@ -24,11 +24,37 @@ fn main() {
     multiple_references_and_scopes();
 
     // SLICES
-    let param = String::from("This is a sentence");
-    let _res = first_word(&param); // discussed here: https://doc.rust-lang.org/book/ch04-03-slices.html
-    println!("{}", _res);
+    string_slices_example();
 
-    string_slices();
+    let multiple_words = String::from("Here is a sentence");
+    let _res = first_word(&multiple_words); // discussed here: https://doc.rust-lang.org/book/ch04-03-slices.html
+    println!("First word found in the string is: {}", _res);
+
+    let my_string = String::from("hello world");
+
+    // `first_word` works on slices of `String`s, whether partial or whole
+    let _word = first_word(&my_string[0..6]);
+    let _word = first_word(&my_string[..]);
+    // `first_word` also works on references to `String`s, which are equivalent
+    // to whole slices of `String`s
+    let _word = first_word(&my_string);
+
+    let my_string_literal = "hello world";
+
+    // `first_word` works on slices of string literals, whether partial or whole
+    let _word = first_word(&my_string_literal[0..6]);
+    let _word = first_word(&my_string_literal[..]);
+
+    // Because string literals *are* string slices already,
+    // this works too, without the slice syntax!
+    let _word = first_word(my_string_literal);
+
+
+    // Just as we might want to refer to part of a string,
+    // we might want to refer to part of an array
+    let a = [1, 2, 3, 4, 5];
+    let slice = &a[1..3];
+    assert_eq!(slice, &[2, 3]);
 }
 
 fn immutable_string_literal() {
@@ -121,23 +147,25 @@ fn multiple_references_and_scopes() {
     let mut s = String::from("a mutable string");
     // NOT ALLOWED
     // let _r1 = &mut s;
-    // let r2 = &mut s;
+    // let _r2 = &mut s;
 
     // ALLOWED (bacause after last usage in a function it is de-referenced..)
     let r1 = &s;
-    println!("{r1} in a local scope");
+    println!("variable r1 with value '{r1}' is now used"); // after this funciton, r1 is not referenced anymore
+
     let r1 = &mut s; // so we can actually re-reference it as mutable, cool
-    println!("{r1} in a local scope");
+    println!("variable r1 with value '{r1}' is now used"); // NOTE: r1 is still referenced, but only because it is used in the line below
+    println!("variable r1 with value '{r1}' is now used"); // after this funciton, r1 is not referenced anymore (not used anymore)
+
     let r2 = &s;
-    println!("{r2} in a local scope");
+    println!("variable r2 with value '{r2}' is now used"); // after this funciton, r2 is not referenced anymore
 
     // ALLOWED (because it is in its own scope using curly brackets)
     {
         let _r1 = &mut s;
         // This is fine becase _r1 is in its own scope. (to suppress compiler warning, var starts with _)
     }
-    let r2 = &mut s;
-    println!("{r2} in the same scope");
+    let _r2 = &mut s;
 }
 
 //// NOTE: this function will not compile and is commented out
@@ -150,7 +178,7 @@ fn multiple_references_and_scopes() {
 // }   //// here, s goes out of scope, and is dropped -> memory goes away -> Danger!
 //// we would have to return a "String" directly and not a reference, if we wanted it to work..
 
-fn first_word(s: &String) -> usize {
+fn first_word(s: &str) -> &str {
     // this function will return either the index of first found space,
     // or if only one word; the index for the last character which conveniently is the length of the string
     println!("\n\nfirst_word()\n");
@@ -161,21 +189,26 @@ fn first_word(s: &String) -> usize {
         // enumerate is the method of iter that wraps the result as part of a tuple
         // we specify a pattern that has i for the index in the tuple and &item for the single byte in the tuple
         if item == b' ' { // compare with a byte literal space value
-            println!("FOUND FIRST SPACE {}", &item);
-            return i;
+            println!("ASCII VALUE {} -> IS SPACE", &item);
+            return &s[0..i] // using slices to return a String containing all characters from first index up until (not included) the index for first space
         } else {
-            println!("NOPE, NOT A SPACE {}", &item);
+            println!("ASCII VALUE {} -> NOT A SPACE", &item);
         }
     }
     println!("ONLY 1 WORD, SO WE RETURN LEN");
 
-    s.len()
+    &s[..] // return the whole shebang
 }
 
-fn string_slices() {
-    println!("\n\nstring_slices()\n");
+fn string_slices_example() {
+    println!("\n\nstring_slices_example()\n");
     let s = String::from("hello world");
 
-    let hello = &s[0..5];
-    let world = &s[6..11];
+    let ref_hello = &s[0..5];  // extract hello into a reference
+    // let ref_hello = &s[..5];  // SAME AS ABOVE ..we can omit 0 as it is the starting index
+
+    let ref_world = &s[6..11]; // extract world into a reference
+    // let ref_world = &s[6..];  // SAME AS ABOVE ..we can omit 11 as it is the last index
+
+    println!("{} {}", ref_hello, ref_world);
 }
