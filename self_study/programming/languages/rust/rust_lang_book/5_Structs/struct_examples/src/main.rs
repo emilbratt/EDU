@@ -2,6 +2,7 @@
 
 
 struct User {
+    // NOTE: in a struct, either all are mutable or all are immutable
     active: bool,
     username: String,
     email: String,
