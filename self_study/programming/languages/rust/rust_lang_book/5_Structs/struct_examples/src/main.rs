@@ -39,7 +39,7 @@ fn main() {
     // CREATING NEW FROM EXISTING INSTANCE USING STRUCT UPDATE SYNTAX
     let user_3 = User {
         username: String::from("jack1"),
-        ..user_2
+        ..user_2 // this weird syntax makes so that all other fields should remain same as in user_2
     };
     println!("{}", user_3.username);
 
