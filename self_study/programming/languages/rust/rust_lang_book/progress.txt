@@ -207,3 +207,9 @@ https://doc.rust-lang.org/book/ch04-03-slices.html
 
 https://doc.rust-lang.org/book/ch05-00-structs.html
   Structs
+
+  Each struct you define is its own type.
+  A function that takes a parameter of type Color cannot take a Point as an argument,
+  even though both types are made up of the same primitive datatypes e.g. i32.
+
+  https://doc.rust-lang.org/book/ch05-02-example-structs.html

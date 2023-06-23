@@ -1,27 +1,34 @@
 #[allow(dead_code)] // suppress compiler warnings for un-used code
 
-
+// STANDARD STRUCT (KEY/VAL)
 struct User {
-    // NOTE: in a struct, either all are mutable or all are immutable
     active: bool,
     username: String,
     email: String,
     sign_in_count: u64,
 }
 
+// TUPLE STRUCTS (INDEX/VAL)
+struct Color(i32, i32, i32);
+struct Point(i32, i32, i32);
+
+// UNIT-LIKE STRUCTS (more on this in chapter 10)
+struct AlwaysEqual;
+
+
+// BUILDER FUNCTION
 fn build_user(username: String, email: String) -> User {
-    // BUILDER FUNCTION
     User {
-        active: true,
-        username,
-        email,
-        sign_in_count: 1,
+        active: true, // set to true
+        username, // field init shorthand - set to the variable passed
+        email, // field init shorthand - set to the variable passed
+        sign_in_count: 1, // set to 1
     }
 }
 
 fn main() {
     // INTERACTING WITH STRUCT DIRECTLY
-    let mut user_1 = User {
+    let mut user_1 = User { // NOTE: in a struct, either all are mutable or all are immutable
         active: true,
         username: String::from("bobby1"),
         email: String::from("bobby1@gmail.com"),
@@ -44,4 +51,11 @@ fn main() {
     };
     println!("{}", user_3.username);
 
+
+    // INSTANTIATE TUPLE STRUCTS
+    let black = Color(0, 0, 0);
+    println!("First index in the Color tuple is {}", black.1);
+    let _origin = Point(0, 0, 0);
+
+    let _subject = AlwaysEqual;
 }
