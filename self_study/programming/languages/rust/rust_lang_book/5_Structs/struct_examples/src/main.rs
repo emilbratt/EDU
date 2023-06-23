@@ -51,11 +51,11 @@ fn main() {
     };
     println!("{}", user_3.username);
 
-
     // INSTANTIATE TUPLE STRUCTS
     let black = Color(0, 0, 0);
     println!("First index in the Color tuple is {}", black.1);
     let _origin = Point(0, 0, 0);
 
+    // INSTANTIATE NON-FIELD STRUCT (UNIT-LIKE STRUCTS)
     let _subject = AlwaysEqual;
 }
