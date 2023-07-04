@@ -213,3 +213,5 @@ https://doc.rust-lang.org/book/ch05-00-structs.html
   even though both types are made up of the same primitive datatypes e.g. i32.
 
   https://doc.rust-lang.org/book/ch05-02-example-structs.html
+
+  https://doc.rust-lang.org/book/ch05-02-example-structs.html#adding-useful-functionality-with-derived-traits
