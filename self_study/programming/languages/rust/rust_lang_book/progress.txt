@@ -215,3 +215,5 @@ https://doc.rust-lang.org/book/ch05-00-structs.html
   https://doc.rust-lang.org/book/ch05-02-example-structs.html
 
   https://doc.rust-lang.org/book/ch05-02-example-structs.html#adding-useful-functionality-with-derived-traits
+
+  https://doc.rust-lang.org/book/ch05-03-method-syntax.html
