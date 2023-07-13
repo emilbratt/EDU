@@ -250,18 +250,19 @@ https://doc.rust-lang.org/book/ch06-00-enums.html
   Rust allows encoding these possibilities as an enum.
 
   Declare enum:
-    > enum IpAddrKind {
-    >   V4,
-    >   V6,
+    > enum IpAddr {
+    >   V4(u8, u8, u8, u8),
+    >   V6(String),
     > }
 
-  Instantiate enum:
-    > let four = IpAddrKind::V4;
+  Instantiate enum (example for both V4 and V6):
+    > let home = IpAddr::V4(127, 0, 0, 1);
+    > let loopback = IpAddr::V6(String::from("::1"));
   
-  The instance is namespaced under its identifier, in this example it is "IpAddrKind".
+  The instance is namespaced under its identifier, in this example it is "IpAddr".
   Notice that we use a double colon to separate the two.
 
   Define a functoin that takes the custom enum type:
-  > fn route(ip_kind: IpAddrKind) {....}
+  > fn route(ip_kind: IpAddr) {....}
   
-  Note that we can define a function that takes any IpAddrKind to handle both cases V4 and V6.
+  Note that we can define a function that takes any IpAddr to handle both cases V4 and V6.
