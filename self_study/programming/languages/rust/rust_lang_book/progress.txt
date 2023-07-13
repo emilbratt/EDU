@@ -266,3 +266,9 @@ https://doc.rust-lang.org/book/ch06-00-enums.html
   > fn route(ip_kind: IpAddr) {....}
   
   Note that we can define a function that takes any IpAddr to handle both cases V4 and V6.
+
+  https://doc.rust-lang.org/book/ch06-01-defining-an-enum.html#the-option-enum-and-its-advantages-over-null-values
+    Rust doesn't have the null feature that many other languages have.
+    The Option Enum and Its Advantages Over Null Values is discussed in this part.
+    Option is another enum defined by the standard library.
+    It encodes a common scenario in which a value could be something or nothing.
