@@ -217,3 +217,25 @@ https://doc.rust-lang.org/book/ch05-00-structs.html
   https://doc.rust-lang.org/book/ch05-02-example-structs.html#adding-useful-functionality-with-derived-traits
 
   https://doc.rust-lang.org/book/ch05-03-method-syntax.html
+
+  Declaring structs:
+    > struct Rectangle {
+    >   width: u32,
+    >   height: u32,
+    > }
+
+  Implement methods to the struct:
+    > impl Rectangle {
+    >   fn area(&self) -> u32 {
+    >     self.width * self.height
+    >   }
+    > }
+
+  Instantiate struct:
+    > let rect = Rectangle {
+    >   width: 30,
+    >   height: 50,
+    > };
+
+  Call method on struct object:
+    > rect.area();
