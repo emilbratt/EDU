@@ -5,7 +5,7 @@ struct Rectangle {
     width: u32,
     height: u32,
 }
-// ..then implementing a method on Rectangle.
+// ..then implementing methods on Rectangle.
 impl Rectangle {
     // Get area of rectangle.
     fn area(&self) -> u32 {
