@@ -15,8 +15,7 @@ struct Point(i32, i32, i32);
 // UNIT-LIKE STRUCTS (more on this in chapter 10)
 struct AlwaysEqual;
 
-
-// BUILDER FUNCTION
+// BUILDER FUNCTION FOR STRUCT "User"
 fn build_user(username: String, email: String) -> User {
     User {
         active: true, // set to true
@@ -38,7 +37,7 @@ fn main() {
     user_1.username = String::from("bobby2"); // CHANGE USERNAME
     println!("{}", user_1.username);
 
-    // INTERACTING WITH STRUCT VIA A BUILDER FUNCTION
+    // INTERACTING WITH STRUCT VIA THE BUILDER FUNCTION
     let mut user_2 = build_user(String::from("alice1"), String::from("alice1@gmail.com"));
     println!("{}", user_2.username);
     user_2.username = String::from("alice2"); // CHANGE USERNAME
