@@ -277,3 +277,35 @@ https://doc.rust-lang.org/book/ch06-00-enums.html
   https://doc.rust-lang.org/book/ch06-03-if-let.html
     > if let
       Syntax that lets you assign value if condition is true and then run associated code.
+
+
+https://doc.rust-lang.org/book/ch07-00-managing-growing-projects-with-packages-crates-and-modules.html
+  Managing Growing Projects with Packages, Crates, and Modules
+
+    Crate:
+      A tree of modules that produces a library or executable.
+      Is the smallest piece of code the compiler considers at a time.
+      It can be as simple as one file with a main function.
+      It can be either a Binary crate or a Library crate.
+        Binary crates comiles to a program.
+        Library crates have no main function and does not compile to a program.
+
+    Package:
+      A Cargo feature that lets you build, test, and share crates.
+      Is a bundle of one or more crates.
+      Contains a Cargo.toml file that describes how to build those crates.
+      Contains as many binary crates as you like, but at most only one library crate.
+      Must contain at least one crate, whether thats a library or binary crate.
+    
+    Modules (and use):
+      For organization of the scope and privacy of paths in a crate.
+      Control the privacy of items - code within a module is private by default.
+      To structure a crate, we organize its functions into nested modules.
+
+    Path:
+      To show Rust where to find an item in a module tree, we use a path.
+      A way of naming an item, such as a struct, function, or module.
+      Simlarly to navigating a filesystem.
+      An absolute path is the full path starting from a crate root.
+      A relative path starts from the current module.
+      A relative path uses self, super, or an identifier in the current module.
