@@ -281,6 +281,14 @@ https://doc.rust-lang.org/book/ch06-00-enums.html
 https://doc.rust-lang.org/book/ch07-00-managing-growing-projects-with-packages-crates-and-modules.html
   Managing Growing Projects with Packages, Crates, and Modules
 
+    Keywords:
+      mod     -> define a module
+      pub     -> make an item public (module, struct, enum, function..)
+      super   -> refernece item in parent module (kinda like "cd .." in a unix filesystem)
+      use     -> import a module and create a shortcut (kinda like symlink in a unix filesystem)
+      pub use -> re-export code (now external source code can access the the code in this file)
+      as      -> change name of something imported with "use"
+
     Creating a library with the command:
       $ cargo new my_library_name --lib
 
@@ -322,5 +330,17 @@ https://doc.rust-lang.org/book/ch07-00-managing-growing-projects-with-packages-c
     https://doc.rust-lang.org/book/ch07-02-defining-modules-to-control-scope-and-privacy.html#modules-cheat-sheet
       Modules Cheat Sheet
 
-      We can choose to make modules and the items within them public,
-      which exposes them to allow external code to use and depend on them.
+    We can choose to make modules and the items within them public,
+    which exposes them to allow external code to use and depend on them.
+
+    In Rust, all items (functions, methods, structs, enums, modules, and constants)
+    ..are private to parent modules by default.
+    If you want to make an item like a function or struct private, you put it in a module.
+
+  Summary:
+    Rust lets you split a package into multiple crates and a crate into modules..
+    Modules (code packed in a scope) is accessible by specifying abs. or rel. paths.
+    You can call the "use" keyword to access the code without having to refer to a long path name.
+
+https://doc.rust-lang.org/book/ch08-00-common-collections.html
+  Common Collections
