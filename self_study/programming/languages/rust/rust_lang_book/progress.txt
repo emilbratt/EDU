@@ -281,6 +281,9 @@ https://doc.rust-lang.org/book/ch06-00-enums.html
 https://doc.rust-lang.org/book/ch07-00-managing-growing-projects-with-packages-crates-and-modules.html
   Managing Growing Projects with Packages, Crates, and Modules
 
+    Creating a library with the command:
+      $ cargo new my_library_name --lib
+
     Crate:
       A tree of modules that produces a library or executable.
       Is the smallest piece of code the compiler considers at a time.
@@ -302,7 +305,7 @@ https://doc.rust-lang.org/book/ch07-00-managing-growing-projects-with-packages-c
     
     Modules (and use):
       For organization of the scope and privacy of paths in a crate.
-      Control the privacy of items - code within a module is private by default.
+      Code within a module is private by default and can be made public.
       To structure a crate, we organize its functions into nested modules.
 
     Path:
@@ -315,3 +318,9 @@ https://doc.rust-lang.org/book/ch07-00-managing-growing-projects-with-packages-c
 
   https://doc.rust-lang.org/book/ch07-01-packages-and-crates.html
     Packages and Crates
+
+    https://doc.rust-lang.org/book/ch07-02-defining-modules-to-control-scope-and-privacy.html#modules-cheat-sheet
+      Modules Cheat Sheet
+
+      We can choose to make modules and the items within them public,
+      which exposes them to allow external code to use and depend on them.

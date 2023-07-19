@@ -11,4 +11,5 @@ self_study/programming/languages/rust/rust_lang_book/5_Structs/debugging_structs
 self_study/programming/languages/rust/rust_lang_book/5_Structs/method_example/target
 self_study/programming/languages/rust/rust_lang_book/6_enums_and_pattern_matching/enums_example/target
 self_study/programming/languages/rust/rust_lang_book/6_enums_and_pattern_matching/option_enum/target
-self_study/programming/languages/rust/rust_lang_book/7_packages_crates_and_modules/my-project/target
+self_study/programming/languages/rust/rust_lang_book/7_packages_crates_and_modules/backyard/target
+self_study/programming/languages/rust/rust_lang_book/7_packages_crates_and_modules/restaurant/target
