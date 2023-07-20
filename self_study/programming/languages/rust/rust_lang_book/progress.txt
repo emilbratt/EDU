@@ -317,7 +317,14 @@ https://doc.rust-lang.org/book/ch07-00-managing-growing-projects-with-packages-c
       To structure a crate, we organize its functions into nested modules.
 
     Path:
-      To show Rust where to find an item in a module tree, we use a path.
+      To show Rust wh(functions, methods, structs, enums, modules, and constants)
+    ..are private to parent modules by default.
+    If you want to make an item like a function or struct private, you put it in a module.
+
+  Summary:
+    Rust lets you split a package into multiple crates and a crate into modules..
+    Modules (code packed in a scope) is accessible by specifying abs. or rel. paths.
+    You can call the "use" keyword to acceere to find an item in a module tree, we use a path.
       A way of naming an item, such as a struct, function, or module.
       Simlarly to navigating a filesystem.
       An absolute path is the full path starting from a crate root.
@@ -333,14 +340,19 @@ https://doc.rust-lang.org/book/ch07-00-managing-growing-projects-with-packages-c
     We can choose to make modules and the items within them public,
     which exposes them to allow external code to use and depend on them.
 
-    In Rust, all items (functions, methods, structs, enums, modules, and constants)
-    ..are private to parent modules by default.
-    If you want to make an item like a function or struct private, you put it in a module.
-
-  Summary:
-    Rust lets you split a package into multiple crates and a crate into modules..
-    Modules (code packed in a scope) is accessible by specifying abs. or rel. paths.
-    You can call the "use" keyword to access the code without having to refer to a long path name.
+    In Rust, all items ss the code without having to refer to a long path name.
 
 https://doc.rust-lang.org/book/ch08-00-common-collections.html
   Common Collections
+
+    Vector: Vec<T> 
+      Allows you to store a variable number of values next to each other.
+      Puts all the values next to each other in memory.
+      Creating an empty vector:
+        > let v: Vec<i32> = Vec::new();
+    String:
+      Collection of characters.
+    Hash map - or just map:
+      Associate a value with a particular key.
+
+  https://doc.rust-lang.org/book/ch08-01-vectors.html#reading-elements-of-vectors
