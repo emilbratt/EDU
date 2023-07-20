@@ -1,8 +1,8 @@
-// tell compiler to use Asparagus
-use crate::garden::vegetables::Asparagus;
-
 // declare a module
-pub mod garden; // ..the name tells the compiler the module exists in src/garden.rs
+pub mod garden; // ..tells the compiler the module exists in src/garden.rs
+
+// so we can call Asparagus {} instead of garden::vegetables::Asparagus {};
+use crate::garden::vegetables::Asparagus;
 
 fn main() {
     // We can now use the dummy struct in this example. (see line 1)
