@@ -351,8 +351,10 @@ https://doc.rust-lang.org/book/ch08-00-common-collections.html
       Creating an empty vector:
         > let v: Vec<i32> = Vec::new();
     String:
-      Collection of characters.
+      Collection of characters (collections of bytes in essence).
     Hash map - or just map:
       Associate a value with a particular key.
 
   https://doc.rust-lang.org/book/ch08-01-vectors.html#reading-elements-of-vectors
+
+  https://doc.rust-lang.org/book/ch08-02-strings.html#indexing-into-strings
