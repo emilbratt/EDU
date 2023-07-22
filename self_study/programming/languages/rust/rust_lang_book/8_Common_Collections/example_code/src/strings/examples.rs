@@ -74,7 +74,6 @@ pub fn combine_strings() {
     The s parameter in the add function: we can only add a &str to a String
     */
 
-
     // Combining multiple strings
     let s1 = String::from("tic");
     let s2 = String::from("tac");
@@ -113,16 +112,15 @@ pub fn indexing_into_strings() {
     let hello = String::from("твуй"); // 2 bytes each char -> len will be 8 bytes
     // Indexing strings will not always work.
     // You would get the byte value but not necessarily a valid chracter.
-
     // This means that to avoid returning an unexpected value,
     // Rust doesnt compile this code at all..
 
     /*
-        A final reason Rust doesnt allow us to index into a String to get a character
-        is that indexing operations are expected to always take constant time (O(1)).
-        But it isnt possible to guarantee that performance with a String,
-        because Rust would have to walk through the contents from the beginning to the
-        index to determine how many valid characters there were.
+    A final reason Rust doesnt allow us to index into a String to get a character
+    is that indexing operations are expected to always take constant time (O(1)).
+    But it isnt possible to guarantee that performance with a String,
+    because Rust would have to walk through the contents from the beginning to the
+    index to determine how many valid characters there were.
     */
 
     // So how do we get a single or several characters from a String?
