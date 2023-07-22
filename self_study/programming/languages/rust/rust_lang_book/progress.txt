@@ -317,9 +317,9 @@ https://doc.rust-lang.org/book/ch07-00-managing-growing-projects-with-packages-c
       To structure a crate, we organize its functions into nested modules.
 
     Path:
-      To show Rust wh(functions, methods, structs, enums, modules, and constants)
-    ..are private to parent modules by default.
-    If you want to make an item like a function or struct private, you put it in a module.
+      To show Rust where in the module tree it can find functions, methods, structs etc.
+      ..are private to parent modules by default.
+      If you want to make an item like a function or struct private, you put it in a module.
 
   Summary:
     Rust lets you split a package into multiple crates and a crate into modules..
