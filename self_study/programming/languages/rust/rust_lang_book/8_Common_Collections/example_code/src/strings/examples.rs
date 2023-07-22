@@ -61,21 +61,21 @@ pub fn combine_strings() {
     // The "add" statement above takes ownership of s1
     println!("{} is the combined string", s3);
     /*
-        The reason s1 is no longer valid after the addition,
-        and the reason we used a reference to s2,
-        has to do with the signature of the method thats called
-        when we use the + operator.
-        Signature looks like this
-        > fn add(self, s: &str) -> String {
-        But the type of &s2 is actually &String.
-        The compiler cane coerce the &String into a &str before the add is done.
-        Also, also, s2 is still valid!!
-        
-        The s parameter in the add function: we can only add a &str to a String
-        */
+    The reason s1 is no longer valid after the addition,
+    and the reason we used a reference to s2,
+    has to do with the signature of the method thats called
+    when we use the + operator.
+    Signature looks like this
+    > fn add(self, s: &str) -> String {
+    But the type of &s2 is actually &String.
+    The compiler cane coerce the &String into a &str before the add is done.
+    Also, also, s2 is still valid!!
+    
+    The s parameter in the add function: we can only add a &str to a String
+    */
 
 
-        // Combining multiple strings
+    // Combining multiple strings
     let s1 = String::from("tic");
     let s2 = String::from("tac");
     let s3 = String::from("toe");
@@ -89,5 +89,53 @@ pub fn combine_strings() {
 
     let s = format!("{s1}-{s2}-{s3}");
     println!("Combined with format macro: {}", s);
+}
 
+pub fn indexing_into_strings() {
+    // In many other programming languages, accessing individual characters in a string
+    // by referencing them by index is a valid and common operation,
+    // ..but not in Rust as strings dont support indexing..
+
+    /*
+    This is not valid code (only Latin letters that would fit in the ASCII table )
+    > let s1 = String::from("hello");
+    > let h = s1[0];
+
+    This is not valid code either (Only Unicode scalar values e.g. UTF-8)
+    > let hello = "Здравствуйте";
+    > let answer = &hello[0];
+    */
+
+    // To put it another way, UTF-8 is a variable-length encoding.
+    // Normal ascii characters = 1 byte, non ascii are UTF-8 encoded Unicode > 1 bytes
+    // ..and we can see this in the example below..
+    let hello = String::from("Hola"); // 1 byte each char -> len will be 4 because
+    let hello = String::from("твуй"); // 2 bytes each char -> len will be 8 bytes
+    // Indexing strings will not always work.
+    // You would get the byte value but not necessarily a valid chracter.
+
+    // This means that to avoid returning an unexpected value,
+    // Rust doesnt compile this code at all..
+
+    /*
+        A final reason Rust doesnt allow us to index into a String to get a character
+        is that indexing operations are expected to always take constant time (O(1)).
+        But it isnt possible to guarantee that performance with a String,
+        because Rust would have to walk through the contents from the beginning to the
+        index to determine how many valid characters there were.
+    */
+
+    // So how do we get a single or several characters from a String?
+    let some_string = String::from("Зд");
+    // Index a string using loop and the .chars() method.
+    for c in some_string.chars() {
+        println!("{}", c);
+        // do something with the one of the 2 characters here
+    }
+    // Index a string using loop and the .bytes() method.
+    for c in some_string.bytes() {
+        println!("{}", c);
+        // do something with one of the 4 byte numbers here..
+        // why 4? ..because these are valid unicode scalar values, in this case 2 bytes for both
+    }
 }

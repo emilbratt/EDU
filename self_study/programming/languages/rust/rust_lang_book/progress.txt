@@ -285,7 +285,7 @@ https://doc.rust-lang.org/book/ch07-00-managing-growing-projects-with-packages-c
       mod     -> define a module
       pub     -> make an item public (module, struct, enum, function..)
       super   -> refernece item in parent module (kinda like "cd .." in a unix filesystem)
-      use     -> import a module and create a shortcut (kinda like symlink in a unix filesystem)
+      use     -> used to shorten the path required to refer to a module item (kinda like symlink in a unix filesystem)
       pub use -> re-export code (now external source code can access the the code in this file)
       as      -> change name of something imported with "use"
 
@@ -340,7 +340,6 @@ https://doc.rust-lang.org/book/ch07-00-managing-growing-projects-with-packages-c
     We can choose to make modules and the items within them public,
     which exposes them to allow external code to use and depend on them.
 
-    In Rust, all items ss the code without having to refer to a long path name.
 
 https://doc.rust-lang.org/book/ch08-00-common-collections.html
   Common Collections
@@ -358,3 +357,5 @@ https://doc.rust-lang.org/book/ch08-00-common-collections.html
   https://doc.rust-lang.org/book/ch08-01-vectors.html#reading-elements-of-vectors
 
   https://doc.rust-lang.org/book/ch08-02-strings.html#indexing-into-strings
+
+  https://doc.rust-lang.org/book/ch08-02-strings.html#strings-are-not-so-simple
