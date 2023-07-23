@@ -1,3 +1,4 @@
 pub fn panic_macro() {
-    println!("hello panic");
+    // Makes the program panic
+    panic!("crash and burn");
 }
