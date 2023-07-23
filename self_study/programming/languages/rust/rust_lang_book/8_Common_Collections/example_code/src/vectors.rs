@@ -1,5 +1,6 @@
 pub mod examples; // ..declare src/vectors/examples.rs
 
+// Rust type - Vec<T>
 pub fn run() {
     println!("\ncalling vectors::examples::declare_vectors()");
     examples::declare_vectors();

@@ -1,4 +1,7 @@
 pub mod examples; // ..declare src/strings/examples.rs
+
+// Rust type - Strings (very similar to Vec<T>)
+
 /*
 Rust has made handling non-ASCII characters simple with the trade-off 
 by making it a bit harder to handle Strings in general.
