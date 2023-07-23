@@ -124,16 +124,28 @@ pub fn indexing_into_strings() {
     */
 
     // So how do we get a single or several characters from a String?
-    let some_string = String::from("Зд");
-    // Index a string using loop and the .chars() method.
+    // Indexing with a range (slice) or looping over the bytes or characters
+
+    // Lets use unicode scalars that have 2 bytes in each letter and look at these examples..
+
+    // Index using a slice
+    let hello = "Здравствуйте";
+    let s = &hello[0..4];
+    println!("The indexed range from [Здравствуйте] using [0..4] should be Зд, -> {}", s);
+
+    // Index using loops
+    let some_string = String::from("вс");
+    // Characters using chars() method.
     for c in some_string.chars() {
         println!("{}", c);
-        // do something with the one of the 2 characters here
+        // do something with one of the 2 characters here
     }
-    // Index a string using loop and the .bytes() method.
+    // Bytes using the bytes() method.
     for c in some_string.bytes() {
         println!("{}", c);
         // do something with one of the 4 byte numbers here..
-        // why 4? ..because these are valid unicode scalar values, in this case 2 bytes for both
+        // BTW, why 4 total bytes in this case we might ask?
+        // ..because these are unicode scalar values,
+        // in this case 2 bytes for both letters in "вс"
     }
 }

@@ -1,7 +1,14 @@
 pub mod examples; // ..declare src/vectors/examples.rs
 /*
+Rust has made handling non-ASCII characters simple with the trade-off 
+by making it a bit harder to handle Strings in general.
+
+UTF-8 is the default for Rust and therefore we can never index a character
+using a number because UTF-8 is a variable byte encoding.
+E.g. some characters have more than one byte in contrast to pure ASCII..
+
 The String type is a growable, mutable, owned, UTF-8 encoded string type
-Not to be confused with string slice -> &str
+Not to be confused with string slice -> &str.
 Alltough both types are used heavily in Rusts standard library..
 String and string slices are both UTF-8 encoded.
 
