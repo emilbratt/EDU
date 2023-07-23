@@ -1,4 +1,4 @@
-pub mod examples; // ..declare src/vectors/examples.rs
+pub mod examples; // ..declare src/strings/examples.rs
 /*
 Rust has made handling non-ASCII characters simple with the trade-off 
 by making it a bit harder to handle Strings in general.
