@@ -5,7 +5,7 @@
 pub mod panic;
 
 fn main() {
-    println!("Common Collections");
+    println!("Error Handling");
     panic::run();
 
 }
