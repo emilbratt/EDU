@@ -359,3 +359,7 @@ https://doc.rust-lang.org/book/ch08-00-common-collections.html
   https://doc.rust-lang.org/book/ch08-02-strings.html#indexing-into-strings
 
   https://doc.rust-lang.org/book/ch08-02-strings.html#strings-are-not-so-simple
+
+  https://doc.rust-lang.org/book/ch08-03-hash-maps.html#storing-keys-with-associated-values-in-hash-maps
+
+  https://doc.rust-lang.org/book/ch08-03-hash-maps.html#creating-a-new-hash-map
