@@ -363,3 +363,15 @@ https://doc.rust-lang.org/book/ch08-00-common-collections.html
   https://doc.rust-lang.org/book/ch08-03-hash-maps.html#storing-keys-with-associated-values-in-hash-maps
 
   https://doc.rust-lang.org/book/ch08-03-hash-maps.html#creating-a-new-hash-map
+
+
+https://doc.rust-lang.org/book/ch09-00-error-handling.html
+  Error Handling
+
+    Rust groups errors into two major categories: recoverable and unrecoverable errors.
+    Examples:
+      - recoverable: file not found
+      - unrecoverable: access a location beyond the end of an array
+
+    Rust doesnt have exceptions. Instead, it has the type Result<T, E> for recoverable errors
+    and the panic! macro that stops execution when the program encounters an unrecoverable error
