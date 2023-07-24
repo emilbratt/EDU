@@ -7,5 +7,4 @@ pub mod panic;
 fn main() {
     println!("Error Handling");
     panic::run();
-
 }

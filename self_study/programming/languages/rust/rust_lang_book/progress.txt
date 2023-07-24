@@ -368,6 +368,28 @@ https://doc.rust-lang.org/book/ch08-00-common-collections.html
 https://doc.rust-lang.org/book/ch09-00-error-handling.html
   Error Handling
 
+    Some Rust builtins
+      panic!() -> calls the panic!() macro and panics the program
+        > panic!("Problem opening the file: {:?}", variable)
+      .unwrap() -> Calls panic!() for us with default message based on context
+        > use std::fs::File;
+        > File::open("hello.txt").unwrap()
+      .expect() -> Calls panic!() for us with custom message
+        > use std::fs::File;
+        > let greeting_file = File::open("hello.txt").expect("hello.txt not found");
+
+      Note: ..most Rustaceans choose expect rather than unwrap for giving precise context.
+
+    Show backtrace when panic occours by running:
+      $ RUST_BACKTRACE=1 cargo run
+        ..we should start our investigation at the location pointed to
+        ..by the first line mentioning a file WE wrote.
+
+    When your code panics in the future,
+    figure out what action the code is taking,
+    with what values it got that caused the panic,
+    and what the code should do instead.
+
     Rust groups errors into two major categories: recoverable and unrecoverable errors.
     Examples:
       - recoverable: file not found
@@ -375,3 +397,20 @@ https://doc.rust-lang.org/book/ch09-00-error-handling.html
 
     Rust doesnt have exceptions. Instead, it has the type Result<T, E> for recoverable errors
     and the panic! macro that stops execution when the program encounters an unrecoverable error
+
+  https://doc.rust-lang.org/book/ch09-02-recoverable-errors-with-result.html#recoverable-errors-with-result
+    Most errors arent serious enough to require the program to stop entirely.
+    Sometimes, when a function fails, its for a reason.
+    One that you can easily interpret and respond to.
+    For example opening a file that does not exist (at least yet)..
+  
+
+  https://doc.rust-lang.org/book/ch09-02-recoverable-errors-with-result.html#propagating-errors
+    Propagating Errors
+
+      Propagating:
+        ..when a functions implementation calls something that might fail,
+        instead of handling the error within the function itself,
+        you can return the error to the calling code
+        so that it can decide what to do.
+
