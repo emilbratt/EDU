@@ -2,9 +2,9 @@
 #![allow(unused_variables)]
 #![allow(unused_mut)]
 
-pub mod panic;
+pub mod errors;
 
 fn main() {
     println!("Error Handling");
-    panic::run();
+    errors::run();
 }

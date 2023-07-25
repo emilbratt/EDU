@@ -414,3 +414,8 @@ https://doc.rust-lang.org/book/ch09-00-error-handling.html
         you can return the error to the calling code
         so that it can decide what to do.
 
+        Basically -> send the error back to the code that calls the function
+
+    https://doc.rust-lang.org/book/ch09-02-recoverable-errors-with-result.html#a-shortcut-for-propagating-errors-the--operator
+
+  https://doc.rust-lang.org/book/ch09-03-to-panic-or-not-to-panic.html#creating-custom-types-for-validation
