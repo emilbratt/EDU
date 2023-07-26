@@ -404,7 +404,6 @@ https://doc.rust-lang.org/book/ch09-00-error-handling.html
     One that you can easily interpret and respond to.
     For example opening a file that does not exist (at least yet)..
   
-
   https://doc.rust-lang.org/book/ch09-02-recoverable-errors-with-result.html#propagating-errors
     Propagating Errors
 
@@ -419,3 +418,21 @@ https://doc.rust-lang.org/book/ch09-00-error-handling.html
     https://doc.rust-lang.org/book/ch09-02-recoverable-errors-with-result.html#a-shortcut-for-propagating-errors-the--operator
 
   https://doc.rust-lang.org/book/ch09-03-to-panic-or-not-to-panic.html#creating-custom-types-for-validation
+
+
+https://doc.rust-lang.org/book/ch10-00-generics.html
+  Generic Types, Traits, and Lifetimes
+    We use generics to create definitions for items like function signatures or structs,
+    which we can then use with many different concrete data types..
+
+    enerics are abstract stand-ins for concrete types or other properties.
+    We have used these so far
+      - Option<T>
+      - Vec<T>
+      - HashMap<K, V>
+      - Result<T, E>
+
+  https://doc.rust-lang.org/book/ch10-01-syntax.html
+    ..how to define functions, structs, enums, and methods using generics
+
+    https://doc.rust-lang.org/book/ch10-01-syntax.html#in-function-definitions
