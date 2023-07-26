@@ -165,6 +165,7 @@ pub fn propagating_error_v2() {
     >     File::open(filename)?.read_to_string(&mut username)?;
     >     Ok(username)
     > }
+    > let username = read_username_from_file(String::from("sometext.txt"))
     */
 
     /*
@@ -175,22 +176,21 @@ pub fn propagating_error_v2() {
     > fn read_username_from_file(filename: String) -> Result<String, io::Error> {
     >     fs::read_to_string(filename)
     > }
+    > let username = read_username_from_file(String::from("sometext.txt"))
 
     ..using fs::read_to_string instead of opening and then reading the file.
     */
 }
 
 pub fn validate_custom_types() {
-    // make a guess function implementation that does not panic if negative number
-
     use std::cmp::Ordering;
-
-    // Type (that panics) example of handling number between 1-100 by creating a new type.
-    // ..can also be used in a function to create an instance of the type
+    
+    
+    // Create a new type that validates input for the number ranging from 1 - 100
     pub struct Guess {
         value: i32,
     }
-
+    // The methods for storing and validating the type
     impl Guess {
         // returns value if all is OK, panics if not
         pub fn new(value: i32) -> Guess {
@@ -219,10 +219,9 @@ pub fn validate_custom_types() {
         }
     }
 
-    let number: i32 = 25;
-    // Do the validation with our new type, panics if n < 1 and n > 100
-    let number = Guess::new(number);
-    // then pass to function
+    // The "Guess" type will only work if we have inserted a number that fits the criteria of n < 1 and n > 100
+    let number = Guess::new(25);
+    // At this point, the validation has taken place (program would gave crashed otherwise) -> pass to function
     guess_the_number(number);
 
 }
