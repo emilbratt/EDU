@@ -183,9 +183,9 @@ pub fn propagating_error_v2() {
 }
 
 pub fn validate_custom_types() {
+
     use std::cmp::Ordering;
-    
-    
+
     // Create a new type that validates input for the number ranging from 1 - 100
     pub struct Guess {
         value: i32,
@@ -223,5 +223,4 @@ pub fn validate_custom_types() {
     let number = Guess::new(25);
     // At this point, the validation has taken place (program would gave crashed otherwise) -> pass to function
     guess_the_number(number);
-
 }
