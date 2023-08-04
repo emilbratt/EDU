@@ -28,7 +28,6 @@ fn largest_char(list: &[char]) -> &char {
 }
 
 // NOTE: the good example of solving the problem
-// The functions above have the same code..
 // Lets eliminate the duplication using generic type parameter.
 fn largest<T: std::cmp::PartialOrd>(list: &[T]) -> &T {
     /*
