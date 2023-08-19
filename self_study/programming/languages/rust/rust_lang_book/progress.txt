@@ -447,3 +447,7 @@ https://doc.rust-lang.org/book/ch10-00-generics.html
     https://doc.rust-lang.org/book/ch10-01-syntax.html#in-function-definitions
 
     https://doc.rust-lang.org/book/ch10-01-syntax.html#in-struct-definitions
+
+  https://doc.rust-lang.org/book/ch10-02-traits.html
+    Traits - defines functionality a particular type has and can share with other types.
+    Note: Traits are similar to "interfaces" in other languages, although with some differences.
