@@ -84,11 +84,11 @@ fn example_multiple_types_v2() {
         }
     }
 
-    let p1 = ValueXY { x: 5, y: 10.4 };
-    let p2 = ValueXY { x: "Hello", y: 'c' };
+    let a = ValueXY { x: 5, y: 10.4 };
+    let b = ValueXY { x: 'c', y: "hello world" };
 
-    let mixup = p1.mixup(p2);
-    println!("mixup3.x = {}, mixup.y = {}", mixup.x, mixup.y);
+    let mixup = a.mixup(b);
+    println!("mixup.x = {}, mixup.y = {}", mixup.x, mixup.y);
 }
 
 pub fn run_example() {
