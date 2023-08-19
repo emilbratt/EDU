@@ -65,11 +65,17 @@ fn example_multiple_types() {
 }
 
 fn example_multiple_types_v2() {
-    /*
-     * Here, we use multiple types and also mix them up depending on context.
-     * This example uses the generic types X1 and Y1 for the Point struct
-     * and X2 Y2 for the mixup method signature.
-     */
+   /*
+    * This example demonstrates a situation where
+    * some generic parameters are declared with impl
+    * and some are declared with the method definition.
+    *
+    * Here, we use multiple types and also mix them up depending on context.
+    * This example uses the generic types X1 and Y1 for the Point struct
+    * and X2 Y2 for the mixup method signature.
+    *
+    */
+
     struct ValueXY<X1, Y1> {
         x: X1,
         y: Y1,
