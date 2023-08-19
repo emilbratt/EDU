@@ -2,8 +2,8 @@
 #![allow(unused_variables)]
 #![allow(unused_mut)]
 
-pub mod examples;
+pub mod generic_types;
 
 fn main() {
-    examples::run_all();
+    generic_types::run_all();
 }
