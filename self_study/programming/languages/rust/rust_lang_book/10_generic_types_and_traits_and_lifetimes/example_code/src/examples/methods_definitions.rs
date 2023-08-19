@@ -65,26 +65,30 @@ fn example_multiple_types() {
 }
 
 fn example_multiple_types_v2() {
-    struct Point<X1, Y1> {
+    /*
+     * Here, we use multiple types and also mix them up depending on context.
+     * This example uses the generic types X1 and Y1 for the Point struct
+     * and X2 Y2 for the mixup method signature.
+     */
+    struct ValueXY<X1, Y1> {
         x: X1,
         y: Y1,
     }
 
-    impl<X1, Y1> Point<X1, Y1> {
-        fn mixup<X2, Y2>(self, other: Point<X2, Y2>) -> Point<X1, Y2> {
-            Point {
+    impl<X1, Y1> ValueXY<X1, Y1> {
+        fn mixup<X2, Y2>(self, other: ValueXY<X2, Y2>) -> ValueXY<X1, Y2> {
+            ValueXY {
                 x: self.x,
                 y: other.y,
             }
         }
     }
 
-    let p1 = Point { x: 5, y: 10.4 };
-    let p2 = Point { x: "Hello", y: 'c' };
+    let p1 = ValueXY { x: 5, y: 10.4 };
+    let p2 = ValueXY { x: "Hello", y: 'c' };
 
-    let p3 = p1.mixup(p2);
-
-    println!("p3.x = {}, p3.y = {}", p3.x, p3.y);
+    let mixup = p1.mixup(p2);
+    println!("mixup3.x = {}, mixup.y = {}", mixup.x, mixup.y);
 }
 
 pub fn run_example() {
