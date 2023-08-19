@@ -435,4 +435,10 @@ https://doc.rust-lang.org/book/ch10-00-generics.html
   https://doc.rust-lang.org/book/ch10-01-syntax.html
     ..how to define functions, structs, enums, and methods using generics
 
+    Used to handle the input of a variable that could possibly hold different concrete types.
+    for example if you want to write a function that handles both u32 AND a character,
+    we need to create a generic type for this.
+
     https://doc.rust-lang.org/book/ch10-01-syntax.html#in-function-definitions
+
+    https://doc.rust-lang.org/book/ch10-01-syntax.html#in-struct-definitions
