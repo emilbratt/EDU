@@ -7,5 +7,5 @@ pub mod defining_trait; // module: src/traits_behaviour/remove_deduplicate_funct
 
 
 pub fn run_all() {
-  defining_trait::run_example();
+    defining_trait::run_example();
 }

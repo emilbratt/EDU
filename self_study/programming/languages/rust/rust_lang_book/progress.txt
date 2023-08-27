@@ -88,7 +88,7 @@ https://doc.rust-lang.org/book/ch02-00-guessing-game-tutorial.html
 https://doc.rust-lang.org/book/ch02-00-guessing-game-tutorial.html#generating-a-secret-number
   Generate secret number using a "crate"
     ..a crate is a collection of Rust source code files
-  
+
   $ cargo build
   Cargo.lock
     Rust creates the Cargo.lock file the first time you run cargo build.
@@ -109,7 +109,7 @@ https://doc.rust-lang.org/book/ch02-00-guessing-game-tutorial.html#generating-a-
 
 https://doc.rust-lang.org/book/ch03-00-common-programming-concepts.html
   Common Programming Concepts
-  
+
   Rust encourages immutability, and this is the standard for variables unless specified.
     can not change
       > let  x = 5;
@@ -258,13 +258,13 @@ https://doc.rust-lang.org/book/ch06-00-enums.html
   Instantiate enum (example for both V4 and V6):
     > let home = IpAddr::V4(127, 0, 0, 1);
     > let loopback = IpAddr::V6(String::from("::1"));
-  
+
   The instance is namespaced under its identifier, in this example it is "IpAddr".
   Notice that we use a double colon to separate the two.
 
   Define a function that takes the custom enum type:
   > fn route(ip_kind: IpAddr) {....}
-  
+
   Note that we can define a function that takes any IpAddr to handle both cases V4 and V6.
 
   https://doc.rust-lang.org/book/ch06-01-defining-an-enum.html#the-option-enum-and-its-advantages-over-null-values
@@ -310,7 +310,7 @@ https://doc.rust-lang.org/book/ch07-00-managing-growing-projects-with-packages-c
       Can have only one library crate.
       Can have multiple binary crates placing files in the src/bin directory (each file as a separate binary crate).
       Must contain at least one crate, whether thats a library or binary crate.
-    
+
     Modules (and use):
       For organization of the scope and privacy of paths in a crate.
       Code within a module is private by default and can be made public.
@@ -344,7 +344,7 @@ https://doc.rust-lang.org/book/ch07-00-managing-growing-projects-with-packages-c
 https://doc.rust-lang.org/book/ch08-00-common-collections.html
   Common Collections
 
-    Vector: Vec<T> 
+    Vector: Vec<T>
       Allows you to store a variable number of values next to each other.
       Puts all the values next to each other in memory.
       Creating an empty vector:
@@ -403,7 +403,7 @@ https://doc.rust-lang.org/book/ch09-00-error-handling.html
     Sometimes, when a function fails, its for a reason.
     One that you can easily interpret and respond to.
     For example opening a file that does not exist (at least yet)..
-  
+
   https://doc.rust-lang.org/book/ch09-02-recoverable-errors-with-result.html#propagating-errors
     Propagating Errors
 
@@ -450,4 +450,43 @@ https://doc.rust-lang.org/book/ch10-00-generics.html
 
   https://doc.rust-lang.org/book/ch10-02-traits.html
     Traits - defines functionality a particular type has and can share with other types.
-    Note: Traits are similar to "interfaces" in other languages, although with some differences.
+    NOTE: Traits are similar to "interfaces" in other languages, although with some differences.
+
+    A type's behavior consists of the methods we can call on that type.
+    Different types "share the same behavior" if we can "call the same methods" on all of them.
+
+    Trait definitions are a way to group method signatures together
+    to define a set of behaviors necessary to accomplish some purpose.
+
+    https://doc.rust-lang.org/book/ch10-02-traits.html#traits-as-parameters
+      Trait bounds in functions.
+
+      Syntax for defining functions that takes trait as parameters
+
+      Examplebelow uses 2 arbitraty traits with the names DisplayRender and PrintingReady
+
+      2 examples for one parameter:
+        > fn some_function(item: &impl DisplayRender) {..}
+
+        > fn some_function<T: DisplayRender>(item: &T) {..}
+
+      2 examples for multiple parameters, but same trait:
+        > fn some_function(item1: &impl DisplayRender, item2: &impl DisplayRender) {..}
+
+        > fn some_function<T: DisplayRender>(item1: &T, item2: &T) {..}
+
+      2 examples with single parameter that takes multiple traits:
+        > fn notify(item: &(impl DisplayRender + PrintingReady)) {..}
+
+        > fn notify<T: DisplayRender + PrintingReady>(item: &T) {..}
+      
+      2 examples with multiple parameters and multiple traits:
+        > fn some_function<T: DisplayRender + DisplayRender_v2, U: PrintingReady + PrintingReady_v2>(t: &T, u: &U) -> i32 {..}
+
+        > fn some_function<T, U>(t: &T, u: &U) -> i32
+          where
+              T: DisplayRender + DisplayRender_v2,
+              U: PrintingReady + PrintingReady_v2,
+          {..}
+
+    https://doc.rust-lang.org/book/ch10-02-traits.html#returning-types-that-implement-traits
