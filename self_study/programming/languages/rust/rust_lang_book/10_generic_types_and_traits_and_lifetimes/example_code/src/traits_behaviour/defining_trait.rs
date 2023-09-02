@@ -90,15 +90,57 @@ impl Summary for Tweet {
     }
 }
 
-// here we are creating a function that takes a trait as type
+// function that takes a parameter that implements a trait
 pub fn notify(item: &impl Summary) {
-    // pass the item -> which is struct.method in here
+    // the value passed to this function must be able to call summarize()
     println!("Breaking news! {}", item.summarize());
 
     // read: https://doc.rust-lang.org/book/ch10-02-traits.html#traits-as-parameters
 }
 
-// here we run an example with the Tweet struct implementing the Summary trait.
+// function returning a value with a type that implements a trait
+fn function_returning_a_type_that_implements_summary() -> impl Summary {
+    // the code calling this function doesn't need to know that the return value implements Summary.
+    // useful in the context of closures and iterators discussed in chapter 13..
+    // mainly it is a way to avoid writing out long verbose types
+    Tweet {
+        username: String::from("horse_ebooks"),
+        content: String::from(
+            "of course, as you probably already know, people",
+        ),
+        reply: false,
+        retweet: false,
+    }
+}
+
+
+// Using Trait Bounds to Conditionally Implement Methods
+// https://doc.rust-lang.org/book/ch10-02-traits.html#using-trait-bounds-to-conditionally-implement-methods
+use std::fmt::Display;
+struct Pair<T> {
+    x: T,
+    y: T,
+}
+impl<T> Pair<T> {
+    fn new(x: T, y: T) -> Self {
+        Self { x, y }
+    }
+}
+// conditionally implement cmp_display method if its inner type T implements PartialOrd and Display
+impl<T: Display + PartialOrd> Pair<T> {
+    // this method will only be implemented for type <T> if
+    // ..it also has implemended the traits PartialOrd and Display
+    fn cmp_display(&self) {
+        if self.x >= self.y {
+            println!("The largest member is x = {}", self.x);
+        } else {
+            println!("The largest member is y = {}", self.y);
+        }
+    }
+}
+
+
+// run examples
 pub fn run_example() {
     // use the Tweet struct and add values to it
     let tweet = Tweet {
@@ -130,4 +172,9 @@ pub fn run_example() {
     };
 
     println!("New article available! {}", article.summarize());
+
+
+    // call a function that returns a type that implements a trait
+    let a_value_that_implements_summary_trait = function_returning_a_type_that_implements_summary();
+    // we dont do anything with this now, though..
 }
