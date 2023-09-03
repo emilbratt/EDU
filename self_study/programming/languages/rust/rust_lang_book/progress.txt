@@ -494,7 +494,12 @@ https://doc.rust-lang.org/book/ch10-00-generics.html
 
   https://doc.rust-lang.org/book/ch10-03-lifetime-syntax.html
     Lifetimes
-    Lifetime annotation in function
+
+    When using references (pointers), Rust will sometimes need annotations about a lifetime.
+    For example, if a function takes two references as parameter but only returns one of them,
+    then there is no clear way how to deal with this from a compiler point of view.
+
+    The functoin below is an example showing this exact scenario.
       fn longest<'a>(x: &'a str, y: &'a str) -> &'a str {
           if x.len() > y.len() {
               x
@@ -502,6 +507,10 @@ https://doc.rust-lang.org/book/ch10-00-generics.html
               y
           }
       }
+      ..the lifetime of reference x might be longer or shorter than reference b,
+      so we make it clear that both follow the annotation 'a
+      meaning that they both are suddenly limited to whichever had the shortest
+      lifetime to begin when they where passed into this function.
 
 https://doc.rust-lang.org/book/ch11-00-testing.html
   Automated tests
