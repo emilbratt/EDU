@@ -517,6 +517,21 @@ https://doc.rust-lang.org/book/ch11-00-testing.html
 
   Created the directory adder with command: cargo new adder --lib
 
+  Run test command:
+    Run all tests (in parallel) -> default option
+      $ cargo test
+    Run all tests consecutively -> hence the 1 thread option
+      $ cargo test -- --test-threads=1
+    Run only ignored tests
+      $ cargo test -- --ignored
+    Run all tests (including ignored)
+      $ cargo test -- --include-ignored
+    See printed values for passing tests
+      $ cargo test -- --show-output
+    Test all functions that matches part of the name or only the function that matches the full name
+      $ cargo test <function_name>
+
+
   add #[test] on the line before function declaration:
 
   Run test with command: cargo test
