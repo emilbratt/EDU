@@ -529,7 +529,9 @@ https://doc.rust-lang.org/book/ch11-00-testing.html
     See printed values for passing tests
       $ cargo test -- --show-output
     Test all functions that matches part of the name or only the function that matches the full name
-      $ cargo test <function_name>
+      $ cargo test <name>
+    Test only files inside ./tests directory that matches name
+      $ cargo test --test <name>
 
 
   add #[test] on the line before function declaration:
@@ -546,3 +548,33 @@ https://doc.rust-lang.org/book/ch11-00-testing.html
 
   https://doc.rust-lang.org/book/ch11-02-running-tests.html#controlling-how-tests-are-run
     Controlling how tests are run.
+  
+  https://doc.rust-lang.org/book/ch11-03-test-organization.html#test-organization
+    Test organization
+      Unit tests
+        - testing one module in isolation at a time
+        - pinpoint where code is not working
+        - small and more focused
+        - can test private interfaces
+        The convention is to create a module named tests in each file to contain the test
+        functions and to annotate the module with cfg(test).
+
+      Integration tests
+        - using only the public interface and potentially exercising multiple modules per test
+        - entirely external to your library
+        - use your library/code in the same way any other external code would
+        - test whether many parts of your library work together correctly
+        Folder structure for integration test:
+          mylibrary
+          ├── Cargo.lock
+          ├── Cargo.toml
+          ├── src
+          │   └── lib.rs
+          └── tests
+              ├── common
+              │   └── mod.rs
+              └── integration_test.rs
+
+
+https://doc.rust-lang.org/book/ch12-00-an-io-project.html
+  An I/O Project: Building a Command Line Program
