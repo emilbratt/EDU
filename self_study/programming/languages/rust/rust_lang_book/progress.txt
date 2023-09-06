@@ -578,3 +578,14 @@ https://doc.rust-lang.org/book/ch11-00-testing.html
 
 https://doc.rust-lang.org/book/ch12-00-an-io-project.html
   An I/O Project: Building a Command Line Program
+
+  Building a "grep" alternative.
+  Our grep project will combine a number of concepts you've learned so far:
+      Organizing code (using what you learned about modules in Chapter 7)
+      Using vectors and strings (collections, Chapter 8)
+      Handling errors (Chapter 9)
+      Using traits and lifetimes where appropriate (Chapter 10)
+      Writing tests (Chapter 11)
+
+  https://doc.rust-lang.org/book/ch12-01-accepting-command-line-arguments.html#accepting-command-line-arguments
+    Accepting commandline arguments
