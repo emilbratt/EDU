@@ -21,10 +21,28 @@ impl Config {
 
 pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
     let contents = fs::read_to_string(config.file_path)?;
-    // The last ? will return the error value from the current function for the caller to handle.
+    // The last ? will return the error value from read_to_string for the caller of this function to handle.
 
-    println!("With text:\n{contents}");
-
-    let empty_value = (); // The () implies no value e.g. no particular value.
+    let empty_value = (); // The () implies no value e.g. no value to handle.
     Ok(empty_value) // Returns an Ok value (empty) in the success case.
+}
+
+pub fn search<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
+    vec![]
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn one_result() {
+        let query = "duct";
+        let contents = "\
+Rust:
+safe, fast, productive.
+Pick three.";
+
+        assert_eq!(vec!["safe, fast, productive."], search(query, contents));
+    }
 }
