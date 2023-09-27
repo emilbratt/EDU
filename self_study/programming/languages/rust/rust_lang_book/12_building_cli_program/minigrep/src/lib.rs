@@ -23,12 +23,23 @@ pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
     let contents = fs::read_to_string(config.file_path)?;
     // The last ? will return the error value from read_to_string for the caller of this function to handle.
 
-    let empty_value = (); // The () implies no value e.g. no value to handle.
-    Ok(empty_value) // Returns an Ok value (empty) in the success case.
+    for line in search(&config.query, &contents) {
+        println!("{line}");
+    }
+
+    Ok(()) // Returns an Ok value (empty) incase of success.
 }
 
 pub fn search<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
-    vec![]
+    let mut results = Vec::new();
+
+    for line in contents.lines() {
+        if line.contains(query) {
+            results.push(line);
+        }
+    }
+
+    results
 }
 
 #[cfg(test)]

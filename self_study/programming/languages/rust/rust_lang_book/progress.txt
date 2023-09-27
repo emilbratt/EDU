@@ -592,3 +592,6 @@ https://doc.rust-lang.org/book/ch12-00-an-io-project.html
 
   https://doc.rust-lang.org/book/ch12-04-testing-the-librarys-functionality.html
     Just moved some part of the code from src/main.rs to src/lib.rs.
+
+  https://doc.rust-lang.org/book/ch12-05-working-with-environment-variables.html
+    Environment variables
