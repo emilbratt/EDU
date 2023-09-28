@@ -595,3 +595,12 @@ https://doc.rust-lang.org/book/ch12-00-an-io-project.html
 
   https://doc.rust-lang.org/book/ch12-05-working-with-environment-variables.html
     Environment variables
+
+    Creating a test that tests ignore case
+    Creating a search function that ignores case
+    Creating an additional config value (boolean) for ignore_case
+
+  https://doc.rust-lang.org/book/ch12-06-writing-to-stderr-instead-of-stdout.html
+    Write errors to stderr (instead of stdout)
+      almost identical to println, but with a leading "e"
+      > eprintln!("some error :/")
