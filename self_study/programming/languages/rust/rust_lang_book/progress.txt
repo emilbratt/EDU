@@ -479,7 +479,7 @@ https://doc.rust-lang.org/book/ch10-00-generics.html
         > fn notify(item: &(impl DisplayRender + PrintingReady)) {..}
 
         > fn notify<T: DisplayRender + PrintingReady>(item: &T) {..}
-      
+
       2 examples with multiple parameters and multiple traits:
         > fn some_function<T: DisplayRender + DisplayRender_v2, U: PrintingReady + PrintingReady_v2>(t: &T, u: &U) -> i32 {..}
 
@@ -548,7 +548,7 @@ https://doc.rust-lang.org/book/ch11-00-testing.html
 
   https://doc.rust-lang.org/book/ch11-02-running-tests.html#controlling-how-tests-are-run
     Controlling how tests are run.
-  
+
   https://doc.rust-lang.org/book/ch11-03-test-organization.html#test-organization
     Test organization
       Unit tests
@@ -604,3 +604,33 @@ https://doc.rust-lang.org/book/ch12-00-an-io-project.html
     Write errors to stderr (instead of stdout)
       almost identical to println, but with a leading "e"
       > eprintln!("some error :/")
+
+
+https://doc.rust-lang.org/book/ch13-00-functional-features.html
+  Functional Language Features: Iterators and Closures
+    Covering:
+      - Closures, a function-like construct you can store in a variable
+      - Iterators, a way of processing a series of elements
+      - How to use closures and iterators to improve project in Chapter 12
+      - The performance of closures and iterators
+
+    https://doc.rust-lang.org/book/ch13-01-closures.html
+      closures:
+        - anonymous functions you can put in a variable
+        - the variable can be called or passed to another function
+        - captures values from the scope in which they're defined
+
+      The shortest possible closure definition:
+        > let example_closure = |x| x;
+      ..it just returns the value it is passed
+
+      declaring closures with annotation (4 examples)
+        > fn  add_one_v1   (x: u32) -> u32 { x + 1 }
+        > let add_one_v2 = |x: u32| -> u32 { x + 1 };
+        > let add_one_v3 = |x|             { x + 1 };
+        > let add_one_v4 = |x|               x + 1  ;
+      These will produce the same behavior when they're called.
+      The add_one_v3 and add_one_v4 lines require the closures to be evaluated
+      ..to be able to compile because the types will be inferred from their usage.
+
+    https://doc.rust-lang.org/book/ch13-01-closures.html#capturing-references-or-moving-ownership
