@@ -614,23 +614,53 @@ https://doc.rust-lang.org/book/ch13-00-functional-features.html
       - How to use closures and iterators to improve project in Chapter 12
       - The performance of closures and iterators
 
-    https://doc.rust-lang.org/book/ch13-01-closures.html
-      closures:
-        - anonymous functions you can put in a variable
-        - the variable can be called or passed to another function
-        - captures values from the scope in which they're defined
+  https://doc.rust-lang.org/book/ch13-01-closures.html
+    closures:
+      - anonymous functions you can put in a variable
+      - the variable can be called or passed to another function
+      - captures values from the scope in which they're defined
 
-      The shortest possible closure definition:
-        > let example_closure = |x| x;
-      ..it just returns the value it is passed
+    The shortest possible closure definition:
+      > let example_closure = |x| x;
+    ..it just returns the value it is passed
 
-      declaring closures with annotation (4 examples)
-        > fn  add_one_v1   (x: u32) -> u32 { x + 1 }
-        > let add_one_v2 = |x: u32| -> u32 { x + 1 };
-        > let add_one_v3 = |x|             { x + 1 };
-        > let add_one_v4 = |x|               x + 1  ;
-      These will produce the same behavior when they're called.
-      The add_one_v3 and add_one_v4 lines require the closures to be evaluated
-      ..to be able to compile because the types will be inferred from their usage.
+    declaring closures with annotation (4 examples)
+      > fn  add_one_v1   (x: u32) -> u32 { x + 1 }
+      > let add_one_v2 = |x: u32| -> u32 { x + 1 };
+      > let add_one_v3 = |x|             { x + 1 };
+      > let add_one_v4 = |x|               x + 1  ;
+    These will produce the same behavior when they're called.
+    The add_one_v3 and add_one_v4 lines require the closures to be evaluated
+    ..to be able to compile because the types will be inferred from their usage.
 
     https://doc.rust-lang.org/book/ch13-01-closures.html#capturing-references-or-moving-ownership
+      closure will decide how to handle ownership for passed values
+        - borrowing immutably
+        - borrowing mutably
+        - taking ownership
+      ..based on what the body of the function does with the captured values
+
+      example:
+        > let list = vec![1, 2, 3];
+        > let my_closure = || println!("From closure: {:?}", list);
+        >
+        > my_closure();                                 // println!() does noly need to borrow
+        > println!("after calling closure {:?}", list); // that means the list is still available
+
+    https://doc.rust-lang.org/book/ch13-01-closures.html#moving-captured-values-out-of-closures-and-the-fn-traits
+      The way a closure captures and handles values from the environment affects which traits the closure implements.
+      There are 3 traits, FnOnce, FnMut and Fn.
+      Closures will automatically implement one, two, or all three of these Fn traits,
+      depending on how the closure's body handles the values.
+        FnOnce:
+          Closure that moves captured values out of its body will only implement FnOnce
+          These can only be called called once.
+        FnMut:
+          Might mutate the captured values, but does not move captured values out of their body.
+        Fn:
+          Dont move captured values out of their body.
+          Dont mutate captured values.
+          Captures nothing from their environment
+
+  https://doc.rust-lang.org/book/ch13-02-iterators.html
+    Iterators
