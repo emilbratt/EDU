@@ -664,3 +664,13 @@ https://doc.rust-lang.org/book/ch13-00-functional-features.html
 
   https://doc.rust-lang.org/book/ch13-02-iterators.html
     Iterators
+      - All iterators implement a trait named Iterator (defined in the standard library).
+      - The Iterator trait only requires implementors to define one method: the next method
+      - The next method returns one item of the iterator at a time wrapped in Some.
+      - The next method returns None When iteration is over.
+
+      The definition of the iterator trait in the std lib looks like this:
+        > pub trait Iterator {
+        >     type Item;
+        >     fn next(&mut self) -> Option<Self::Item>;
+        > }
