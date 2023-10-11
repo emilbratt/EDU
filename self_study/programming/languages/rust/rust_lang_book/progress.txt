@@ -709,3 +709,40 @@ https://doc.rust-lang.org/book/ch13-00-functional-features.html
 Chapter 14
 https://doc.rust-lang.org/book/ch14-00-more-about-cargo.html
   More About Cargo and Crates.io
+    - Customize your build through release profiles
+    - Publish libraries on crates.io
+    - Organize large projects with workspaces
+    - Install binaries from crates.io
+    - Extend Cargo using custom commands
+  More about Cargo (not in the scope of this chapter) can be found here: https://doc.rust-lang.org/cargo/
+
+  Release profiles are predefined and customizable profiles with different configurations.
+  They allow a programmer to have more control over various options for compiling code.
+  Each profile is configured independently of the others.
+  Profiles can be configured in the Cargo.toml file.
+
+  Cargo has two main profiles:
+    1. dev     -> mainly less optimization when compiling, invoked when running cargo build
+    2. release -> mainly more optimization when compiling, invoked when running cargo build --release
+
+  Read about profiles here:  https://doc.rust-lang.org/cargo/reference/profiles.html
+
+https://doc.rust-lang.org/book/ch14-02-publishing-to-crates-io.html
+  Publishing a Crate to Crates.io
+
+  The crate registry at crates.io distributes the source code of your packages.
+  It primarily hosts code that is open source.
+
+  Making documentation for your crate.
+  In code, documentation comments use three slashes, ///
+  This will generate HTML documentation.
+  It supports Markdown notation for formatting the text.
+  Place documentation comments just before the item (function, struct, method etc.).
+
+  Generate documentation from source code, in the project directory run:
+    $ cargo doc
+  Generated HTML documentation will appear in the target/doc directory
+
+  You can also generate and view documentation in one go, in the project directory run:
+    $ cargo doc --open
+  A web-browser spawns with all your documentation.
