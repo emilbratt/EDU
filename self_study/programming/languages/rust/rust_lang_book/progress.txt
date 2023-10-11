@@ -746,3 +746,6 @@ https://doc.rust-lang.org/book/ch14-02-publishing-to-crates-io.html
   You can also generate and view documentation in one go, in the project directory run:
     $ cargo doc --open
   A web-browser spawns with all your documentation.
+
+https://doc.rust-lang.org/book/ch14-02-publishing-to-crates-io.html#commonly-used-sections
+  Commonly Used Sections
