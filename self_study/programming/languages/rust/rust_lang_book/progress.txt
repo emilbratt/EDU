@@ -608,6 +608,7 @@ https://doc.rust-lang.org/book/ch12-00-an-io-project.html
 
 https://doc.rust-lang.org/book/ch13-00-functional-features.html
   Functional Language Features: Iterators and Closures
+    Expressing high-level ideas at low-level performance
     Covering:
       - Closures, a function-like construct you can store in a variable
       - Iterators, a way of processing a series of elements
@@ -677,3 +678,13 @@ https://doc.rust-lang.org/book/ch13-00-functional-features.html
 
   https://doc.rust-lang.org/book/ch13-03-improving-our-io-project.html
     Improving our i/o project - minigrep
+
+  https://doc.rust-lang.org/book/ch13-04-performance.html#comparing-performance-loops-vs-iterators
+    Comparing Performance: Loops vs. Iterators
+    Iterators make code seem like it’s higher level and might imply runtime performance penalty.
+    This is not the case.
+    Iterators are one of Rust’s zero-cost abstractions.
+    Using the abstraction (for iterators in this context) should imposes no additional runtime overhead.
+
+    Unrolling is another optimization that Rust does at compile-time.
+    It removes overhead of a loop and instead generates repetitive code for each iteration of the loop.
