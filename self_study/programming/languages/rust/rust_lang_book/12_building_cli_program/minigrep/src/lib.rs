@@ -9,13 +9,24 @@ pub struct Config {
 }
 
 impl Config {
-    pub fn build(args: &[String]) -> Result<Config, &'static str> {
-        if args.len() < 3 {
-            return Err("not enough arguments");
-        }
+    pub fn build(
+        mut args: impl Iterator<Item = String>,
+    ) -> Result<Config, &'static str> {
 
-        let query = args[1].clone();
-        let file_path = args[2].clone();
+        // 1st argument returned by .next() is always the name of the program
+        args.next();
+
+        // 2nd argument should be the word we are searching for
+        let query = match args.next() {
+            Some(arg) => arg,
+            None => return Err("Didn't get a query string"),
+        };
+
+        // 3rd argument should contain path to the text file
+        let file_path = match args.next() {
+            Some(arg) => arg,
+            None => return Err("Didn't get a file path"),
+        };
 
         // if envar is set (no matter what value) ignore_case = true, else ignore_case = false
         let ignore_case = env::var("IGNORE_CASE").is_ok();
@@ -45,6 +56,15 @@ pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
 }
 
 pub fn search<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
+    // using iterator adaptor methods to search instead of the old for loop
+    contents
+        .lines() // iterate over all lines -> return line by line
+        .filter(|line| line.contains(query)) // filter line -> return line if contains query
+        .collect() // collect lines -> store returned lines after filter
+
+
+    // leaving the previous implementation with for loop for reference
+    /*
     let mut results = Vec::new();
 
     for line in contents.lines() {
@@ -54,6 +74,7 @@ pub fn search<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
     }
 
     results
+    */
 }
 
 pub fn search_case_insensitive<'a>(
@@ -61,6 +82,18 @@ pub fn search_case_insensitive<'a>(
     contents: &'a str,
 ) -> Vec<&'a str> {
     let query = query.to_lowercase(); // storing lowercase in shadowed variable with same name
+
+    // using iterator adaptor methods to search instead of the old for loop
+    contents
+        .lines() // iterate over all lines -> return line by line
+        .filter(|line| line.contains(&query)) // filter line -> return line if contains query
+        .collect() // collect lines -> store returned lines after filter
+
+
+    // leaving the previous implementation with for loop for reference
+    /*
+    let query = query.to_lowercase(); // storing lowercase in shadowed variable with same name
+
     let mut results = Vec::new();
 
     for line in contents.lines() {
@@ -70,6 +103,7 @@ pub fn search_case_insensitive<'a>(
     }
 
     results
+    */
 }
 
 #[cfg(test)]
