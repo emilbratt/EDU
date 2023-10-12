@@ -749,3 +749,8 @@ https://doc.rust-lang.org/book/ch14-02-publishing-to-crates-io.html
 
 https://doc.rust-lang.org/book/ch14-02-publishing-to-crates-io.html#commonly-used-sections
   Commonly Used Sections
+
+https://doc.rust-lang.org/book/ch14-02-publishing-to-crates-io.html#documentation-comments-as-tests
+  documentation comments runs tests
+    $ cargo test
+    ..will run the code examples in your documentation as tests!
