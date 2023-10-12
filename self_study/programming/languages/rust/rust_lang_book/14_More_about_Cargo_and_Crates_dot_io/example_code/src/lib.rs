@@ -1,4 +1,13 @@
-// example where we create documentation for add_one() ..notice the 3 slashes for every line
+// example where we create documentation for this file/module/crate ..notice the //! syntax
+
+//! # My Crate
+//!
+//! `my_crate` is a collection of utilities to make performing certain
+//! calculations more convenient.
+
+
+// example where we create documentation for add_one() ..notice the /// syntax
+
 /// Adds one to the number given.
 ///
 /// # Examples

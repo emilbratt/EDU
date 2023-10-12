@@ -729,13 +729,15 @@ https://doc.rust-lang.org/book/ch14-00-more-about-cargo.html
 
 https://doc.rust-lang.org/book/ch14-02-publishing-to-crates-io.html
   Publishing a Crate to Crates.io
+  Make a new crate running $ cargo new --lib <name>.
 
   The crate registry at crates.io distributes the source code of your packages.
   It primarily hosts code that is open source.
 
-  Making documentation for your crate.
-  In code, documentation comments use three slashes, ///
+  Document-comments - Making documentation for your crate.
+  Documentation comments use three slashes ///.
   This will generate HTML documentation.
+  Code existing in these comments will also be tested when running $ cargo test.
   It supports Markdown notation for formatting the text.
   Place documentation comments just before the item (function, struct, method etc.).
 
@@ -754,3 +756,120 @@ https://doc.rust-lang.org/book/ch14-02-publishing-to-crates-io.html#documentatio
   documentation comments runs tests
     $ cargo test
     ..will run the code examples in your documentation as tests!
+
+https://doc.rust-lang.org/book/ch14-02-publishing-to-crates-io.html#exporting-a-convenient-public-api-with-pub-use
+  Exporting a Convenient Public API with pub use
+  If your structure is inconvenient for users. If users might be annoyed at having to enter
+    > use my_crate::some_module::another_module::UsefulType;
+  rather than
+    > use my_crate::UsefulType;.
+  ..you can re-export items to make a public structure that’s different from your private structure by using
+  examples from rust-book:
+    > pub use self::kinds::PrimaryColor;
+    > pub use self::kinds::SecondaryColor;
+    > pub use self::utils::mix;
+  ..it decouples the internal structure from what you present to your users
+
+https://doc.rust-lang.org/book/ch14-02-publishing-to-crates-io.html#setting-up-a-cratesio-account
+  Sign into https://crates.io.
+  Retrieve your API key from https://crates.io/me/.
+  Run the cargo login command with your API key
+    $ cargo login <api-key>
+  ..will inform Cargo of your API token and store it locally in ~/.cargo/credentials
+  Api token is secret. If compromisd, revoke it and generate a new token on crates.io.
+
+https://doc.rust-lang.org/book/ch14-02-publishing-to-crates-io.html#adding-metadata-to-a-new-crate
+  Adding Metadata to a New Crate
+  Before publishing, add metadata in the [package] section of the crate’s Cargo.toml file.
+  Your crate will need a unique name.
+  Once a crate name in creates.io is taken, no one else can publish a crate with that name.
+
+  Example of package section in a Cargo.toml file.
+    [package]
+    name = "guessing_game"
+    version = "0.1.0"
+    edition = "2021"
+    description = "A fun game where you guess what number the computer has chosen."
+    license = "MIT OR Apache-2.0"
+
+https://doc.rust-lang.org/book/ch14-02-publishing-to-crates-io.html#publishing-to-cratesio
+  Publishing to Crates.io
+  Publish by running:
+    $ cargo publish.
+  A publish is permanent.
+  The version can never be overwritten.
+  The code cannot be deleted.
+  This is by design - the goal of crates.io is to act as a permanent archive.
+  Builds of all projects that depend on crates from crates.io will always continue to work.
+  ..also, there are no limits to the number of crate versions you can publish.
+
+  Publishing a New Version of an Existing Crate.
+  Change the version value specified in your Cargo.toml
+  Then run $ cargo publish, as earlier.
+
+  Deprecated versions.
+  Yanking a version prevents new projects from depending on that version
+  Yanking means that all projects with a Cargo.lock will not break.
+  Any future Cargo.lock files generated will not use the yanked version.
+  Yank version 1.0.1, run:
+    $ cargo yank --vers 1.0.1
+  Unyank version 1.0.1, run:
+    $ cargo yank --vers 1.0.1 --undo
+  NOTE: A yank does not delete any code.
+
+https://doc.rust-lang.org/book/ch14-03-cargo-workspaces.html#cargo-workspaces
+  Cargo Workspaces
+  Imagine the library crate continues to get bigger.
+  You want to split your package further into multiple library crates.
+  Enter "workspace".
+  A workspace is a set of packages that share one single Cargo.lock and one target directory.
+  In the chapter-directory (14_More_about_Cargo_and_Crates_dot_io) I ran these commands.
+  $ mkdir add # root directory for application
+  $ cd add
+  $ touch Cargo.toml # holding workspace section with the member-crates.
+  $ cargo new adder # binary crate with main.rs
+  $ cargo new add_one --lib
+  $ cargo new add_two --lib
+    Inside adder -> add/adder/Cargo.toml I added dependencies
+      [dependencies]
+      add_one = { path = "../add_one" }
+      add_two = { path = "../add_two" }
+
+    Inside add/Cargo.toml I added workspace members
+      [workspace]
+      members = [
+          "adder",
+          "add_one",
+          "add_two",
+      ]
+
+  $ cargo build
+  ..we end up with this structure
+    ├── Cargo.lock
+    ├── Cargo.toml
+    ├── add_one
+    │   ├── Cargo.toml
+    │   └── src
+    │       └── lib.rs
+    ├── add_two
+    │   ├── Cargo.toml
+    │   └── src
+    │       └── lib.rs
+    ├── adder
+    │   ├── Cargo.toml
+    │   └── src
+    │       └── main.rs
+    └── target
+
+  The workspace has one target directory at the top level.
+  Cargo doesn’t assume that crates in a workspace will depend on each other.
+  We need to be explicit about the dependency relationships.
+  Section [dependencies] is where we state dependencies.
+  We added "rand" as dependency for both crates
+    add/add_one/src/lib.rs (add/add_one/Cargo.toml)
+    add/adder/src/main.rs (add/adder/Cargo.toml)
+  Cargo.lock in the root directory will handle both to makes sure intercompatibility between crates. 
+
+  If you publish the crates in the workspace to crates.io,
+  each crate in the workspace will need to be published separately.
+  Publish a particular crate in our workspace using the -p flag specifying the name of the crate.
