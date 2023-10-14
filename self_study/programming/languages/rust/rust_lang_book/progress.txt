@@ -873,3 +873,15 @@ https://doc.rust-lang.org/book/ch14-03-cargo-workspaces.html#cargo-workspaces
   If you publish the crates in the workspace to crates.io,
   each crate in the workspace will need to be published separately.
   Publish a particular crate in our workspace using the -p flag specifying the name of the crate.
+
+https://doc.rust-lang.org/book/ch14-04-installing-binaries.html
+  Install binaries with cargo
+  A convenient way for Rust developers to install tools that others have shared on crates.io
+    $ cargo install <cargo>
+      - can only install packages that have binary targets (crate has src/main.rs another file specified as a binary)
+        ..library target isn’t runnable on its own
+      - not intended to replace system packages
+      - stored in $HOME/.cargo/bin
+
+  You run the binary issuing the cargo command (cargo subcommand).
+  A binary named cargo-minigrep can be run with cargo minigrep
