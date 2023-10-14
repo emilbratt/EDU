@@ -885,3 +885,56 @@ https://doc.rust-lang.org/book/ch14-04-installing-binaries.html
 
   You run the binary issuing the cargo command (cargo subcommand).
   A binary named cargo-minigrep can be run with cargo minigrep
+
+
+Chapter 15
+https://doc.rust-lang.org/book/ch15-00-smart-pointers.html
+  Smart Pointers
+  Rusts basic pointer is a reference (indicated by the & and borrow the value they point to).
+  Smart pointers:
+    - data structures that act like a pointer with medatada and added capabilities.
+    - in many cases own the data they point to.
+    - implemented using structs
+    - Unlike an ordinary struct, smart pointers implement the Deref and Drop traits
+    - Many libraries have their own smart pointers
+    - You can write your own smart pointers
+
+  Deref trait:
+    Allows an instance of the smart pointer struct to behave like a reference.
+  
+  Drop trait:
+    Allows you to customize the code that’s run when an instance of the smart pointer goes out of scope.
+
+  Mmost common smart pointers in the standard library:
+    Box<T>:
+      for allocating values on the heap
+    Rc<T>:
+      a reference counting type that enables multiple ownership
+    Ref<T> (and RefMut<T>) accessed through RefCell<T>:
+      a type that enforces the borrowing rules at runtime instead of compile time
+
+https://doc.rust-lang.org/book/ch15-01-box.html#using-boxt-to-point-to-data-on-the-heap
+  Boxes the Box<T> type.
+  The most straight forward smart pointer.
+  It allows you to store on heap instead of stack.
+  Less capabilities and less overhead.
+  It is used when..
+    - you have a type whose size can’t be known at compile time
+      and you want to use a value of that type in a context that requires an exact size
+    - you have a large amount of data and you want to transfer ownership
+      but ensure the data won’t be copied when you do so
+    - you want to own a value and you care only that it’s a type that implements a particular trait
+      rather than being of a specific type
+
+  cons list - A recursive type - less commonly used datastructure in Rust.
+  Vec<T> is the commonly used "list" type.
+  The cons list is a type commonly found in functional programming languages.
+  A data structure that comes from the Lisp programming language.
+  Pseudocode representation of a cons list containing the list 1, 2, 3.
+  > (1, (2, (3, Nil)))
+  Each item in a cons list contains two elements: the value of the current item and the next item.
+  A cons list is produced by recursively calling the cons function.
+  Nil is the "base case" (where the recursion stops).
+
+https://doc.rust-lang.org/book/ch15-02-deref.html#treating-smart-pointers-like-regular-references-with-the-deref-trait
+  Deref Trait - Treating Smart Pointers Like Regular References
