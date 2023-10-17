@@ -938,3 +938,6 @@ https://doc.rust-lang.org/book/ch15-01-box.html#using-boxt-to-point-to-data-on-t
 
 https://doc.rust-lang.org/book/ch15-02-deref.html#treating-smart-pointers-like-regular-references-with-the-deref-trait
   Deref Trait - Treating Smart Pointers Like Regular References
+  Deref trait allows you to customize the behavior of the dereference operator *.
+  By implementing Deref in such a way that a smart pointer can be treated like a regular reference,
+  you can write code that operates on references and use that code with smart pointers too.
