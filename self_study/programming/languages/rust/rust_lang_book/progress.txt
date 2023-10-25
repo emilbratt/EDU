@@ -941,3 +941,9 @@ https://doc.rust-lang.org/book/ch15-02-deref.html#treating-smart-pointers-like-r
   Deref trait allows you to customize the behavior of the dereference operator *.
   By implementing Deref in such a way that a smart pointer can be treated like a regular reference,
   you can write code that operates on references and use that code with smart pointers too.
+
+https://doc.rust-lang.org/book/ch15-03-drop.html
+  Running Code on Cleanup with the Drop Trait
+  The Drop trait lets you customize what happens when a value is about to go out of scope.
+  You can implement Drop on any type.
+  File-connections and network-connections are normal cases for the Drop trait.
