@@ -947,3 +947,16 @@ https://doc.rust-lang.org/book/ch15-03-drop.html
   The Drop trait lets you customize what happens when a value is about to go out of scope.
   You can implement Drop on any type.
   File-connections and network-connections are normal cases for the Drop trait.
+
+https://doc.rust-lang.org/book/ch15-04-rc.html
+  Rc<T>, the Reference Counted Smart Pointer
+  Rc stadns for "Reference Counted".
+  In essence:
+    We use the Rc<T> type when we want to allocate some data on the heap for multiple parts of our program to read
+    and we can’t determine at compile time which part will finish using the data last.
+    Note that Rc<T> is only for use in single-threaded scenarios.
+  In the majority of cases, ownership is clear: you know exactly which variable owns a given value.
+  However, there are cases when a single value might have multiple owners.
+  Enabling multiple ownership explicitly is done by using the Rust type Rc<T>.
+  Rc<T> type keeps track of the number of references to a value determining if the value is still in use.
+  If there are zero references to a value, the value can be cleaned up without any references becoming invalid.

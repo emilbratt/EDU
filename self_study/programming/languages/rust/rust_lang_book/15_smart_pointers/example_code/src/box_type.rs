@@ -1,3 +1,5 @@
+// Store a value on the heap, that would otherwise default be stored on the stack.
+
 fn box_t_example_1() {
     let b = Box::new(5); // i32 value (using stack by default) now stored on the heap using a box.
     println!("b = {}", b);

@@ -24,6 +24,16 @@ fn custom_drop_trait() {
 }
 
 fn early_drop_value() {
+    /*
+    * You might want to clean up a value early.
+    * One example is when using smart pointers that manage locks.
+    * You might want to force the drop method that releases the lock.
+    * That way other code in the same scope can acquire the lock.
+    * Rust doesn’t let you call the Drop trait’s drop method manually;
+    * instead you have to call the std::mem::drop function provided by the standard library.
+    * That is, if you want to force a value to be dropped before the end of its scope.
+    */
+
     let c = CustomSmartPointer {
         data: String::from("some data"),
     };
@@ -40,13 +50,3 @@ pub fn run() {
     custom_drop_trait();
     early_drop_value();
 }
-
-/*
- * You might want to clean up a value early.
- * One example is when using smart pointers that manage locks.
- * You might want to force the drop method that releases the lock.
- * That way other code in the same scope can acquire the lock.
- * Rust doesn’t let you call the Drop trait’s drop method manually;
- * instead you have to call the std::mem::drop function provided by the standard library.
- * That is, if you want to force a value to be dropped before the end of its scope.
- */
