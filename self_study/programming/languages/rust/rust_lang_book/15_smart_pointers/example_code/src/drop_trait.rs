@@ -47,6 +47,8 @@ fn early_drop_value() {
 }
 
 pub fn run() {
+    println!("\n\ndrop_trait.rs\n");
+
     custom_drop_trait();
     early_drop_value();
 }

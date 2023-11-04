@@ -8,11 +8,12 @@ fn box_t_example_1() {
 }
 
 use List::{Cons, Nil};
+
 #[derive(Debug)] // Adding `#[derive(Debug)]` to `List` so we can easily print out the values.
 enum List {
     // Cons(i32, List),   // List not inside Box.
     Cons(i32, Box<List>), // List inside Box so heap is used instead of stack.
-    Nil,
+    Nil, // Nil is the canonical name to denote the base case of the recursion..
 
     // By using a box, we’ve broken the infinite, recursive chain of List.
     // The compiler can figure out the size it needs to store a List type.
@@ -25,6 +26,8 @@ fn box_t_example_2() {
 
 
 pub fn run() {
+    println!("\n\nbox_type.rs\n");
+
     box_t_example_1();
     box_t_example_2();
 }

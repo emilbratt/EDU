@@ -960,3 +960,28 @@ https://doc.rust-lang.org/book/ch15-04-rc.html
   Enabling multiple ownership explicitly is done by using the Rust type Rc<T>.
   Rc<T> type keeps track of the number of references to a value determining if the value is still in use.
   If there are zero references to a value, the value can be cleaned up without any references becoming invalid.
+
+https://doc.rust-lang.org/book/ch15-05-interior-mutability.html
+  RefCell<T> and the Interior Mutability Pattern
+  - Mutating the value inside an immutable value is the interior mutability pattern.
+
+  Unlike Rc<T>, the RefCell<T> type represents single ownership over the data it holds.
+    - References must always be valid.
+    - At any given time, you can have either (but not both) one mutable reference
+      or any number of immutable references.
+
+  With RefCell<T> borrowing rules are checked during runtime.
+  If you break these rules, the program will panic and exit.
+
+  The advantage of checking the borrowing rules at runtime instead
+  is that certain memory-safe scenarios are then allowed.
+
+  If the Rust compiler can’t be sure the code complies with the ownership rules,
+  it might reject a correct program.
+  The RefCell<T> type is useful when you’re sure your code follows the borrowing rules
+  but the compiler is unable to understand and guarantee that.
+
+  RefCell(just like Rc) is only used for single threaded programs.
+
+https://doc.rust-lang.org/book/ch15-05-interior-mutability.html#having-multiple-owners-of-mutable-data-by-combining-rct-and-refcellt
+  Having Multiple Owners of Mutable Data by Combining Rc<T> and RefCell<T>

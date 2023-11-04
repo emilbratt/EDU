@@ -21,7 +21,6 @@ fn simple_dereference_example() {
     // Also, we would need to bring Deref into scope => use std::ops::Deref;
 }
 
-
 use std::ops::Deref;
 
 impl<T> Deref for MyBox<T> {
@@ -52,6 +51,8 @@ fn hello_with_reference(name: &str) {
 }
 
 pub fn run() {
+    println!("\n\nderef_trait.rs\n");
+
     // showing the dereference behaviour
     simple_dereference_example();
 
