@@ -7,9 +7,17 @@ class Part2
     private static int _last_col = 0;
     private static Dictionary<(int x, int y),(int count, int product)>? _gear_map;
 
-    public static string Run(string[] puzzle_input)
+    public static string Run(string puzzle_input)
     {
-        _puzzle_input = puzzle_input;
+        var list = new List<string>();
+        foreach (string line in puzzle_input.Split('\n'))
+        {
+            list.Add(line);
+        }
+        list.RemoveAt(list.Count - 1);
+
+        _puzzle_input = list.ToArray();
+
         _gear_map = new Dictionary<(int x, int y),(int count, int product)>();
 
         // we treat the whole input as a matrix - each line is a row and each character is a column
@@ -47,7 +55,7 @@ class Part2
                     (int, int) gear_coordinates = GetAdjacentGear(row, start_col, start_col + total_digits);
 
                     if (gear_coordinates != (-1, -1)) AddToGearMap(gear_coordinates, number);
-                } 
+                }
 
                 col++;
             }

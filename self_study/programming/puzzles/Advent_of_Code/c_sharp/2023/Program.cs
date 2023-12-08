@@ -36,7 +36,7 @@ class Program
     {
         var puzzle_io = new AoC.PuzzleIO(day, part);
 
-        string[] puzzle_input = puzzle_io.ReadInput();
+        string puzzle_input = puzzle_io.In();
 
         string puzzle_output = (day, part) switch
         {
@@ -55,9 +55,9 @@ class Program
             ( "5", "1" ) => AoC.Day5.Part1.Run(puzzle_input),
             ( "5", "2" ) => AoC.Day5.Part2.Run(puzzle_input),
 
-            _ => $"Day {day} and part {part} is not yet implemented",
+            _ => String.Empty,
         };
 
-        if (puzzle_output != String.Empty) puzzle_io.WriteOutput(puzzle_output);
+        if (puzzle_output != String.Empty) puzzle_io.Out(puzzle_output);
     }
 }

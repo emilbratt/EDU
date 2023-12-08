@@ -4,9 +4,11 @@ class Part2
 {
     private static Dictionary<int, int[][]>? _game_cards;
     private static int _last_card_number = 0;
-    public static string Run(string[] puzzle_input)
+    public static string Run(string puzzle_input)
     {
-        _game_cards = PrepareGameCards(puzzle_input);
+        string[] input = puzzle_input.Split('\n').ToArray();
+
+        _game_cards = PrepareGameCards(input);
 
         int result = CalculateGameCards();
 
@@ -54,6 +56,8 @@ class Part2
 
         foreach (string line in puzzle_input)
         {
+            if (line == "") continue;
+
             // create a jagged array of the card numbers + the winning numbers
             int[][] numbers = new int[2][];
             numbers[0]      = new int[len_card_numbers];

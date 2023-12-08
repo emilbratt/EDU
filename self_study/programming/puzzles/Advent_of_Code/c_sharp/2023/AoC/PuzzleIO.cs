@@ -1,33 +1,27 @@
-
 namespace AoC;
 
 using System.IO;
 
 class PuzzleIO
 {
-    private readonly string _path_input_root = Path.Combine("AoC", "Input");
-    private readonly string _path_output_root = Path.Combine("AoC", "Output");
-    
-    private static string? _path_input_file;
-    private static string? _path_output_file;
+    #pragma warning disable CS8604 // Possible null reference argument.
+    private static string? _day;
+    private static string? _part;
 
     public PuzzleIO(string day, string part)
     {
-        string file_name_in = day;
-        _path_input_file = Path.Combine(_path_input_root, file_name_in);
-
-        string file_name_out = day + "." + part;
-        _path_output_file = Path.Combine(_path_output_root, file_name_out);
+        _day = day;
+        _part = part;
     }
 
     public string[] ReadInput()
     {
-        if (_path_input_file == null) Environment.Exit(1);
-
         string[] res = Array.Empty<string>();
+        string path = Path.Combine(Path.Combine("AoC", "Input"), _day);
+
         try
         {
-            res =  File.ReadAllLines(_path_input_file);
+            res =  File.ReadAllLines(path);
         }
         catch (Exception ex)
         {
@@ -38,16 +32,34 @@ class PuzzleIO
         return res;
     }
 
-    public void WriteOutput(string result)
+    public string In()
     {
-        if (_path_output_file == null) Environment.Exit(1);
+        string res = String.Empty;
+        string path = Path.Combine(Path.Combine("AoC", "Input"), _day);
 
         try
         {
-            Directory.CreateDirectory(_path_output_root); // output directory might not exist
+            res = File.ReadAllText(path);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Day {_day} no input file: {ex.Message}");
+        }
 
-            File.WriteAllText(_path_output_file, result);
-            Console.WriteLine($"Puzzle output: {_path_output_file}");
+        return res;
+    }
+
+    public void Out(string result)
+    {
+        string path_root = Path.Combine("AoC", "Output");
+        string path = Path.Combine(Path.Combine("AoC", "Output"), _day + "." + _part);
+
+        try
+        {
+            Directory.CreateDirectory(path_root); // output directory might not exist
+
+            File.WriteAllText(path, result);
+            Console.WriteLine($"Day {_day} output: {path}");
 
         }
         catch (Exception ex)

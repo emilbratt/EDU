@@ -2,15 +2,18 @@ namespace AoC.Day4;
 
 class Part1
 {
-    public static string Run(string[] puzzle_input)
+    public static string Run(string puzzle_input)
     {
-        int result = HandlePuzzleInput(puzzle_input);
+        string[] input = puzzle_input.Split('\n').ToArray();
+
+        int result = HandlePuzzleInput(input);
+
         return result.ToString();
     }
 
     private static IEnumerable<int> IterStringNumbers(string str, char first_delimiter, char last_delimiter)
     {
-        // iterating over all numbers from a string 
+        // iterating over all numbers from a string
         // ..which are delimited by whitespace
         // ..and wrapped inside a first and last delimiter
 

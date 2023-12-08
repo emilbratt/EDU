@@ -6,9 +6,16 @@ class Part1
     private static int _last_row = 0;
     private static int _last_col = 0;
 
-    public static string Run(string[] puzzle_input)
+    public static string Run(string puzzle_input)
     {
-        _puzzle_input = puzzle_input;
+        var list = new List<string>();
+        foreach (string line in puzzle_input.Split('\n'))
+        {
+            list.Add(line);
+        }
+        list.RemoveAt(list.Count - 1);
+
+        _puzzle_input = list.ToArray();
 
         // we treat the whole input as a matrix - each line is a row and each character is a column
         _last_row = _puzzle_input.Length - 1;
@@ -43,7 +50,7 @@ class Part1
                 {
                     string number = _puzzle_input[row].Substring(start_col, total_digits);
                     if (ValidPartNumber(row, start_col, start_col + total_digits)) total += int.Parse(number);
-                } 
+                }
 
                 col++;
             }

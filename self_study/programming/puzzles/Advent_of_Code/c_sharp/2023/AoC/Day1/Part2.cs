@@ -15,13 +15,22 @@ class Part2
         "nine",
     };
 
-    public static string Run(string[] puzzle_input)
+    public static string Run(string puzzle_input)
     {
-        string[] number_list = new string[puzzle_input.Length];
-
-        for (int line = 0; line < puzzle_input.Length; line++)
+        var list = new List<string>();
+        foreach (string line in puzzle_input.Split('\n'))
         {
-            string s = puzzle_input[line];
+            list.Add(line);
+        }
+        list.RemoveAt(list.Count - 1);
+
+        string[] input = list.ToArray();
+
+        string[] number_list = new string[input.Length];
+
+        for (int line = 0; line < input.Length; line++)
+        {
+            string s = input[line];
 
             int? first_digit = FirstNumericDigitOrSpelledDigitFromString(s);
             int? last_digit = LastNumericDigitOrSpelledDigitFromString(s);
@@ -60,7 +69,7 @@ class Part2
                 if (last_index > s.Length) continue;
 
                 if (s.Substring(i, spelled.Length) != spelled) continue;
-                
+
                 return spelled switch
                 {
                     "one" => 1,

@@ -2,12 +2,21 @@ namespace AoC.Day2;
 
 class Part2
 {
-    public static string Run(string[] puzzle_input)
+    public static string Run(string puzzle_input)
     {
-        int result = 0;
-        for (int i = 0; i < puzzle_input.Length; i++)
+        var list = new List<string>();
+        foreach (string line in puzzle_input.Split('\n'))
         {
-            result += HandlePuzzleLine(puzzle_input[i]);
+            list.Add(line);
+        }
+        list.RemoveAt(list.Count - 1);
+
+        string[] input = list.ToArray();
+
+        int result = 0;
+        for (int i = 0; i < input.Length; i++)
+        {
+            result += HandlePuzzleLine(input[i]);
         }
 
         return result.ToString();
