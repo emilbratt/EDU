@@ -89,49 +89,44 @@ class Mapper
         {
             long seed = seed_tuple.seed;
             long seed_end = seed + seed_tuple.range;
+
             long lowest_location = GetLocationFromSeed(seed);
+            long last_calculated_seed = seed;
 
             while (seed < seed_end)
             {
                 int increment_window = 1;
-
-                long last_seed = seed;
+                seed = last_calculated_seed + increment_window;
+                last_calculated_seed = seed;
 
                 long result = GetLocationFromSeed(seed);
+                long next_result = GetLocationFromSeed(seed + increment_window) - increment_window;
+
                 if (result < lowest_location) lowest_location = result;
 
-                long next_result = GetLocationFromSeed(seed + increment_window);
-
                 // comment out this while block and this will run for a loooong time
-                while (result == next_result - increment_window)
+                while (result == next_result && seed < seed_end)
                 {
-                    // this while block is meant to make the solve go faster
-                    // without it the solve will become pure brute-force
+                    // this while block skips a bunch of redundant calculations
+                    // ..without this, the solve will become pure brute-force
 
                     // for any predicted increasing outcome, we know we can skip calculating it
-                    // this makes it very fast to find the next seed that has an unpredicted value
-
                     // the predictable outcome
                     //  f(seed) == f(seed + n) - n
                     //  ..for all n > seed
 
-                    // since the results are only increasing and we want the lowest value,
-                    // we can omit a max seed limit
+                    // preserve the last seed for the last correct prediction
+                    last_calculated_seed = seed;
 
                     // for every predictable outcome, increase the increment by the power of 2
                     increment_window *= 2;
 
                     result = GetLocationFromSeed(seed);
-                    next_result = GetLocationFromSeed(seed + increment_window);
-
-                    // preserve the last seed for the last correct prediction
-                    last_seed = seed;
+                    next_result = GetLocationFromSeed(seed + increment_window) - increment_window;
 
                     // increase seed with the increment_window
                     seed += increment_window;
                 }
-
-                seed = last_seed + 1;
             }
 
             lowest_locations.Add(lowest_location);
