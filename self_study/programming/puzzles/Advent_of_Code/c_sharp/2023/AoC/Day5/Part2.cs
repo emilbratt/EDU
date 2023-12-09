@@ -91,18 +91,18 @@ class Mapper
             long seed_end = seed + seed_tuple.range;
 
             long lowest_location = GetLocationFromSeed(seed);
-            long last_calculated_seed = seed;
 
             while (seed < seed_end)
             {
-                int increment_window = 1;
-                seed = last_calculated_seed + increment_window;
-                last_calculated_seed = seed;
+                long increment_window = 1;
+                seed += increment_window;
 
                 long result = GetLocationFromSeed(seed);
                 long next_result = GetLocationFromSeed(seed + increment_window) - increment_window;
 
                 if (result < lowest_location) lowest_location = result;
+
+                long last_calculated_seed = seed;
 
                 // comment out this while block and this will run for a loooong time
                 while (result == next_result && seed < seed_end)
@@ -127,6 +127,8 @@ class Mapper
                     // increase seed with the increment_window
                     seed += increment_window;
                 }
+
+                seed = last_calculated_seed;
             }
 
             lowest_locations.Add(lowest_location);
