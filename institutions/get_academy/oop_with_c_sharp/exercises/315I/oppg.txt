@@ -1,0 +1,5 @@
+Vi skal lage en enkel applikasjon som genererer tilfeldige passord.
+
+Programmet skal ha inn 2 kommandolinjeparametere, som er "bestillingen" på krav.
+1. Hvor mange siffer passordet skal bestå av
+2. Hvilke tegn som skal brukes.

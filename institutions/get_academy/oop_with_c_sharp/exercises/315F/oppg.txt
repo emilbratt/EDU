@@ -1,0 +1,1 @@
+Lag et skyvespill i 3x3 format, altså med tallene 1-8 + tom rute.

@@ -1,0 +1,53 @@
+Tenk deg at du har tippet og følger med på kampene og vil vite hvor mange rette du har.
+I første omgang skal vi forenkle ved å kun se på en kamp.
+
+Koden under leser inn hva som er tippet fra brukeren.
+Det kan være:
+    - H, U eller B
+    - HU, HB, UB for halvgardering
+    - HUB for helgardering
+
+Kopier koden under å se hva den gjør.
+Dermed ser du på oppgaven som står forklart under koden.
+
+
+Console.Write("Gyldig tips: \n" +
+    " - H, U, B\n" + 
+    " - halvgardering: HU, HB, UB\n" + 
+    " - helgardering: HUB\n" + 
+    "Hva har du tippet for denne kampen? ");
+var bet = Console.ReadLine();
+var homeGoals = 0;
+var awayGoals = 0;
+var matchIsRunning = true;
+while (matchIsRunning)
+{
+    Console.Write("Kommandoer: \n" + 
+        " - H = scoring hjemmelag\n" + 
+        " - B = scoring bortelag\n" + 
+        " - X = kampen er ferdig\n" + 
+        "Angi kommando: ");
+    var command = Console.ReadLine();
+    matchIsRunning = command != "X";
+    if (command == "H") homeGoals++;
+    else if (command == "B") awayGoals++;
+    Console.WriteLine($"Stillingen er {homeGoals}-{awayGoals}.");
+}
+
+var result = homeGoals == awayGoals ? "U" : homeGoals > awayGoals ? "H" : "B";
+var isBetCorrect = bet.Contains(result);
+var isBetCorrectText = isBetCorrect ? "riktig" : "feil";
+Console.WriteLine($"Du tippet {isBetCorrectText}");
+
+
+Oppgave:
+Skriv koden mer objektorientert.
+Innfør en klasse FotballMatch som representerer en fotballkamp.
+    Hvilke felt (objektvariable) bør den ha?
+
+Skriv om koden over så den bruker klassen FotballMatch.
+    Mest mulig av logikken rundt en fotballkamp skal flyttes inn i klassen,
+
+Alt av Console.ReadLine() og Console.WriteLine() skal ligge i Program.cs.
+
+Løsningsforslag: github.com/GetAcademy/FootballBetting

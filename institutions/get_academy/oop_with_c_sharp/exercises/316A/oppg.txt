@@ -1,0 +1,35 @@
+Vi skal lage et program som bruker en ordliste til å lage en spesiell type ordgåter.
+Ordlisten ligger i wordlists.zip.
+Målet er å finne et ord som slutter med det samme som det annet ord begynner med.
+For eksempel kremost og ostekake.
+Gåten blir da krem_ og _ekake
+Så skal man sette inn det samme sist i første ord som først i siste ord
+Man får da to meningsfulle ord.
+
+
+1. Lag et program som leser inn alle linjene inn i en array.
+Gå gjennom og splitt opp på tabulatortegnet ('\t').
+Deretter print ut selve oppslagsordet.
+Ikke skriv ut ordet hvis det er det samme som som du skrev ut sist.
+
+2. Lag en egen metode som gjør det samme som i forrige punkt,
+men returnerer en ny array med bare selve ordene fra ordlista.
+
+Bruk en var
+  list = new List<string>()
+..og legg til nye tekster i denne
+  list.Add(s)
+..til slutt returnerer du lista gjort om til en array
+  return list.ToArray()
+.
+
+Ta bare med ord med lengde 7, 8, 9 eller 10.
+Ikke ta med ord som inneholder tegn som for eksempel bindestrek.
+
+3. Velg et tilfeldig ord fra lista.
+Finnet et annet ord fra ordlisten som begynner på de samme bokstavene som det tilfeldige ordet slutter på.
+Sjekk først for 3 bokstaver, om det ikke finnes; prøv 4 og til slutt 5.
+Hvis du finner en match, finn et nytt tilfeldig ord..
+
+4. Finn 200 ord (ordgåter).
+De bokstavene som overlapper skal nå også være et gyldig ord fra ordlista.

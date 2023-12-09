@@ -1,0 +1,3 @@
+Få ChatGPT til å lage en C# array av objekter - med data du synes det er gøy å jobbe med.
+Lag en konsollapplikasjon som lar brukeren skrive inn en verdi
+- og så vises alle objekter som inneholder denne verdien i et av feltene, som du velger selv.

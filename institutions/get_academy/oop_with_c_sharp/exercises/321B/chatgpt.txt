@@ -1,0 +1,84 @@
+ME:
+    Hi chatgpt, I am programming in C#.
+
+    Can you give me an array with objects of any sort?
+
+ChatGPT
+    Certainly! In C#, you can create an array of objects by declaring an array and initializing it with instances of a class or struct. Here's an example using a simple class:
+
+    using System;
+
+    class Person
+    {
+        public string Name { get; set; }
+        public int Age { get; set; }
+
+        public Person(string name, int age)
+        {
+            Name = name;
+            Age = age;
+        }
+    }
+
+    class Program
+    {
+        static void Main()
+        {
+            // Creating an array of Person objects
+            Person[] peopleArray = new Person[]
+            {
+                new Person("John", 25),
+                new Person("Jane", 30),
+                new Person("Bob", 22)
+            };
+
+            // Accessing elements in the array
+            foreach (Person person in peopleArray)
+            {
+                Console.WriteLine($"Name: {person.Name}, Age: {person.Age}");
+            }
+        }
+    }
+
+
+Me:
+    Oh, very cool.
+
+    Does that mean that I can have an array of objects where each object holds the name of a country with its population?
+
+
+ChatGPT:
+    Absolutely! You can create an array of objects where each object represents a country along with its population. Here's an example:
+    using System;
+
+    class Country
+    {
+        public string Name { get; set; }
+        public long Population { get; set; }
+
+        public Country(string name, long population)
+        {
+            Name = name;
+            Population = population;
+        }
+    }
+
+    class Program
+    {
+        static void Main()
+        {
+            // Creating an array of Country objects
+            Country[] countriesArray = new Country[]
+            {
+                new Country("USA", 331000000),
+                new Country("China", 1444216107),
+                new Country("India", 1393409038)
+            };
+
+            // Accessing elements in the array
+            foreach (Country country in countriesArray)
+            {
+                Console.WriteLine($"Country: {country.Name}, Population: {country.Population}");
+            }
+        }
+    }

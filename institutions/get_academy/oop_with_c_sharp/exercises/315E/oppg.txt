@@ -1,0 +1,6 @@
+Lag en metode som returnerer en array med tall.
+Som parametre tar du startverdi, sluttverdi og differanse.
+
+Eksempel:
+Argumentene start=1000, slutt=1028 og differense=7,
+skal gi tallene 1000, 1007, 1014, 1021, 1028
