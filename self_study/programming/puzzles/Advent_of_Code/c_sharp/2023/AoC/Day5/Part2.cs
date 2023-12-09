@@ -102,7 +102,7 @@ class Mapper
 
                 long next_result = GetLocationFromSeed(seed + increment_window);
 
-                // uncomment this while block and this will run for a loooong time
+                // comment out this while block and this will run for a loooong time
                 while (result == next_result - increment_window)
                 {
                     // this while block is meant to make the solve go faster
