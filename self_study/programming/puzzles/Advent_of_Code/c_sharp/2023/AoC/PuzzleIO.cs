@@ -16,22 +16,20 @@ class PuzzleIO
         _day = day;
         _part = part;
 
-        string? io_path = AppContext.BaseDirectory;
-
-        // the current working directory might happen to be inside ./bin/Debug/net7.0/AoC
-        while (io_path != null)
+        string? base_path = AppContext.BaseDirectory;
+        while (base_path != null)
         {
-            if (Directory.Exists(Path.Combine("/", io_path, "AoC")))
+            if (Directory.Exists(Path.Combine("/", base_path, "AoC")))
             {
-                _path_input = Path.Combine("/", io_path, "AoC", "Input");
-                _path_output = Path.Combine("/", io_path, "AoC", "Output");
+                _path_input = Path.Combine("/", base_path, "AoC", "Input");
+                _path_output = Path.Combine("/", base_path, "AoC", "Output");
                 break;
             }
 
-            io_path = Path.GetDirectoryName(io_path);
-
+            base_path = Path.GetDirectoryName(base_path);
         }
-        if (io_path == null)
+
+        if (base_path == null)
         {
             Console.WriteLine("Could not find directory 'AoC'");
             Environment.Exit(1);
@@ -55,7 +53,7 @@ class PuzzleIO
         return res;
     }
 
-    public void Out(string result)
+    public string Out(string result)
     {
         string output_file = Path.Combine(_path_output, _day + "." + _part);
 
@@ -64,12 +62,13 @@ class PuzzleIO
             Directory.CreateDirectory(_path_output); // output directory might not exist
 
             File.WriteAllText(output_file, result);
-            Console.WriteLine($"Day {_day} output: {output_file}");
 
         }
         catch (Exception ex)
         {
             Console.WriteLine(ex.Message);
         }
+
+        return output_file;
     }
 }

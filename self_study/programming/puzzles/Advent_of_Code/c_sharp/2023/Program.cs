@@ -5,9 +5,10 @@
 class Program
 {
     private static readonly int current_day = 5;
-
     static void Main(string[] args)
     {
+        var stop_watch = System.Diagnostics.Stopwatch.StartNew();
+
         if (args.Length == 0)
         {
             // run all days up to (and including) current_day
@@ -30,6 +31,11 @@ class Program
             // run one day and one part
             Puzzle(args[0], args[1]);
         }
+
+        stop_watch.Stop();
+        long timer = stop_watch.ElapsedMilliseconds;
+
+        Console.WriteLine($"Total execution time: {timer} milliseconds");
     }
 
     private static void Puzzle(string day, string part)
@@ -37,6 +43,8 @@ class Program
         var puzzle_io = new AoC.PuzzleIO(day, part);
 
         string puzzle_input = puzzle_io.In();
+
+        var stop_watch = System.Diagnostics.Stopwatch.StartNew();
 
         string puzzle_output = (day, part) switch
         {
@@ -58,6 +66,13 @@ class Program
             _ => String.Empty,
         };
 
-        if (puzzle_output != String.Empty) puzzle_io.Out(puzzle_output);
+        stop_watch.Stop();
+
+        if (puzzle_output != String.Empty)
+        {
+            string out_path = puzzle_io.Out(puzzle_output);
+            long timer = stop_watch.ElapsedMilliseconds;
+            Console.WriteLine($"Day {day} part {part} > {out_path} | {timer} milliseconds");
+        }
     }
 }
