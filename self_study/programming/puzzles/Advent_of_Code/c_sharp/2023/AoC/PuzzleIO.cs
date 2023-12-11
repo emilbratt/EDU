@@ -2,44 +2,50 @@ namespace AoC;
 
 using System.IO;
 
+#pragma warning disable CS8604 // Possible null reference argument.
+
 class PuzzleIO
 {
-    #pragma warning disable CS8604 // Possible null reference argument.
     private static string? _day;
     private static string? _part;
+    private static string? _path_input;
+    private static string? _path_output;
 
     public PuzzleIO(string day, string part)
     {
         _day = day;
         _part = part;
-    }
 
-    public string[] ReadInput()
-    {
-        string[] res = Array.Empty<string>();
-        string path = Path.Combine(Path.Combine("AoC", "Input"), _day);
+        string? io_path = AppContext.BaseDirectory;
 
-        try
+        // the current working directory might happen to be inside ./bin/Debug/net7.0/AoC
+        while (io_path != null)
         {
-            res =  File.ReadAllLines(path);
+            if (Directory.Exists(Path.Combine("/", io_path, "AoC")))
+            {
+                _path_input = Path.Combine("/", io_path, "AoC", "Input");
+                _path_output = Path.Combine("/", io_path, "AoC", "Output");
+                break;
+            }
+
+            io_path = Path.GetDirectoryName(io_path);
+
         }
-        catch (Exception ex)
+        if (io_path == null)
         {
-            Console.WriteLine(ex.Message);
+            Console.WriteLine("Could not find directory 'AoC'");
             Environment.Exit(1);
         }
-
-        return res;
     }
 
     public string In()
     {
         string res = String.Empty;
-        string path = Path.Combine(Path.Combine("AoC", "Input"), _day);
+        string input_file = Path.Combine(_path_input, _day);
 
         try
         {
-            res = File.ReadAllText(path);
+            res = File.ReadAllText(input_file);
         }
         catch (Exception ex)
         {
@@ -51,15 +57,14 @@ class PuzzleIO
 
     public void Out(string result)
     {
-        string path_root = Path.Combine("AoC", "Output");
-        string path = Path.Combine(Path.Combine("AoC", "Output"), _day + "." + _part);
+        string output_file = Path.Combine(_path_output, _day + "." + _part);
 
         try
         {
-            Directory.CreateDirectory(path_root); // output directory might not exist
+            Directory.CreateDirectory(_path_output); // output directory might not exist
 
-            File.WriteAllText(path, result);
-            Console.WriteLine($"Day {_day} output: {path}");
+            File.WriteAllText(output_file, result);
+            Console.WriteLine($"Day {_day} output: {output_file}");
 
         }
         catch (Exception ex)
