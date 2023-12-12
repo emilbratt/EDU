@@ -39,7 +39,7 @@ class Part2
     {
         // using binary search, find lowest push time while still beating the record distance
         long lo = 0;
-        long hi = time;
+        long hi = time / 2;
         while (lo <= hi)
         {
             long middle = (lo + hi) / 2;
