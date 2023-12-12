@@ -4,7 +4,7 @@
 // Example for day 1 and part 2: dotnet run 1 2
 class Program
 {
-    private static readonly int current_day = 5;
+    private static readonly int current_day = 6;
     static void Main(string[] args)
     {
         var stop_watch = System.Diagnostics.Stopwatch.StartNew();
@@ -63,16 +63,18 @@ class Program
             ( "5", "1" ) => AoC.Day5.Part1.Run(puzzle_input),
             ( "5", "2" ) => AoC.Day5.Part2.Run(puzzle_input),
 
+            ( "6", "1" ) => AoC.Day6.Part1.Run(puzzle_input),
+            ( "6", "2" ) => AoC.Day6.Part2.Run(puzzle_input),
+
             _ => String.Empty,
         };
 
         stop_watch.Stop();
 
-        if (puzzle_output != String.Empty)
-        {
-            string out_path = puzzle_io.Out(puzzle_output);
-            long timer = stop_watch.ElapsedMilliseconds;
-            Console.WriteLine($"Day {day} part {part} > {out_path} | {timer} milliseconds");
-        }
+        if (puzzle_output == String.Empty) return; // empty output? end here..
+
+        string out_path = puzzle_io.Out(puzzle_output);
+        long timer = stop_watch.ElapsedMilliseconds;
+        Console.WriteLine($"Day {day} part {part} > {out_path} | {timer} milliseconds");
     }
 }
