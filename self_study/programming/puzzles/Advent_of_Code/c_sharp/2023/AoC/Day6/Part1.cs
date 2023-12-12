@@ -1,5 +1,3 @@
-using System.Reflection;
-
 namespace AoC.Day6;
 
 class Part1
