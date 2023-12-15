@@ -13,62 +13,57 @@ class PuzzleIO
 
     public PuzzleIO(string day, string part)
     {
-        _day = day;
-        _part = part;
+        string? path = AppContext.BaseDirectory;
 
-        string? base_path = AppContext.BaseDirectory;
-        while (base_path != null)
+        // find directory named AoC by jumping one directory up every time
+        while (path != null)
         {
-            if (Directory.Exists(Path.Combine("/", base_path, "AoC")))
+            if (Directory.Exists(Path.Combine("/", path, "AoC")))
             {
-                _path_input = Path.Combine("/", base_path, "AoC", "Input");
-                _path_output = Path.Combine("/", base_path, "AoC", "Output");
-                break;
+                _path_input = Path.Combine("/", path, "AoC", "Input");
+                _path_output = Path.Combine("/", path, "AoC", "Output");
+                _day = day;
+                _part = part;
+                return;
             }
 
-            base_path = Path.GetDirectoryName(base_path);
+            // jump one directory up
+            path = Path.GetDirectoryName(path);
         }
 
-        if (base_path == null)
-        {
-            Console.WriteLine("Could not find directory 'AoC'");
-            Environment.Exit(1);
-        }
+        Console.WriteLine("PuzzleIO Error: Failed to find directory 'AoC'");
+        Environment.Exit(1);
     }
 
     public string In()
     {
-        string res = String.Empty;
         string input_file = Path.Combine(_path_input, _day);
 
         try
         {
-            res = File.ReadAllText(input_file);
+            return File.ReadAllText(input_file);
         }
-        catch (Exception ex)
+        catch (Exception)
         {
-            Console.WriteLine($"Day {_day} no input file: {ex.Message}");
+            return String.Empty;
         }
-
-        return res;
     }
 
-    public string Out(string result)
+    public string Out(string output)
     {
+        if (output == String.Empty) return "No output data";
+
         string output_file = Path.Combine(_path_output, _day + "." + _part);
 
         try
         {
             Directory.CreateDirectory(_path_output); // output directory might not exist
-
-            File.WriteAllText(output_file, result);
-
+            File.WriteAllText(output_file, output);
+            return output_file;
         }
         catch (Exception ex)
         {
-            Console.WriteLine(ex.Message);
+            return ex.Message;
         }
-
-        return output_file;
     }
 }

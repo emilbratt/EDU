@@ -4,38 +4,40 @@
 // Example for day 1 and part 2: dotnet run 1 2
 class Program
 {
-    private static readonly int current_day = 6;
     static void Main(string[] args)
     {
-        var stop_watch = System.Diagnostics.Stopwatch.StartNew();
+        int number_of_arguments = args.Length;
 
-        if (args.Length == 0)
+        // NO ARGUMENTS PASSED -> RUN THE WHOLE CALENDAR
+        if (number_of_arguments == 0)
         {
-            // run all days up to (and including) current_day
-            for (int day = 1; day <= current_day; day++)
+            // lets measure the total execution time for all puzzles
+            var stop_watch = System.Diagnostics.Stopwatch.StartNew();
+
+            for (int day = 1; day <= 25; day++)
             {
-                for (int part = 1; part <= 2; part++)
-                {
-                    Puzzle(day.ToString(), part.ToString());
-                }
+                Puzzle(day.ToString(), "1");
+                Puzzle(day.ToString(), "2");
             }
+
+            stop_watch.Stop();
+            long timer = stop_watch.ElapsedMilliseconds;
+
+            Console.WriteLine($"Total execution time: {timer} milliseconds");
         }
-        else if (args.Length == 1)
+
+        // ONE ARGUMENT PASSED -> RUN ONE DAY AND BOTH PARTS
+        else if (number_of_arguments == 1)
         {
-            // run one day and both parts
             Puzzle(args[0], "1");
             Puzzle(args[0], "2");
         }
-        else
+
+        // TWO ARGUMENT PASSED -> RUN ONE PART FOR ONE DAY
+        else if (number_of_arguments == 2)
         {
-            // run one day and one part
             Puzzle(args[0], args[1]);
         }
-
-        stop_watch.Stop();
-        long timer = stop_watch.ElapsedMilliseconds;
-
-        Console.WriteLine($"Total execution time: {timer} milliseconds");
     }
 
     private static void Puzzle(string day, string part)
@@ -43,6 +45,8 @@ class Program
         var puzzle_io = new AoC.PuzzleIO(day, part);
 
         string puzzle_input = puzzle_io.In();
+
+        if (puzzle_input == String.Empty) return;
 
         var stop_watch = System.Diagnostics.Stopwatch.StartNew();
 
@@ -66,15 +70,17 @@ class Program
             ( "6", "1" ) => AoC.Day6.Part1.Run(puzzle_input),
             ( "6", "2" ) => AoC.Day6.Part2.Run(puzzle_input),
 
+            ( "7", "1" ) => AoC.Day7.Part1.Run(puzzle_input),
+            ( "7", "2" ) => AoC.Day7.Part2.Run(puzzle_input),
+
             _ => String.Empty,
         };
 
         stop_watch.Stop();
-
-        if (puzzle_output == String.Empty) return; // empty output? end here..
-
-        string out_path = puzzle_io.Out(puzzle_output);
         long timer = stop_watch.ElapsedMilliseconds;
-        Console.WriteLine($"Day {day} part {part} > {out_path} | {timer} milliseconds");
+
+        string response = puzzle_io.Out(puzzle_output);
+
+        Console.WriteLine($"Day {day} part {part}\t| Output: {response}\t| time: {timer} milliseconds");
     }
 }

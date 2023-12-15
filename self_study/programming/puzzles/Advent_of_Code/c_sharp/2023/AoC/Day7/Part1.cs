@@ -1,11 +1,9 @@
-namespace AoC.DayX;
+namespace AoC.Day7;
 
-class Part2
+class Part1
 {
     public static string Run(string puzzle_input)
     {
-        Console.Write("Day X part 2 ");
-
         return String.Empty;
     }
 }
