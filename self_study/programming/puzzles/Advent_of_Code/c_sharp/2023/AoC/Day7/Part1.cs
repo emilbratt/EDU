@@ -8,7 +8,7 @@ class Part1
 
         var filtered_camel_cards = FilterAllHands(camel_cards);
 
-        int result = CalculateTotalWinnings(filtered_camel_cards);
+        long result = CalculateTotalWinnings(filtered_camel_cards);
 
         return result.ToString();
     }
@@ -46,42 +46,41 @@ class Part1
         {
             string hand = tuple.cards;
             int bid = tuple.bid;
-            int type = CamelCardLib.GetTypeRank(hand);
-            dict_out[type].Add((hand, bid));
+            int type = GetTypeRank(hand);
+            var new_tuple = (hand, bid);
+
+            dict_out[type].Add(new_tuple);
         }
 
         return dict_out;
     }
 
-    public static int CalculateTotalWinnings(Dictionary<int, List<(string hand, int bid)>> cards)
+    public static long CalculateTotalWinnings(Dictionary<int, List<(string hand, int bid)>> cards)
     {
+        long total_winnings = 0;
+
+        int rank = 1;
         for (int type = 0; type <= 6; type++)
         {
-            List<(string hand, int bid)> l = cards[type];
-            Console.WriteLine($"\nType: {CamelCardLib.TypeAlias(type)}");
+            var arr = cards[type].ToArray();
 
-            int i = 0;
-            while (i < l.Count)
+            (int strength, int bid)[] arr_strength = GetCardStrengthForHand(arr);
+
+            arr_strength = SortLowestFirst(arr_strength);
+
+            for (int j = 0; j < arr_strength.Length; j++)
             {
-                string hand = l[i].hand;
-                int[] arr = new int[5];
-                string c_arr = String.Empty;
-                for (int j = 0; j < 5; j++)
-                {
-                    arr[j] = CamelCardLib.CardValue(hand[j]);
-                    c_arr += $"{arr[j], 2} ";
-                }
-                int bid = l[i].bid;
-                i++;
-                Console.WriteLine($" - Nr. {i, 3} | Hand: {hand} | Values: {c_arr} | Bid: {bid, 3}");
+                int bid = arr_strength[j].bid;
+
+                total_winnings += rank * bid;
+
+                rank++;
             }
         }
-        return 0;
-    }
-}
 
-class CamelCardLib
-{
+        return total_winnings;
+    }
+
     public static int GetTypeRank(string hand)
     {
         // start of with an array with 13 elements, each element represent a card
@@ -92,19 +91,19 @@ class CamelCardLib
             // we start from 0 -> because we use this as array index
             int index = c switch
             {
-                '2' => 0,
-                '3' => 1,
-                '4' => 2,
-                '5' => 3,
-                '6' => 4,
-                '7' => 5,
-                '8' => 6,
-                '9' => 7,
-                'T' => 8,
-                'J' => 9,
-                'Q' => 10,
-                'K' => 11,
                 'A' => 12,
+                'K' => 11,
+                'Q' => 10,
+                'J' => 9,
+                'T' => 8,
+                '9' => 7,
+                '8' => 6,
+                '7' => 5,
+                '6' => 4,
+                '5' => 3,
+                '4' => 2,
+                '3' => 1,
+                '2' => 0,
                 _ => -1, // will force some error if this gets evaluated
             };
 
@@ -128,60 +127,87 @@ class CamelCardLib
              : 0; // High card
     }
 
-    public static string TypeAlias(int type)
+    public static (int strength, int bid)[] GetCardStrengthForHand((string hand, int bid)[] cards)
     {
-        return type switch
+        /*
+         *  From first to last card, get a value representing the strength
+         *  This does not take into account the "type" of hand (two pairs or 4 of a kind etc..)
+         *  It will only give you the product of each card multiplied with the position
+         *  where the first position = 5 counting down to the last = 1.
+         */
+
+        var new_arr = new (int strength, int bid)[cards.Length];
+
+        int i = 0;
+        while (i < cards.Length)
         {
-            6 => "Five of a kind (6)",
-            5 => "Four of a kind (5)",
-            4 => "Full house (4)",
-            3 => "Three of a kind (3)",
-            2 => "Two pair (2)",
-            1 => "One pair (1)",
-            0 => "High card (0)",
-            _ => "Not a valid rank (ERROR)",
-        };
+            int strength = GetStrength(cards[i].hand);
+            new_arr[i] = (strength, cards[i].bid);
+            i++;
+        }
+
+        return new_arr;
     }
 
-    public static int CardValue(char c)
+    public static int GetStrength(string hand)
     {
-        return c switch
+        int strength = 0;
+
+        int index = 0;
+        while (index < hand.Length)
         {
-            '2' => 2,
-            '3' => 3,
-            '4' => 4,
-            '5' => 5,
-            '6' => 6,
-            '7' => 7,
-            '8' => 8,
-            '9' => 9,
-            'T' => 10,
-            'J' => 11,
-            'Q' => 12,
-            'K' => 13,
-            'A' => 14,
-            _ => 0,
-        };
+            int card_value = hand[index] switch
+            {
+                'A' => 14,
+                'K' => 13,
+                'Q' => 12,
+                'J' => 11,
+                'T' => 10,
+                '9' => 9,
+                '8' => 8,
+                '7' => 7,
+                '6' => 6,
+                '5' => 5,
+                '4' => 4,
+                '3' => 3,
+                '2' => 2,
+                _ => 0,
+            };
+
+            int round = hand.Length;
+            while (round > index)
+            {
+                card_value *= 13;
+                round--;
+            }
+
+            strength += card_value;
+            index++;
+        }
+        return strength;
     }
 
-    public static string StringCardValue(char c)
+    public static (int strength, int bid)[] SortLowestFirst((int strength, int bid)[] cards)
     {
-        return c switch
+        // simple bubble sort implementation to order the strength from lowest
+
+        int n = cards.Length;
+
+        for (int i = 0; i < n; i++)
         {
-            '2' => " 2",
-            '3' => " 3",
-            '4' => " 4",
-            '5' => " 5",
-            '6' => " 6",
-            '7' => " 7",
-            '8' => " 8",
-            '9' => " 9",
-            'T' => "10",
-            'J' => "11",
-            'Q' => "12",
-            'K' => "13",
-            'A' => "14",
-            _ => "00",
-        };
+            for (int j = 0; j < n - i - 1; j++)
+            {
+                var a = cards[j];
+                var b = cards[j+1];
+
+                if (a.strength > b.strength)
+                {
+                    cards[j] = b;
+                    cards[j+1] = a;
+                }
+            }
+        }
+
+        return cards;
     }
 }
