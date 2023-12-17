@@ -52,24 +52,31 @@ class Program
 
         string puzzle_output = (day, part) switch
         {
+            // Trebuchet?!
             ( "1", "1" ) => AoC.Day1.Part1.Run(puzzle_input),
             ( "1", "2" ) => AoC.Day1.Part2.Run(puzzle_input),
 
+            // Cube Conundrum
             ( "2", "1" ) => AoC.Day2.Part1.Run(puzzle_input),
             ( "2", "2" ) => AoC.Day2.Part2.Run(puzzle_input),
 
+            // Gear Ratios
             ( "3", "1" ) => AoC.Day3.Part1.Run(puzzle_input),
             ( "3", "2" ) => AoC.Day3.Part2.Run(puzzle_input),
 
+            // Scratchcards
             ( "4", "1" ) => AoC.Day4.Part1.Run(puzzle_input),
             ( "4", "2" ) => AoC.Day4.Part2.Run(puzzle_input),
 
+            // If You Give A Seed A Fertilizer
             ( "5", "1" ) => AoC.Day5.Part1.Run(puzzle_input),
             ( "5", "2" ) => AoC.Day5.Part2.Run(puzzle_input),
 
+            // Wait For It
             ( "6", "1" ) => AoC.Day6.Part1.Run(puzzle_input),
             ( "6", "2" ) => AoC.Day6.Part2.Run(puzzle_input),
 
+            // Camel Cards
             ( "7", "1" ) => AoC.Day7.Part1.Run(puzzle_input),
             ( "7", "2" ) => AoC.Day7.Part2.Run(puzzle_input),
 

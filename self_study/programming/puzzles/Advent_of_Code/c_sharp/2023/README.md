@@ -1,5 +1,4 @@
-# AoC - 2023
-Solved with .NET 7.0
+# AoC 2023 written in .NET 7.0
 
 ### Run Podman Container (or Docker)
 Run all the puzzles with this simple command (swap podman with docker if you have Docker installed)
