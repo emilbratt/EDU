@@ -1,8 +1,6 @@
-﻿using System;
-
-namespace ConsoleStars
+﻿namespace ConsoleStars
 {
-    public class PhasesStar
+    public class PhasesStar : IStars
     {
         private const string _phaseChars = " .x*x.";
         protected int _x;

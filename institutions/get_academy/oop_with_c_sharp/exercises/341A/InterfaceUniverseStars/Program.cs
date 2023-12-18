@@ -4,15 +4,11 @@ class Program
 {      
     static void Main(string[] args)
     {
-        if (args.Length == 1)
-        {
-            if (args[0] == "old") Old();
-            if (args[0] == "new") New();
-        }
-        Console.WriteLine("Pass argument: 'old' | 'new'");
+        // NotUsingInterface();
+        UsingInterface();
     }
 
-    public static void Old()
+    public static void NotUsingInterface()
     {
         var random = new Random();
         var stars = new object[]
@@ -48,10 +44,12 @@ class Program
         }
     }
 
-    public static void New()
+    public static void UsingInterface()
     {
         var random = new Random();
-        var stars = new object[]
+
+        // MovableStar and PhasesStar both inherit the interface IStars so we can make an array of these
+        var stars = new IStars[]
         {
             new PhasesStar(random),
             new PhasesStar(random),
@@ -65,9 +63,8 @@ class Program
             Console.Clear();     
             foreach (var star in stars)
             {
-                // not implemented yet..
-                // star.Show();
-                // star.Update();
+                star.Show();
+                star.Update();
             }
             Console.CursorLeft = 0;
             Console.CursorTop = 0;

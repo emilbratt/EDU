@@ -1,8 +1,6 @@
-﻿using System;
-
-namespace ConsoleStars
+﻿namespace ConsoleStars
 {
-    public class MovableStar 
+    public class MovableStar : IStars
     {
         protected int _x;
         protected int _y;
