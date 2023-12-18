@@ -14,18 +14,21 @@ No parts share code; each part is solved by itself and is fully independent of o
 You will see repetitive code as a result of each part being independend and that is by choice for now.
 
 
-### Run Podman Container (or Docker)
-Run all the puzzles with this simple command (swap podman with docker if you have Docker installed)
+### Run in Container
+
+You can run everythign in a container from this directory (swap podman with docker if you have Docker)
+
+Run all solves
 ```sh
 podman run --privileged -it --rm --mount type=bind,source="$(pwd)",target=/App mcr.microsoft.com/dotnet/sdk:7.0 dotnet run --project App
 ```
 
-Run only day 5 (swap podman with docker if you have Docker installed)
+Run day 5
 ```sh
 podman run --privileged -it --rm --mount type=bind,source="$(pwd)",target=/App mcr.microsoft.com/dotnet/sdk:7.0 dotnet run --project App 5
 ```
 
-Run only day 5 part 2 (swap podman with docker if you have Docker installed)
+Run day 5 part 2
 ```sh
 podman run --privileged -it --rm --mount type=bind,source="$(pwd)",target=/App mcr.microsoft.com/dotnet/sdk:7.0 dotnet run --project App 5 2
 ```
