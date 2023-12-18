@@ -28,8 +28,8 @@ class Part1
         {
             instructinos[index] = first_line[index] == 'R'; // L -> false
         }
-        return instructinos;
 
+        return instructinos;
     }
 
     public static Dictionary<int, (int left, int right)> GetNodes(string puzzle_input)
@@ -61,14 +61,14 @@ class Part1
             int i = 0;
             while (i < 3)
             {
-                // turning characters like "AAA" to numeric value "656565"
+                // turning characters like "AAA" to string with ascii values "656565"
                 p += ((int)position[i]).ToString();
                 l += ((int)left[i]).ToString();
                 r += ((int)right[i]).ToString();
                 i++;
             }
 
-            // turnign numeric values to integers e.g. "656565" to 656565
+            // turning numeric values to integers e.g. "656565" to 656565
             int int_position = int.Parse(p);
             int int_left = int.Parse(l);
             int int_right = int.Parse(r);
