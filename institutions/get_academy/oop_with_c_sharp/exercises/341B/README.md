@@ -16,13 +16,17 @@ while (true)
     Console.WriteLine($"Du har {points} poeng.");
     Console.WriteLine("Trykk tast for ønsket kommando.");
     var command = Console.ReadKey().KeyChar;
+
     if (command == 'X') Environment.Exit(0);
+
     else if (command == ' ') points += pointsPerClick;
+
     else if (command == 'K' && points >= 10)
     {
         points -= 10;
         pointsPerClick += pointsPerClickIncrease;
     }
+
     else if (command == 'S' && points >= 100)
     {
         points -= 100;
