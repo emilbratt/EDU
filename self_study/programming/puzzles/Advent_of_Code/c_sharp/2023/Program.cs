@@ -81,8 +81,8 @@ class Program
             ( "7", "2" ) => AoC.Day7.Part2.Run(puzzle_input),
 
             // Haunted Wasteland
-            ( "8", "1" ) => AoC.Day7.Part1.Run(puzzle_input),
-            ( "8", "2" ) => AoC.Day7.Part2.Run(puzzle_input),
+            ( "8", "1" ) => AoC.Day8.Part1.Run(puzzle_input),
+            ( "8", "2" ) => AoC.Day8.Part2.Run(puzzle_input),
 
             _ => String.Empty,
         };
