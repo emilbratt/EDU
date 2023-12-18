@@ -64,7 +64,7 @@ class Part1
         {
             var arr = cards[type].ToArray();
 
-            (int strength, int bid)[] arr_strength = GetCardStrengthForHand(arr);
+            (int strength, int bid)[] arr_strength = GetCardStrengthForHands(arr);
 
             arr_strength = SortLowestFirst(arr_strength);
 
@@ -127,7 +127,7 @@ class Part1
              : 0; // High card
     }
 
-    public static (int strength, int bid)[] GetCardStrengthForHand((string hand, int bid)[] cards)
+    public static (int strength, int bid)[] GetCardStrengthForHands((string hand, int bid)[] cards)
     {
         /*
          *  From first to last card, get a value representing the strength
