@@ -134,10 +134,10 @@ class Part2
 
         // https://en.wikipedia.org/wiki/Least_common_multiple
 
-        // start with 1 (it will only grow from here)
-        long current_lcm = 1;
+        // start with the first number (can be any number from array, but first will do)
+        long current_lcm = factors[0]; // ..it will only grow or stay the same from here
 
-        for (int i = 0; i < factors.Length; i++)
+        for (int i = 1; i < factors.Length; i++)
         {
             // Euclidean algorithm for greatest common divisor
             // https://en.wikipedia.org/wiki/Euclidean_algorithm
@@ -155,7 +155,7 @@ class Part2
             long gcd = (a > b) ? a : b;
 
             // use greatest common divisor to calculate least common multiple for two numbers
-            current_lcm = current_lcm*factors[i] / gcd;
+            current_lcm = current_lcm * factors[i] / gcd;
         }
 
         // this will be the final least common multiple
