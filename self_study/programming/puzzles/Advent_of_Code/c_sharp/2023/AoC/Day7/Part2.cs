@@ -83,8 +83,8 @@ class Part2
 
     public static int GetTypeRank(string hand)
     {
-        // start of with an array with 13 elements, each element represent a card
-        int[] cards = new int[12]; // 13 different cards: Ace, 2, 3,.., King
+        // start of with an array with 12 elements, each element represent a card
+        int[] cards = new int[12]; // 12 different cards: Ace, 2, 3,.., King where 'J' not included
 
 
         int jokers = 0;

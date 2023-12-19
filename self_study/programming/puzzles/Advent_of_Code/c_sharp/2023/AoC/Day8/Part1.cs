@@ -34,7 +34,7 @@ class Part1
 
     public static Dictionary<int, (int left, int right)> GetNodes(string puzzle_input)
     {
-        // The nodes are represented as threee characters,
+        // The nodes are represented as three characters,
         // ..we cast these to their corresponding ascii values
         // then we append them one after another to a string
         // finally we create a numeric value which we cast to integer
@@ -44,7 +44,7 @@ class Part1
 
         string[] lines  = puzzle_input.Split('\n').ToArray();
 
-        int index = 2; // nodes start from 3rd line
+        int index = 2; // nodes start from 3rd line in puzzle input
         while (index < lines.Length)
         {
             string line = lines[index];
@@ -89,14 +89,14 @@ class Part1
 
         while (node != _end_node)
         {
-            (int left, int right) t = nodes[node];
+            (int left, int right) = nodes[node];
 
-            node = instructions[index] ? t.right : t.left;
+            node = instructions[index] ? right : left;
 
             // get next instruction
             index++;
 
-            // reset instruction of out of bounds
+            // reset instruction if out of bounds
             if (index == instructions.Length) index = 0;
 
             // increase steps
