@@ -39,6 +39,11 @@ run the application (will automatically build first)
 dotnet run
 ```
 
+remove output of the previous build
+```sh
+dotnet clean
+```
+
 
 ## Opening a project in your editor
 
