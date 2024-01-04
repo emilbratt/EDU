@@ -11,7 +11,7 @@ class Pizza : IRecipe
     private List<IIngredient> _ingredients = new()
     {
         new Flour(0.7f),
-        new Water(2f),
+        new Water(2),
         new Cheese(0.2f),
     };
 
