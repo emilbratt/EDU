@@ -1,13 +1,11 @@
 namespace Recipes.Ingredients
 {
-    class Water : IIngredient
+    class Water(float amount) : IIngredient
     {
-        private float _amount;
+        private float _amount = amount;
         private readonly string _name = "Water";
         private readonly float _price = 0;
         private readonly string _unit = "l.";
-
-        public Water(float amount) => _amount = amount;
 
         public void PrintSummary() => Console.WriteLine($"{_name}: {_amount} {_unit}.");
 
