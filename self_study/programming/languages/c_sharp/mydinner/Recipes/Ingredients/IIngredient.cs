@@ -2,10 +2,11 @@ namespace Recipes.Ingredients
 {
     public interface IIngredient
     {
-        string Name();
-        string Unit();
-        float Amount();
-        float Price();
-        void PrintSummary();
+        float Amount { get; }
+        string Name { get; }
+        float Price { get; }
+        string Unit { get; }
+
+        string Summary(float qty);
     }
 }

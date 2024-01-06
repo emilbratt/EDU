@@ -1,10 +1,16 @@
+using Recipes.Ingredients;
+
 namespace Recipes
 {
     public interface IRecipe
     {
-        string Name();
-        float Price();
-        string Steps();
+        IIngredient[] Ingredients { get; }
+        string Name { get; }
+        float Price { get; }
+        float Qty { get; set; }
+
+        IIngredient? GetIngredient(string name);
         void PrintIngredients();
+        void PrintInstruction();
     }
 }

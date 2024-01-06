@@ -1,50 +1,36 @@
+using System.Security.Cryptography.X509Certificates;
 using Recipes.Ingredients;
 
 namespace Recipes;
 
-class Pizza : IRecipe
+class Pizza() : IRecipe
 {
-    private int _qty;
-    private float _price;
-    private string _name = "Pizza";
-
-    private List<IIngredient> _ingredients = new()
-    {
+    public IIngredient[] Ingredients { get; } = [
         new Flour(0.7f),
-        new Water(2),
-        new Cheese(0.2f),
-    };
+        new Water(0.3f),
+        new Cheese(0.5f),
+    ];
 
-    public Pizza(int qty)
-    {
-        _qty = qty;
-        foreach (IIngredient ingredient in _ingredients)
-        {
-            _price += ingredient.Price() * _qty;
-        }
-    }
+    public string Name => "Pizza";
+
+    public float Price
+        => (from ingredient in Ingredients select ingredient.Price * Qty).Sum();
+
+    public float Qty { get; set; } = 1;
+
+    public IIngredient GetIngredient(string name) => Ingredients.Where(i => i.Name == name).First();
 
     public void PrintIngredients()
-    {
-        Console.WriteLine($"Ingredients for {_qty} Pizza");
-        foreach (IIngredient ingredient in _ingredients)
-        {
-            Console.Write(ingredient.Name());
-            Console.Write(": ");
-            Console.Write(_qty * ingredient.Amount());
-            Console.Write(" ");
-            Console.Write(ingredient.Unit());
-            Console.Write("\n");
-        }
-    }
+        => Ingredients.AsParallel().ForAll(i => Console.WriteLine(i.Summary(Qty)));
 
-    public string Name() => _name;
 
-    public float Price() => _price;
-    
-    public string Steps()
+    public void PrintInstruction()
     {
-        // print the steps for making this meal
-        return String.Empty;
+        Console.WriteLine("1. Mix the water with the flour to make pizza dough");
+        Console.WriteLine("2. Let dough rise for a couple of hours");
+        Console.WriteLine("3. Flatten the dough and stretch it out");
+        Console.WriteLine("4. Put cheese on top");
+        Console.WriteLine("5. Bake in the oven at 225c for 25 minutes");
+        Console.WriteLine("\n--Bon appetit--\n");
     }
 }
