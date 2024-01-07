@@ -10,11 +10,10 @@ class Part1
 
         int result = 0;
 
-        foreach (int[] reading in oasis_report)
+        foreach (int[] row in oasis_report)
         {
-            result += Extrapolate(reading);
+            result += ExtrapolateForward(row);
         }
-
 
         return result.ToString();
     }
@@ -23,10 +22,7 @@ class Part1
     {
         var list = new List<int[]>();
 
-        string[] lines = puzzle_input.Split(
-            new string[] { "\r\n", "\r", "\n" },
-            StringSplitOptions.RemoveEmptyEntries
-        );
+        string[] lines = puzzle_input.Split("\n", StringSplitOptions.RemoveEmptyEntries);
 
         foreach (string line in lines)
         {
@@ -38,24 +34,24 @@ class Part1
         return list.ToArray();
     }
 
-    public static int Extrapolate(int[] reading)
+    public static int ExtrapolateForward(int[] row)
     {
         int extrapolation = 0;
-        int last_index = reading.Length -1;
+        int last_index = row.Length - 1;
 
-        bool all_not_zero = true;
-        while (all_not_zero)
+        bool only_zeroes = false;
+        while (!only_zeroes)
         {
-            extrapolation += reading[last_index];
+            extrapolation += row[last_index];
 
-            all_not_zero = false;
+            only_zeroes = true;
             for (int index = 0; index < last_index; index++)
             {
-                int subtracted = reading[index + 1] - reading[index];
+                int subtracted = row[index + 1] - row[index];
 
-                if (subtracted != 0) all_not_zero = true;
+                if (subtracted != 0) only_zeroes = false;
 
-                reading[index] = subtracted;
+                row[index] = subtracted;
             }
 
             last_index--;

@@ -135,31 +135,31 @@ class Part2
         // https://en.wikipedia.org/wiki/Least_common_multiple
 
         // start with the first number (can be any number from array, but first will do)
-        long current_lcm = factors[0]; // ..it will only grow or stay the same from here
+        long least_common_multiple = factors[0]; // ..it will only grow or stay the same from here
 
         for (int i = 1; i < factors.Length; i++)
         {
             // Euclidean algorithm for greatest common divisor
             // https://en.wikipedia.org/wiki/Euclidean_algorithm
-            long a = current_lcm;
+            long a = least_common_multiple;
             long b = factors[i];
             bool stop_dividing = false;
             while (!stop_dividing)
             {
-                if (a > b) a = a %= b;
+                if (a > b) a = a % b;
                 else       b = b % a;
 
                 stop_dividing = (a == 0 || b == 0);
             }
             // take the greatest value that holds the gcd
-            long gcd = (a > b) ? a : b;
+            long greatest_common_divisor = a + b;
 
             // use greatest common divisor to calculate least common multiple for two numbers
-            current_lcm = current_lcm * factors[i] / gcd;
+            least_common_multiple = least_common_multiple * factors[i] / greatest_common_divisor;
         }
 
         // this will be the final least common multiple
-        return current_lcm;
+        return least_common_multiple;
     }
 }
 
@@ -174,6 +174,7 @@ internal class NextNode
         _left = left_characters;
         _right = right_characters;
     }
+
     public string Get(bool go_right)
     {
         return go_right ? _right : _left;

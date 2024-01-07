@@ -84,6 +84,10 @@ class Program
             ( "8", "1" ) => AoC.Day8.Part1.Run(puzzle_input),
             ( "8", "2" ) => AoC.Day8.Part2.Run(puzzle_input),
 
+            // Mirage Maintenance
+            ( "9", "1" ) => AoC.Day9.Part1.Run(puzzle_input),
+            ( "9", "2" ) => AoC.Day9.Part2.Run(puzzle_input),
+
             _ => String.Empty,
         };
 
