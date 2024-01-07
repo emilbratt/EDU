@@ -1,5 +1,3 @@
-using System.Data;
-
 namespace AoC.Day9;
 
 class Part1
