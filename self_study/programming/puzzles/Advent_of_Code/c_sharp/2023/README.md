@@ -5,13 +5,13 @@
 
 Each days solve reside in AoC/Day{N} where N = the day of the puzzle.\
 Every day has two parts. You can find both defined as filename Part1.cs and Part2.cs\
-No parts share code; each part is solved by itself and is fully independent of other solves.\
-You will see repetitive code as a result of each part being independend and that is by choice for now.
+No parts share code; each part for every day is solved by itself and is fully independent of the other part.\
+You will see some repetitive code for input parsing/loading as a result.
 
 
 ### Run in Container
 
-You can run everythign in a container from this directory (swap podman with docker if you have Docker)
+You can run everything in a container from this directory (swap podman with docker if you have Docker)
 
 Run all solves
 ```sh
