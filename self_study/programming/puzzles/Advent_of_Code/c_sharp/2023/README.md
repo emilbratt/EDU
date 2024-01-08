@@ -1,4 +1,4 @@
-# AoC 2023 in C# .NET 7.0
+# AoC 2023 in C# .NET 8.0
 
 
 ### About
@@ -15,17 +15,17 @@ You can run everything in a container from this directory (swap podman with dock
 
 Run all solves
 ```sh
-podman run --privileged -it --rm --mount type=bind,source="$(pwd)",target=/App mcr.microsoft.com/dotnet/sdk:7.0 dotnet run --project App
+podman run --privileged -it --rm --mount type=bind,source="$(pwd)",target=/App mcr.microsoft.com/dotnet/sdk:8.0 dotnet run --project App
 ```
 
 Run day 5
 ```sh
-podman run --privileged -it --rm --mount type=bind,source="$(pwd)",target=/App mcr.microsoft.com/dotnet/sdk:7.0 dotnet run --project App 5
+podman run --privileged -it --rm --mount type=bind,source="$(pwd)",target=/App mcr.microsoft.com/dotnet/sdk:8.0 dotnet run --project App 5
 ```
 
 Run day 5 part 2
 ```sh
-podman run --privileged -it --rm --mount type=bind,source="$(pwd)",target=/App mcr.microsoft.com/dotnet/sdk:7.0 dotnet run --project App 5 2
+podman run --privileged -it --rm --mount type=bind,source="$(pwd)",target=/App mcr.microsoft.com/dotnet/sdk:8.0 dotnet run --project App 5 2
 ```
 
 ### Day 8 Part 2
