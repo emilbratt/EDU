@@ -1,4 +1,4 @@
-namespace AoC.DayX;
+namespace AoC.Day10;
 
 class Part2
 {
