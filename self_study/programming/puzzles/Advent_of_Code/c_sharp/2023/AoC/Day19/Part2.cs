@@ -92,9 +92,9 @@ class Part2
 
                     res += RecursiveRunWorkflowRanges(new_ranges);
                 }
-                else // workflow is not conditional, it is only the key that points to the next workflow
+                else // no workflow, only the key that points to the next workflow or one of "A" and "R"
                 {
-                    ranges.DestinationWF = wf; // should only be the next workflow (also, not "A" or "R")
+                    ranges.DestinationWF = wf;
                     return res + RecursiveRunWorkflowRanges(ranges);
                 }
             }
