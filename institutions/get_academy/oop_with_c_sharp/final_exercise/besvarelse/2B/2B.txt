@@ -1,0 +1,41 @@
+Innkapsling.
+
+Data og funksjonalitet kapsles inn i et objekt.
+Objektets har ulike data som påvirker ulik funksjonalitet.
+Objektets grensesnitt påvirker både dataen og funksjonaliteten.
+Med andre ord.
+Objektets grensesnittet brukes til å påvirke objektets oppførsel.
+
+Se for deg en bil.
+Selve objektet (Bilen) har flere grensesnitt (pedaler, knapper, ratt..) som vi kaller objekt-metoder.
+Gasspedal akselrerer, bremsepedal bremser, knapper styrer lys/varme og rattet dreier hjulene.
+I tillegg har bilen ulike data (mengde drivstoff for motor, mengde trykk for bremsekraft, strøm for lys, sving-posisjon for hjul etc.).
+Dataen reguleres ved bruken av grensesnittet som deretter igangsetter en spesifikk funksjonalitet.
+Selve funksjonaliteten og dataen er kapslet inn og kan kun justeres ved å bruke bilens grensesnitt.
+Disse grensesnittene abstraherer vekk hvordan alt fungerer.
+
+
+I oppgave 2A har jeg kapslet inn funksjonalitet og data i filen "StudentStatus.cs".
+
+Opprettelse av objekt setter statusen "Har søkt".
+    - linje 4: "private property: _status_list"
+Statusen er siste element i listen og kan ikke endres utenifra.
+
+En metode henter ut nåværende status.
+    - linje 7: "public property: CurrentStatus"
+
+En metode med status som parameter oppdatere til ny status.
+Dette er eksemplet på inkapsling fordi ny status bare kan settes ved bruke av denne.
+    - linje 44: "public method: Update()"
+Metoden sjekker om det er lov i henhold til oppgavens krav før et eventuelt bytte skjer.
+
+Implementeringen for sjekk av lovlig status bruker hashmap'n "_NEXT_ALLOWED", jeg synes dette var en god løsning.
+    - linje 10: "private property: _NEXT_ALLOWED"
+
+En metode som sjekker om en status har vært registrert tidligere, returnerer true/false.
+Den tar en status som parameter.
+    - linje 51: "public method: HasBeenSet()"
+
+Jeg har valgt å ikke ha med antall forsøk for statusen "Ikke bestått - ikke flere forsøk igjen".
+Denne klassen skal bare bry seg hvilken status som er lov å sette basert på nåværende status.
+Antall forsøk og logikk som sjekker dette kan implementeres i et annet objekt.

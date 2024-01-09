@@ -1,0 +1,44 @@
+Gjør rede for Single Responsibility Principle.
+
+Hvert objekt bryr seg kun om hva som foregår i sin verden.
+Jeg skal trekke frem oppgavebesvarelse for 1A som eksepmel.
+
+Det er 2 hovedkomponenter som utgjør spill-logikken i FallingParticles.
+    1. Particles -> Fallende partikler.
+    2. Paddle    -> Brett som tar imot partiklene.
+På et tidspunkt må vi sammenlikne partikkelens posisjon i Particles med brettets posisjon i Paddle.
+Først satte jeg brettet (Paddle) som en avhengighet i partikkel-objektet, men endret dette senere.
+
+Delt kode med interfacen "IComponents".
+4 komponenter har felles funksjonalitet (dette inkluderer de 2 hovedkomponentene).
+    1. MessagePrompt -> Melding til bruker og avventer "confirm".
+    2. Paddle        -> Brettet som fanger partikler.
+    3. Particles     -> Partiklene som faller (selve partikkelen har sitt eget objekt "Particle").
+    4. ScoreBoard    -> Poengtabell som også viser nivå.
+Hvor av felles funksjonalitet utgjør
+    - Opptegning av komponeten med "DrawComponent".
+    - Tilbakestilling av komponenten "ResetComponent".
+..de kan derfor styres i bulk i Components.cs ved å bruke Draw()-og Reset()-metodene.
+
+Selve spillet starter når vi hopper inn i "loop"-en i metoden "Play" i Game.cs.
+Her blir hovedlogikken utført.
+    - Tastetrykk registreres fra bruker
+    - Aktiver/deaktiver pause
+    - Bevegelse av Brett
+    - Sjekk om partikkel ble fanget
+    - Opptegning av spillkomponenter
+    - Tilbakestilling av spillkomponenter
+    - Avslutte spillet
+
+Partikler fanges ved å hente posisjon fra Paddle og sende denne inn i Particles.
+Dette, istedet for å sende Paddle-objektet inn i Particle-objektet som en avhengiget (selv om det også fungerer fint).
+
+Når det kommer til "single Responsibility" så har objektet "Particles" ivertfal 2 ansvar slik jeg kan se.
+    1. Generere partikkler (fra Particle objektet).
+    2. Holde rede på score og level (tegnes opp i ScoreBoard objektet).
+Er prinsippet nyansiert, kanskje?
+
+Spillet er tett knyttet til "Console"-miljøet, men jeg ser ikke bort ifra at en "grafisk" versjon er mulig.
+Vi kan ikke lengre bruke måten vi tegner opp spillet på, så dette krever endring til en grafisk versjone.
+Kanskje vi kunne brukt de 2 hovedkomponentene "Particle" og "Paddle"?
+Jeg har desverre ikke erfaring med WPF (ikke tilgang på en Windows-PC), så her er jeg noe usikker.
