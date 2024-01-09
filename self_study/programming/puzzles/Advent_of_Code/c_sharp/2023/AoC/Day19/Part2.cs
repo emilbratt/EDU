@@ -67,40 +67,40 @@ class Part2
 
             foreach (string wf in wfs)
             {
-                if (wf.Contains(':'))
+                if (wf.Contains(':')) // if workflow is a contitional one
                 {
-                    WorkflowRange send_ranges = new()
+                    WorkflowRange new_ranges = new()
                     {
                         X = ranges.Get('x'),
                         M = ranges.Get('m'),
                         A = ranges.Get('a'),
                         S = ranges.Get('s')
                     };
-                    char key = Convert.ToChar(wf[0]);
-                    char op =  Convert.ToChar(wf[1]);
-                    int cdt_value = int.Parse(wf.Split(':')[0].Split(op)[1]);
-                    string next_wf = wf.Split(':')[1];
-                    send_ranges.DestinationWF = next_wf;
+                    char key = Convert.ToChar(wf[0]); // x, m, a or s
+                    char op =  Convert.ToChar(wf[1]); // > or <
+                    int target_val = int.Parse(wf.Split(':')[0].Split(op)[1]); // target value to check against
+                    string target_wf = wf.Split(':')[1]; // if satisfied, this is the next assigned workflow
+                    new_ranges.DestinationWF = target_wf; // these ranges will be sent if condition is satisfied
 
                     (int low, int high) satisfied;
                     (int low, int high) rest;
-                    if (op == '>') (rest, satisfied) = BisectRange(ranges.Get(key), cdt_value+1);
-                    else (satisfied, rest) = BisectRange(ranges.Get(key), cdt_value);
+                    if (op == '>') (rest, satisfied) = BisectRange(ranges.Get(key), target_val + 1);
+                    else (satisfied, rest) = BisectRange(ranges.Get(key), target_val);
 
                     ranges.Set(key, rest);
-                    send_ranges.Set(key, satisfied);
+                    new_ranges.Set(key, satisfied);
 
-                    res += RecursiveRunWorkflowRanges(send_ranges);
+                    res += RecursiveRunWorkflowRanges(new_ranges);
                 }
-                else
+                else // workflow is not conditional, it is only the key that points to the next workflow
                 {
-                    ranges.DestinationWF = wf; // should be either "A", "R" or key to next workflow
+                    ranges.DestinationWF = wf; // should only be the next workflow (also, not "A" or "R")
                     return res + RecursiveRunWorkflowRanges(ranges);
                 }
             }
         }
 
-        // this is the base case (and final endpoint) after running through all workflows
+        // this is the base case (the final endpoint "A"-ccepted or "R"-ejected)
         return ranges.DestinationWF == "A" ? ranges.Product() : 0;
     }
 }

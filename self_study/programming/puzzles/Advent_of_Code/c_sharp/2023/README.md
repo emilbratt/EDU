@@ -61,3 +61,12 @@ Subtract the number you arrive at with the previous number (the number below on 
 Move up again, take that number and subtract with the value you got from the last subtraction.\
 Keep doing this until you arrive back at the starting number.\
 The number you calculated is the one that comes before it.
+
+### Day 19 Part 2
+
+[A range problem](https://advent-of-code.xavd.id/writeups/2023/day/19/#part-2)
+
+Bruteforcing all values 4000^4 would never work.\
+We compute the ranges instead.\
+The link above seemed to have a better explanation (and understanding) than me.\
+Anyway, I am very proud of the code I wrote and the use of recursion to solve both part 1 and part 2.
