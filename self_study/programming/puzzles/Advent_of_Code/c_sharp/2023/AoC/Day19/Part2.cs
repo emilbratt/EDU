@@ -1,6 +1,6 @@
 #pragma warning disable CS8602 // Dereference of a possibly null reference.
 
-namespace AoC.Day10;
+namespace AoC.Day19;
 
 class Part2
 {

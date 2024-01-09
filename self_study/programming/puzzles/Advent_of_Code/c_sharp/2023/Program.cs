@@ -89,8 +89,8 @@ class Program
             ( "9", "2" ) => AoC.Day9.Part2.Run(puzzle_input),
 
             // Aplenty
-            ( "10", "1" ) => AoC.Day10.Part1.Run(puzzle_input),
-            ( "10", "2" ) => AoC.Day10.Part2.Run(puzzle_input),
+            ( "19", "1" ) => AoC.Day19.Part1.Run(puzzle_input),
+            ( "19", "2" ) => AoC.Day19.Part2.Run(puzzle_input),
 
             _ => String.Empty,
         };
