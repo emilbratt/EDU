@@ -10,8 +10,8 @@ class Part2
     {
         _workflows = GetWorkflows(puzzle_input);
 
-        // we have made a class that contains all the ranges and also provides methods to handle it
-        WorkflowRange wr = new() {
+        // introducing a special type for the ranges (will be duplicated when run through workflow)
+        WorkflowRanges ranges = new() {
             DestinationWF = "in",
             X = (1, 4000),
             M = (1, 4000),
@@ -19,7 +19,7 @@ class Part2
             S = (1, 4000),
         };
 
-        long result = RecursiveRunWorkflowRanges(wr);
+        long result = RecursiveRunWorkflowRanges(ranges);
 
         return result.ToString();
     }
@@ -50,62 +50,85 @@ class Part2
 
     public static ( (int low, int high) a, (int low, int high) b) BisectRange((int low, int high) range, int split)
     {
-        // from input range, slice it into two ranges using ..split
+        // from input range, slice it into two tuples with ranges using ..split
         var a = ( range.low, split - 1 );
         var b = ( split, range.high );
 
         return ( a, b );
     }
 
-    public static long RecursiveRunWorkflowRanges(WorkflowRange ranges)
+    public static long RecursiveRunWorkflowRanges(WorkflowRanges ranges)
     {
-        // if destination is a new workflow
-        if (_workflows.ContainsKey(ranges.DestinationWF))
+        // Workflows are comma separated strings and might look like this: s<1665:A,a>1628:km,m>875:tr,gmm
+        // For eaxmple, the 2nd part is an expression saying if the a-value is greater than 1628; then goto workflow "km"
+        // last value is always a direct goto.
+        // If any goto value is either "A" or "R" (final result) that means it is accepted or rejected respectively..
+
+        bool has_workflow = _workflows.ContainsKey(ranges.DestinationWF);
+        if (has_workflow)
         {
-            long res = 0;
-            string[] wfs = _workflows[ranges.DestinationWF];
+            long accumulated_result = 0;
 
-            foreach (string wf in wfs)
+            foreach (string expression_or_goto in _workflows[ranges.DestinationWF])
             {
-                if (wf.Contains(':')) // if workflow is a contitional one
+                // expressions contain a ':' symbol
+                if (expression_or_goto.Contains(':'))
                 {
-                    WorkflowRange new_ranges = new()
-                    {
-                        X = ranges.Get('x'),
-                        M = ranges.Get('m'),
-                        A = ranges.Get('a'),
-                        S = ranges.Get('s')
-                    };
-                    char key = Convert.ToChar(wf[0]); // x, m, a or s
-                    char op =  Convert.ToChar(wf[1]); // > or <
-                    int target_val = int.Parse(wf.Split(':')[0].Split(op)[1]); // target value to check against
-                    string target_wf = wf.Split(':')[1]; // if satisfied, this is the next assigned workflow
-                    new_ranges.DestinationWF = target_wf; // these ranges will be sent if condition is satisfied
+                    // extract the key to look up the next workflo (..or it might be "A" or "R"..)
+                    string next_wf_key = expression_or_goto.Split(':')[1];
 
-                    (int low, int high) satisfied;
-                    (int low, int high) rest;
-                    if (op == '>') (rest, satisfied) = BisectRange(ranges.Get(key), target_val + 1);
-                    else (satisfied, rest) = BisectRange(ranges.Get(key), target_val);
+                    // which range to use in condition e.g. x, m, a or s
+                    char key = Convert.ToChar(expression_or_goto[0]);
 
-                    ranges.Set(key, rest);
-                    new_ranges.Set(key, satisfied);
+                    // conditional operation - greater than > or less than <
+                    char op =  Convert.ToChar(expression_or_goto[1]);
 
-                    res += RecursiveRunWorkflowRanges(new_ranges);
+                    // target value for conditional opearation
+                    int target_val = int.Parse(expression_or_goto.Split(':')[0].Split(op)[1]);
+
+                    // the range that passes the condition goes to the conditions next workflow
+                    (int low, int high) satisfied_range; // greater than or less than (satisfied)
+                    (int low, int high) failed_range;    // not greater than or not less than (failed)
+
+
+                    // THIS IS WHERE THE CORE OF THE LOGIC HAPPENS - KEEPING THE SATSIFIED RANGES AND PASSING THOSE ON
+
+                    // if greater than, the satisfied range starts from greater than and goes up to high
+                    if (op == '>') (failed_range, satisfied_range) = BisectRange(ranges.Get(key), target_val + 1);
+                    // if less than, the satisfied range starts at low and goes up to (not including) less than
+                    else (satisfied_range, failed_range) = BisectRange(ranges.Get(key), target_val);
+
+                    // make a copy of the current ranges (will hold the satisfied range)
+                    WorkflowRanges satisfied_ranges = ranges.Clone();
+
+                    // next assigned workflow for satisfied condition
+                    satisfied_ranges.DestinationWF = next_wf_key;
+
+                    // apply the satisfied range to the copy
+                    satisfied_ranges.Set(key, satisfied_range);
+
+                    // pass on the satsified copy
+                    accumulated_result += RecursiveRunWorkflowRanges(satisfied_ranges);
+
+                    // apply the un-satisfied range to the original
+                    ranges.Set(key, failed_range);
+
                 }
-                else // no workflow, only the key that points to the next workflow or one of "A" and "R"
+                else
                 {
-                    ranges.DestinationWF = wf;
-                    return res + RecursiveRunWorkflowRanges(ranges);
+                    // the remaining one is finally passed on (has next workflow or one of "A" and "R")
+                    ranges.DestinationWF = expression_or_goto;
+                    return accumulated_result + RecursiveRunWorkflowRanges(ranges);
                 }
             }
         }
 
-        // this is the base case (the final endpoint "A"-ccepted or "R"-ejected)
+        // base case - the final endpoint "A"-ccepted or "R"-ejected
         return ranges.DestinationWF == "A" ? ranges.Product() : 0;
     }
 }
 
-internal class WorkflowRange
+internal class WorkflowRanges
 {
     public string DestinationWF { get; set; } = String.Empty;
     public (int low, int high) X { get; set; }
@@ -138,5 +161,19 @@ internal class WorkflowRange
         long a = A.high + 1 - A.low;
         long s = S.high + 1 - S.low;
         return x * m * a * s;
+    }
+
+    // returns a new object with the same values
+    public WorkflowRanges Clone()
+    {
+        var clone = new WorkflowRanges
+        {
+            DestinationWF = DestinationWF,
+            X = X,
+            M = M,
+            A = A,
+            S = S
+        };
+        return clone;
     }
 }
