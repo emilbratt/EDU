@@ -62,6 +62,25 @@ Move up again, take that number and subtract with the value you got from the las
 Keep doing this until you arrive back at the starting number.\
 The number you calculated is the one that comes before it.
 
+### Day 10 Part 2
+
+[A point-in-polygon problem](https://en.wikipedia.org/wiki/Point_in_polygon)
+
+This one was hard for me. Spent some hours making a mental model of how to translate this problem into code.\
+A way of counting all the tiles that are enclosed, is by knowing wheter or not we are inside or not.\
+At first glance it seems easy, at second glance it becomes hard.\
+Having watched alot of youtube math content (disclosure: I am not good at math..),\
+I came to remember something about crossing lines and poligons
+So it began.
+Re-searching this, I learned the main principle.
+Finding whether a point is inside or outside a polygon, is to test how many times a ray\
+starting from the point and going in any fixed direction (in our case only the right direction)\
+intersects the edges of the polygon which in our case is the enclosed (marked) pipemaze.\
+If the point is on the inside of the polygon then it will intersect the edge an odd number of times.\
+If the point is on the outside of the polygon the ray will intersect its edge an even number of times.\
+So basically it is every other time it intersects, which we can represent using true and false.
+I finally succeeded and I am feeling great about it.
+
 ### Day 19 Part 2
 
 [A range problem](https://advent-of-code.xavd.id/writeups/2023/day/19/#part-2)
