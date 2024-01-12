@@ -154,7 +154,7 @@ class Part2
 
                 if (marked && symbol != '-') // if crossing a pipe
                 {
-                    // NOTE: '-' is the only pipe symbol that is note a "crossing point" in our case
+                    // NOTE: '-' is the only pipe symbol that is not a "crossing point" in our case
 
                     is_enclosed = symbol switch
                     {

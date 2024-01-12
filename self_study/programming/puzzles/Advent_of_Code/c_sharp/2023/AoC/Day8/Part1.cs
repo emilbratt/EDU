@@ -42,13 +42,13 @@ class Part1
 
         Dictionary<int, (int left, int right)> nodes = new();
 
-        string[] lines  = puzzle_input.Split('\n').ToArray();
+        string second_part = puzzle_input.Split("\n\n")[1].ToString();
+        string[] lines  = second_part.Split('\n', StringSplitOptions.RemoveEmptyEntries).ToArray();
 
-        int index = 2; // nodes start from 3rd line in puzzle input
+        int index = 0;
         while (index < lines.Length)
         {
             string line = lines[index];
-            if (line.Length < 16) break;
 
             string position = line.Substring(startIndex: 0, length: 3);
             string left = line.Substring(startIndex:7, length: 3);

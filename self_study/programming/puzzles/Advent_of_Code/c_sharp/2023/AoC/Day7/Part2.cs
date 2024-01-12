@@ -17,13 +17,11 @@ class Part2
     {
         var list_out = new List<(string, int)>();
 
-        string[] lines = puzzle_input.Split("\n");
+        string[] lines = puzzle_input.Split("\n", StringSplitOptions.RemoveEmptyEntries);
 
         foreach (string line in lines)
         {
-            if (line.Length == 0) continue; // we might have a new line ending
-
-            string[] arr_line = line.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+            string[] arr_line = line.Split(' ');
 
             list_out.Add((arr_line[0], int.Parse(arr_line[1])));
         }

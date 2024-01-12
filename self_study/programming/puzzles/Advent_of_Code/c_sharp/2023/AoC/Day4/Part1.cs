@@ -4,7 +4,7 @@ class Part1
 {
     public static string Run(string puzzle_input)
     {
-        string[] input = puzzle_input.Split('\n').ToArray();
+        string[] input = puzzle_input.Split('\n', StringSplitOptions.RemoveEmptyEntries).ToArray();
 
         int result = HandlePuzzleInput(input);
 

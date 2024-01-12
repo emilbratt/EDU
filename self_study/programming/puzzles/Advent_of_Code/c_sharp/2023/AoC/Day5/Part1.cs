@@ -7,7 +7,7 @@ class Part1
 
     public static string Run(string puzzle_input)
     {
-        _puzzle_input = puzzle_input.Split('\n').ToArray();
+        _puzzle_input = puzzle_input.Split('\n', StringSplitOptions.RemoveEmptyEntries).ToArray();
 
         long result = GetLowestLocation();
 

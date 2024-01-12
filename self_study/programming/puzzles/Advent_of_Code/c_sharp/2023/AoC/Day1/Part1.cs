@@ -5,11 +5,10 @@ class Part1
     public static string Run(string puzzle_input)
     {
         var list = new List<string>();
-        foreach (string line in puzzle_input.Split('\n'))
+        foreach (string line in puzzle_input.Split('\n', StringSplitOptions.RemoveEmptyEntries))
         {
             list.Add(line);
         }
-        list.RemoveAt(list.Count - 1);
 
         string[] input = list.ToArray();
 

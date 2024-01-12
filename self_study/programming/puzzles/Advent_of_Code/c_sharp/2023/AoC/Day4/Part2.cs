@@ -6,7 +6,7 @@ class Part2
     private static int _last_card_number = 0;
     public static string Run(string puzzle_input)
     {
-        string[] input = puzzle_input.Split('\n').ToArray();
+        string[] input = puzzle_input.Split('\n', StringSplitOptions.RemoveEmptyEntries).ToArray();
 
         _game_cards = PrepareGameCards(input);
 

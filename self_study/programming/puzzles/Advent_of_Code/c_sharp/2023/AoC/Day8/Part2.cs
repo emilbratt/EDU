@@ -48,16 +48,16 @@ class Part2
 
         Dictionary<string, NextNode> nodes = new();
 
-        string[] lines  = puzzle_input.Split('\n').ToArray();
+        string second_part = puzzle_input.Split("\n\n")[1].ToString();
+        string[] lines  = second_part.Split('\n', StringSplitOptions.RemoveEmptyEntries).ToArray();
 
         int ends_with_A = 0;
         int ends_with_Z = 0;
 
-        int index = 2; // nodes start from 3rd line in puzzle input
+        int index = 0;
         while (index < lines.Length)
         {
             string line = lines[index];
-            if (line.Length < 16) break; // might have a new line in the end
 
             string str_main_node = line.Substring(startIndex: 0, length: 3);
 
