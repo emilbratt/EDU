@@ -1,8 +1,4 @@
-﻿// Commandline-argument for this application should be passed as follows
-// dotnet run <day> <part>
-
-// Example for day 1 and part 2: dotnet run 1 2
-class Program
+﻿class Program
 {
     static void Main(string[] args)
     {
@@ -91,6 +87,10 @@ class Program
             // Pipe Maze
             ( "10", "1" ) => AoC.Day10.Part1.Run(puzzle_input),
             ( "10", "2" ) => AoC.Day10.Part2.Run(puzzle_input),
+
+            // Cosmic Expansion
+            ( "11", "1" ) => AoC.Day11.Part1.Run(puzzle_input),
+            ( "11", "2" ) => AoC.Day11.Part2.Run(puzzle_input),
 
             // Aplenty
             ( "19", "1" ) => AoC.Day19.Part1.Run(puzzle_input),
