@@ -9,6 +9,8 @@ Every day has two parts; both defined as filename Part1.cs and Part2.cs.
 
 Yes, there is repetitive code in every part and I don't usually write code like this.\
 The only shared (non-repetive code) is loading the input from a file into a string type.\
+That code is found here: /AoC/PuzzleIO.cs
+
 This might seem dumb especially for days where part 2 differs only by a couple of line changes from part 1.\
 So why do each part contain all the code needed for the solve, making them fully independent?\
 Sharing code between parts forces me to jump around the source code to understand everything.\
