@@ -1,8 +1,10 @@
 # AoC 2023 in C# .NET 8.0
 
+[Website](https://adventofcode.com/2023)
+
 ### Solves
 
-Each days solve reside in AoC/Day{N} where N = the day of the puzzle.\
+Each days solve reside in AoC/Day{N} where N is the day of the puzzle.\
 Every day has two parts; both defined as filename Part1.cs and Part2.cs.
 
 ### Why aren't you 'DRY'-ving?
