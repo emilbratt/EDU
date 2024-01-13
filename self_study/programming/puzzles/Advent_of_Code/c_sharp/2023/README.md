@@ -1,13 +1,20 @@
 # AoC 2023 in C# .NET 8.0
 
-
-### About
+### Solves
 
 Each days solve reside in AoC/Day{N} where N = the day of the puzzle.\
-Every day has two parts. You can find both defined as filename Part1.cs and Part2.cs\
-No parts share code; each part for every day is solved by itself and is fully independent of the other part.\
-You will see some repetitive code for input parsing/loading as a result.
+Every day has two parts; both defined as filename Part1.cs and Part2.cs.
 
+### Why aren't you 'DRY'-ving?
+
+Yes, there is repetitive code in every part and I don't usually write code like this.\
+The only shared (non-repetive code) is loading the input from a file into a string type.\
+This might seem dumb especially for days where part 2 differs only by a couple of line changes from part 1.\
+So why do each part contain all the code needed for the solve, making them fully independent?\
+Sharing code between parts forces me to jump around the source code to understand everything.\
+I.e. creating abstractions for common tasks can make it more time consuming to read through the code later.\
+I want the ability to just jump right into any part and read the whole solution.\
+Bottom line; I am hoping that future me saves time by "not dryving". :)
 
 ### Run in Container
 
