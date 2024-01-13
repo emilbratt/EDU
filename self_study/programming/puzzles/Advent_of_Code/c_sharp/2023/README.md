@@ -14,7 +14,7 @@ So why do each part contain all the code needed for the solve, making them fully
 Sharing code between parts forces me to jump around the source code to understand everything.\
 I.e. creating abstractions for common tasks can make it more time consuming to read through the code later.\
 I want the ability to just jump right into any part and read the whole solution.\
-Bottom line; I am hoping that future me saves time by "not dryving". :)
+Bottom line; I am hoping that future me saves time by not "dryving". :)
 
 ### Run in Container
 
