@@ -58,9 +58,9 @@ class Part1
         // base case for when we have processed all symbols in the char array
         if (past_last_symbol)
         {
-            if (past_last_symbol && past_last_number && no_accumulation) return 1;
-            else if (past_last_symbol && last_number && accumulation_match) return 1;
-            else return 0;
+            if (past_last_number && no_accumulation) return 1;
+            if (last_number && accumulation_match) return 1;
+            return 0;
         }
 
 
