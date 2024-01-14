@@ -5,7 +5,7 @@ class Part2
     private static string[]? _puzzle_input;
     private static int _last_row = 0;
     private static int _last_col = 0;
-    private static Dictionary<(int x, int y),(int count, int product)>? _gear_map;
+    private static Dictionary<(int x, int y),(int count, int product)> _gear_map = [];
 
     public static string Run(string puzzle_input)
     {
@@ -16,8 +16,6 @@ class Part2
         }
 
         _puzzle_input = list.ToArray();
-
-        _gear_map = new Dictionary<(int x, int y),(int count, int product)>();
 
         // we treat the whole input as a matrix - each line is a row and each character is a column
         _last_row = _puzzle_input.Length - 1;

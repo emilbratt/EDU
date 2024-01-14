@@ -66,19 +66,15 @@ class Part1
         int row_count = pipe_maze.Length;
         foreach (var kv in dir_map)
         {
-            if (kv.Key.row > 0 && kv.Key.row < row_count)
+            if (kv.Key.row == 0) continue;
+            if (kv.Key.row == row_count) continue;
+            if (kv.Key.col == pipe_maze[kv.Key.row].Length) continue;
+            if (kv.Key.col == 0) continue;
+
+            if (kv.Value.Contains(pipe_maze[kv.Key.row][kv.Key.col]))
             {
-                int col_count = pipe_maze[kv.Key.row].Length;
-                if(kv.Key.col > 0 && kv.Key.col < col_count)
-                {
-                    {
-                        if (kv.Value.Contains(pipe_maze[kv.Key.row][kv.Key.col]))
-                        {
-                            pd[index] = kv.Key.direction;
-                            index++;
-                        }
-                    }
-                }
+                pd[index] = kv.Key.direction;
+                index++;
             }
         }
 
