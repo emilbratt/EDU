@@ -38,11 +38,9 @@
 
     private static void Puzzle(string day, string part)
     {
-        var puzzle_io = new AoC.PuzzleIO(day, part);
+        var puzzle_io = new AoC.PuzzleIO();
 
-        string puzzle_input = puzzle_io.In();
-
-        if (puzzle_input == String.Empty) return;
+        string puzzle_input = puzzle_io.Input(day);
 
         var stop_watch = System.Diagnostics.Stopwatch.StartNew();
 
@@ -96,6 +94,10 @@
             ( "12", "1" ) => AoC.Day12.Part1.Run(puzzle_input),
             ( "12", "2" ) => AoC.Day12.Part2.Run(puzzle_input),
 
+            // Point of Incidence
+            ( "13", "1" ) => AoC.Day13.Part1.Run(puzzle_input),
+            // ( "13", "2" ) => AoC.Day13.Part2.Run(puzzle_input),
+
             // Aplenty
             ( "19", "1" ) => AoC.Day19.Part1.Run(puzzle_input),
             ( "19", "2" ) => AoC.Day19.Part2.Run(puzzle_input),
@@ -106,8 +108,18 @@
         stop_watch.Stop();
         long timer = stop_watch.ElapsedMilliseconds;
 
-        string response = puzzle_io.Out(puzzle_output);
-
-        Console.WriteLine($"Day {day} part {part}\t| Output: {response}\t| time: {timer} milliseconds");
+        if (puzzle_input == String.Empty)
+        {
+            Console.Write($"Day {day} Part {part}\t| No puzzle input");
+        }
+        else if (puzzle_output == String.Empty)
+        {
+            Console.Write($"Day {day} Part {part}\t| No output or not implemented");
+        }
+        else
+        {
+            string output_response = puzzle_io.Output(puzzle_output, day, part);
+            Console.WriteLine($"Day {day} part {part}\t| Output: {output_response}\t| time: {timer} milliseconds");
+        }
     }
 }
