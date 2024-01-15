@@ -94,7 +94,7 @@
 
             // Hot Springs
             ( "12", "1" ) => AoC.Day12.Part1.Run(puzzle_input),
-            // ( "12", "2" ) => AoC.Day12.Part2.Run(puzzle_input),
+            ( "12", "2" ) => AoC.Day12.Part2.Run(puzzle_input),
 
             // Aplenty
             ( "19", "1" ) => AoC.Day19.Part1.Run(puzzle_input),

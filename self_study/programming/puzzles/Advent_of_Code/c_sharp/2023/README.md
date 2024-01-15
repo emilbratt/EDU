@@ -94,6 +94,27 @@ So basically it is every other time it intersects, which we can represent using 
 
 I finally succeeded and I am feeling great about it.
 
+### Day 12
+
+[A Dynamic Programming problem](https://en.wikipedia.org/wiki/Dynamic_programming)
+
+The hardest AoC puzzle I have encountered and good chunks of the AoC community seem to agree.
+
+There was simply no way where I would be capable of solving both parts on my own.\
+It is all about trying different configurations to see what "final result" satisfies all the defined rules.\
+Kinda like a [nonogram logic puzzle](https://en.wikipedia.org/wiki/Nonogram#Example).\
+Also, part 2 is 100% unsolvable for any brute-force attempted solutions.
+
+My solution is fully based on [this code](https://github.com/jonathanpaulson/AdventOfCode/blob/master/2023/12.py) by competitive programmer Jonathan Paulson.\
+He uses dynamic programming and memoization (both new concepts to me) but are usually implemented to solve nonograms-like problems.\
+I think a good way to approach these concepts is by first looking at the [Fibonacci sequence](https://en.wikipedia.org/wiki/Dynamic_programming#Fibonacci_sequence) example.
+
+If I understand this correctly, it is all about defining sub-problems and attacking them first.\
+Solving the sub-probles according to the set of rules and then build solutions keeping only the onse that still follow the set of rules.\
+But, ..I am still wrapping my head around this..
+
+I might update this paragraph with more at a later time. Now I need to rest.. :)
+
 ### Day 19 Part 2
 
 [A range problem](https://advent-of-code.xavd.id/writeups/2023/day/19/#part-2)
