@@ -2,7 +2,7 @@ namespace AoC.Day3;
 
 class Part2
 {
-    private static string[]? _puzzle_input;
+    private static string[] _puzzle_input = [];
     private static int _last_row = 0;
     private static int _last_col = 0;
     private static Dictionary<(int x, int y),(int count, int product)> _gear_map = [];
@@ -58,7 +58,6 @@ class Part2
             }
         }
 
-        #pragma warning disable CS8602 // Dereference of a possibly null reference.
         int total = 0;
         foreach ((int, int) value in _gear_map.Values)
         {

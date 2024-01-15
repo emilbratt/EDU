@@ -7,7 +7,6 @@ class Part2
         int[][] oasis_report = GetOasisReport(puzzle_input);
 
         int result = 0;
-
         foreach (int[] row in oasis_report)
         {
             result += ExtrapolateBackwards(row);

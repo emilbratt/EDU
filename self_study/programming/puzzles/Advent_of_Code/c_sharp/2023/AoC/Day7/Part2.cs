@@ -13,7 +13,7 @@ class Part2
         return result.ToString();
     }
 
-    public static (string cards, int bid)[] GetCamelCards(string puzzle_input)
+    private static (string cards, int bid)[] GetCamelCards(string puzzle_input)
     {
         var list_out = new List<(string, int)>();
 
@@ -23,13 +23,13 @@ class Part2
         {
             string[] arr_line = line.Split(' ');
 
-            list_out.Add((arr_line[0], int.Parse(arr_line[1])));
+            list_out.Add( (arr_line[0], int.Parse(arr_line[1])) );
         }
 
         return list_out.ToArray();
     }
 
-    public static Dictionary<int, List<(string hand, int bid)>> FilterAllHands((string cards, int bid)[] camel_cards)
+    private static Dictionary<int, List<(string hand, int bid)>> FilterAllHands((string cards, int bid)[] camel_cards)
     {
         var dict_out = new Dictionary<int, List<(string, int)>>();
 
@@ -53,7 +53,7 @@ class Part2
         return dict_out;
     }
 
-    public static long CalculateTotalWinnings(Dictionary<int, List<(string hand, int bid)>> cards)
+    private static long CalculateTotalWinnings(Dictionary<int, List<(string hand, int bid)>> cards)
     {
         long total_winnings = 0;
 
@@ -79,7 +79,7 @@ class Part2
         return total_winnings;
     }
 
-    public static int GetTypeRank(string hand)
+    private static int GetTypeRank(string hand)
     {
         // start of with an array with 12 elements, each element represent a card
         int[] cards = new int[12]; // 12 different cards: Ace, 2, 3,.., King where 'J' not included
@@ -126,7 +126,7 @@ class Part2
              : 0; // High card
     }
 
-    public static (int strength, int bid)[] GetCardStrengthForHands((string hand, int bid)[] cards)
+    private static (int strength, int bid)[] GetCardStrengthForHands((string hand, int bid)[] cards)
     {
         /*
          *  From first to last card, get a value representing the strength
@@ -148,7 +148,7 @@ class Part2
         return new_arr;
     }
 
-    public static int GetStrength(string hand)
+    private static int GetStrength(string hand)
     {
         int strength = 0;
 
@@ -186,7 +186,7 @@ class Part2
         return strength;
     }
 
-    public static (int strength, int bid)[] SortLowestFirst((int strength, int bid)[] cards)
+    private static (int strength, int bid)[] SortLowestFirst((int strength, int bid)[] cards)
     {
         // simple bubble sort implementation to order the strength from lowest
 

@@ -2,8 +2,8 @@ namespace AoC.Day8;
 
 class Part2
 {
-    private static bool[] _instructions = Array.Empty<bool>();
-    private static Dictionary<string, NextNode> _nodes = new();
+    private static bool[] _instructions = [];
+    private static Dictionary<string, NextNode> _nodes = [];
 
     public static string Run(string puzzle_input)
     {
@@ -13,7 +13,7 @@ class Part2
 
         string[] start_nodes = GetNodesEndingWith('A');
 
-        List<int> result_steps = new();
+        List<int> result_steps = [];
         foreach (string start_node in start_nodes)
         {
             result_steps.Add(TraverseNodes(start_node));
@@ -46,7 +46,7 @@ class Part2
         // ..we cast these to their corresponding ascii values
         // then we append them as int to an array holding the 3 numbers
 
-        Dictionary<string, NextNode> nodes = new();
+        Dictionary<string, NextNode> nodes = [];
 
         string second_part = puzzle_input.Split("\n\n")[1].ToString();
         string[] lines  = second_part.Split('\n', StringSplitOptions.RemoveEmptyEntries).ToArray();
@@ -86,7 +86,7 @@ class Part2
 
     private static string[] GetNodesEndingWith(char c)
     {
-        var nodes_ending_with = new List<string>();
+        List<string> nodes_ending_with = [];
 
         foreach (var node in _nodes.Keys)
         {
@@ -161,22 +161,22 @@ class Part2
         // this will be the final least common multiple
         return least_common_multiple;
     }
-}
 
-// the datatype annotation grew so big, lets introduce a class
-internal class NextNode
-{
-    private string _left;
-    private string _right;
-
-    public NextNode(string left_characters, string right_characters)
+    // the datatype annotation grew so big, lets introduce a class
+    private class NextNode
     {
-        _left = left_characters;
-        _right = right_characters;
-    }
+        private readonly string _left;
+        private readonly string _right;
 
-    public string Get(bool go_right)
-    {
-        return go_right ? _right : _left;
+        public NextNode(string left_characters, string right_characters)
+        {
+            _left = left_characters;
+            _right = right_characters;
+        }
+
+        public string Get(bool go_right)
+        {
+            return go_right ? _right : _left;
+        }
     }
 }

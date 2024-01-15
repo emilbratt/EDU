@@ -16,7 +16,7 @@ class Part1
         return result.ToString();
     }
 
-    public static bool[] GetLeftRightInstructions(string puzzle_input)
+    private static bool[] GetLeftRightInstructions(string puzzle_input)
     {
         // left = false & right = true
 
@@ -32,7 +32,7 @@ class Part1
         return instructinos;
     }
 
-    public static Dictionary<int, (int left, int right)> GetNodes(string puzzle_input)
+    private static Dictionary<int, (int left, int right)> GetNodes(string puzzle_input)
     {
         // The nodes are represented as three characters,
         // ..we cast these to their corresponding ascii values
@@ -40,7 +40,7 @@ class Part1
         // finally we create a numeric value which we cast to integer
         // Why? ..working with integers is much faster than strings
 
-        Dictionary<int, (int left, int right)> nodes = new();
+        Dictionary<int, (int left, int right)> nodes = [];
 
         string second_part = puzzle_input.Split("\n\n")[1].ToString();
         string[] lines  = second_part.Split('\n', StringSplitOptions.RemoveEmptyEntries).ToArray();
@@ -81,7 +81,7 @@ class Part1
         return nodes;
     }
 
-    public static int TraverseNodes(bool[] instructions, Dictionary<int, (int left, int right)> nodes)
+    private static int TraverseNodes(bool[] instructions, Dictionary<int, (int left, int right)> nodes)
     {
         int steps = 0;
         int index = 0;

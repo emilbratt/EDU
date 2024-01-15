@@ -6,12 +6,22 @@ class Part1
     {
         (int time, int distance)[] input = ParseInput(puzzle_input);
 
-        int res = RunPuzzle(input);
+        int[] numbers = new int[input.Length];
+
+        for (int i = 0; i < input.Length; i++)
+        {
+            int time = input[i].time;
+            int distance = input[i].distance;
+            numbers[i] = GetPossibleWinConditions(time, distance);
+        }
+
+        // LINQ: using Aggregate to multiply all numbers in the array
+        int res = numbers.Aggregate((a, b) => a * b);
 
         return res.ToString();
     }
 
-    public static (int time, int distance)[] ParseInput(string puzzle_input)
+    private static (int time, int distance)[] ParseInput(string puzzle_input)
     {
         // split all content by new line (and get only the first line)
         string line_1 = puzzle_input.Split("\n")[0];
@@ -35,23 +45,8 @@ class Part1
         return parsed_input;
     }
 
-    public static int RunPuzzle((int time, int distance)[] input)
-    {
-        int[] numbers = new int[input.Length];
 
-        for (int i = 0; i < input.Length; i++)
-        {
-            int time = input[i].time;
-            int distance = input[i].distance;
-            numbers[i] = CountPossibilities(time, distance);
-        }
-
-        // LINQ: using Aggregate to multiply numbers in array
-        int product = numbers.Aggregate((current, next) => current * next);
-        return product;
-    }
-
-    public static int CountPossibilities(int time, int record_distance)
+    private static int GetPossibleWinConditions(int time, int record_distance)
     {
         // starting from the half (time / 2) will always yield the best distance
         // ..this means that starting from there, we can find the number

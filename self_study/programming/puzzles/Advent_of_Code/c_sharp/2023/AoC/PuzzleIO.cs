@@ -2,14 +2,12 @@ namespace AoC;
 
 using System.IO;
 
-#pragma warning disable CS8604 // Possible null reference argument.
-
 class PuzzleIO
 {
-    private static string? _day;
-    private static string? _part;
-    private static string? _path_input;
-    private static string? _path_output;
+    private static string _day = String.Empty;
+    private static string _part = String.Empty;
+    private static string _path_input = String.Empty;
+    private static string _path_output = String.Empty;
 
     public PuzzleIO(string day, string part)
     {
@@ -18,6 +16,7 @@ class PuzzleIO
         // find directory named AoC by jumping one directory up every time
         while (path != null)
         {
+            // try to load AoC directory
             if (Directory.Exists(Path.Combine("/", path, "AoC")))
             {
                 _path_input = Path.Combine("/", path, "AoC", "Input");
@@ -27,7 +26,7 @@ class PuzzleIO
                 return;
             }
 
-            // jump one directory up
+            // jump one directory up and try again
             path = Path.GetDirectoryName(path);
         }
 
@@ -58,7 +57,7 @@ class PuzzleIO
         try
         {
             Directory.CreateDirectory(_path_output); // output directory might not exist
-            File.WriteAllText(output_file, output);
+            File.WriteAllText(output_file, output + '\n'); // we add a "newline"-character for easy concat/read
             return output_file;
         }
         catch (Exception ex)

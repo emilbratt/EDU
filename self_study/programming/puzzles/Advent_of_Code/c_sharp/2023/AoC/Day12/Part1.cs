@@ -95,12 +95,9 @@ class Part1
                 res += RecCA(zero_K, next_symbol, same_number);
             }
 
-
-
             return res;
         }
 
         return RecCA(0, 0, 0);
     }
-
 }

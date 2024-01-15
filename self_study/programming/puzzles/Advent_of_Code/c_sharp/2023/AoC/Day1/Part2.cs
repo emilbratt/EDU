@@ -2,8 +2,8 @@ namespace AoC.Day1;
 
 class Part2
 {
-    private static readonly string[] _spelled_digits = new string[]
-    {
+    private static readonly string[] _spelled_digits = 
+    [
         "one",
         "two",
         "three",
@@ -13,7 +13,7 @@ class Part2
         "seven",
         "eight",
         "nine",
-    };
+    ];
 
     public static string Run(string puzzle_input)
     {

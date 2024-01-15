@@ -2,7 +2,7 @@ namespace AoC.Day3;
 
 class Part1
 {
-    private static string[]? _puzzle_input;
+    private static string[] _puzzle_input = [];
     private static int _last_row = 0;
     private static int _last_col = 0;
 
