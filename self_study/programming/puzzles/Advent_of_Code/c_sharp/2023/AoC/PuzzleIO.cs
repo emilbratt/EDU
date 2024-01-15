@@ -4,12 +4,10 @@ using System.IO;
 
 class PuzzleIO
 {
-    private static string _day = String.Empty;
-    private static string _part = String.Empty;
     private static string _path_input = String.Empty;
     private static string _path_output = String.Empty;
 
-    public PuzzleIO(string day, string part)
+    public PuzzleIO()
     {
         string? path = AppContext.BaseDirectory;
 
@@ -21,8 +19,8 @@ class PuzzleIO
             {
                 _path_input = Path.Combine("/", path, "AoC", "Input");
                 _path_output = Path.Combine("/", path, "AoC", "Output");
-                _day = day;
-                _part = part;
+                // _day = day;
+                // _part = part;
                 return;
             }
 
@@ -34,9 +32,9 @@ class PuzzleIO
         Environment.Exit(1);
     }
 
-    public string In()
+    public string Input(string day)
     {
-        string input_file = Path.Combine(_path_input, _day);
+        string input_file = Path.Combine(_path_input, day);
 
         try
         {
@@ -48,11 +46,11 @@ class PuzzleIO
         }
     }
 
-    public string Out(string output)
+    public string Output(string output, string day, string part)
     {
         if (output == String.Empty) return "No output data";
 
-        string output_file = Path.Combine(_path_output, _day + "." + _part);
+        string output_file = Path.Combine(_path_output, day + "." + part);
 
         try
         {

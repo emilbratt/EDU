@@ -2,8 +2,7 @@ namespace AoC.Day5;
 
 class Part1
 {
-    #pragma warning disable CS8602 // Dereference of a possibly null reference.
-    private static string[]? _puzzle_input;
+    private static string[] _puzzle_input = [];
 
     public static string Run(string puzzle_input)
     {

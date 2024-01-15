@@ -118,7 +118,7 @@ class Mapper
                     // preserve the last seed for the last correct prediction
                     last_calculated_seed = seed;
 
-                    // for every predictable outcome, increase the increment by the power of 2
+                    // for every predictable outcome, double the increment window
                     increment_window *= 2;
 
                     result = GetLocationFromSeed(seed);
