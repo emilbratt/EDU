@@ -4,18 +4,18 @@ class Part1
 {
     public static string Run(string puzzle_input)
     {
-        (char[] symbols, int[] numbers)[] records = SpringRecordings(puzzle_input);
+        (char[] symbols, int[] numbers)[] records = GetConditionRecords(puzzle_input);
 
         long res = 0;
         foreach (var (symbols, numbers) in records)
         {
-            res += RecCA(0, 0, 0, symbols, numbers);
+            res += CalculateArrangements(symbols, numbers);
         }
 
         return res.ToString();
     }
 
-    private static (char[] symbols, int[] numbers)[] SpringRecordings(string input)
+    private static (char[] symbols, int[] numbers)[] GetConditionRecords(string input)
     {
         string[] lines = input.Split('\n', StringSplitOptions.RemoveEmptyEntries);
 
@@ -37,52 +37,70 @@ class Part1
         return condition_records;
     }
 
-    // RecCA - Recursive Calculate Arrangements
-    private static long RecCA(int k, int i, int j, char[] symbols, int[] numbers)
+    private static long CalculateArrangements(char[] symbols, int[] numbers)
     {
-        /*
-         *
-         *  state of computation:
-         *      k = how many '#' accumulated so far
-         *      i = index symbols ('.', '#', '?)
-         *      j = index numbers
-         *
-         */
 
-        bool last_number = j == numbers.Length - 1;
-        bool past_last_number = j == numbers.Length;
-        bool accumulation_match = !past_last_number && numbers[j] == k;
-        bool past_last_symbol = i == symbols.Length;
-        bool no_accumulation = k == 0;
-
-        // base case for when we have processed all symbols in the char array
-        if (past_last_symbol)
+        // RecCA - Recursive Calculate Arrangements
+        long RecCA(int k, int i, int j)
         {
-            if (past_last_number && no_accumulation) return 1;
-            if (last_number && accumulation_match) return 1;
-            return 0;
-        }
+            /*
+            *
+            *  state of computation:
+            *      k = current length of the string of hashtags to be compared against
+            *      i = current symbol '.', '# or '?
+            *      j = current number
+            *
+            */
 
+            bool no_symbols_left = i == symbols.Length;
+            bool no_numbers_left = j == numbers.Length;
+            bool numbers_remaining = j < numbers.Length;
+            bool is_last_number = j == numbers.Length - 1;
+            bool no_hashtags = k == 0;
+            bool hashtags_length_matches_number = numbers_remaining && numbers[j] == k;
 
-        (long res, int k_up, int i_up, int j_up) = (0, k+1, i+1, j+1);
-        char symbol = symbols[i];
-        if (symbol == '?' || symbol == '.')
-        {
-            if (no_accumulation)
+            // base case for when we have processed all symbols in the record
+            if (no_symbols_left)
             {
-                res += RecCA(0, i_up, j, symbols, numbers);
-            } 
-            else if (!past_last_number && accumulation_match)
-            {
-                res += RecCA(0, i_up, j_up, symbols, numbers);
+                if (no_numbers_left && no_hashtags) return 1;
+                else if (is_last_number && hashtags_length_matches_number) return 1;
+                else return 0;
             }
+
+            char s = symbols[i];
+
+            (int next_K, int next_symbol, int next_number) = (k+1, i+1, j+1);
+            (int zero_K, int same_number) = (0, j);
+
+            (bool questionmark, bool dot, bool hashtag) = (s == '?', s == '.', s == '#');
+
+            if (hashtag)
+            {
+                return RecCA(next_K, next_symbol, same_number);
+            }
+
+            long res = 0;
+
+            if (questionmark)
+            {
+                res += RecCA(next_K, next_symbol, same_number);
+            }
+
+            if (hashtags_length_matches_number)
+            {
+                res += RecCA(zero_K, next_symbol, next_number);
+            }
+            else if (no_hashtags)
+            {
+                res += RecCA(zero_K, next_symbol, same_number);
+            }
+
+
+
+            return res;
         }
 
-        if (symbol == '#' || symbol == '?')
-        {
-            res += RecCA(k_up, i_up, j, symbols, numbers);
-        }
-
-        return res;
+        return RecCA(0, 0, 0);
     }
+
 }
