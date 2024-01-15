@@ -110,11 +110,11 @@
 
         if (puzzle_input == String.Empty)
         {
-            Console.Write($"Day {day} Part {part}\t| No puzzle input");
+            Console.WriteLine($"Day {day} Part {part}\t| No puzzle input");
         }
         else if (puzzle_output == String.Empty)
         {
-            Console.Write($"Day {day} Part {part}\t| No output or not implemented");
+            Console.WriteLine($"Day {day} Part {part}\t| No output or not implemented");
         }
         else
         {
