@@ -4,13 +4,14 @@ class Part1
 {
     public static string Run(string puzzle_input)
     {
-        int res = 0;
-        var mp = GetMirrorPatterns(puzzle_input);
+        var mirror_patterns = GetMirrorPatterns(puzzle_input);
 
-        foreach ((int[] horizontal, int[] rotated_vertical) in mp)
+        int res = 0;
+
+        foreach ((int[] horizontal, int[] vertical_rotated) in mirror_patterns)
         {
             int res_horizontal = CalculateReflection(horizontal);
-            int res_vertical = CalculateReflection(rotated_vertical);
+            int res_vertical = CalculateReflection(vertical_rotated);
 
             res += 100*res_horizontal + res_vertical;
         }
@@ -19,7 +20,7 @@ class Part1
     }
 
     // return two versions where the vertical is rotated 90 degrees so we can use same implementations for it
-    private static List<(int[] horizontal, int[] vertical)> GetMirrorPatterns(string puzzle_input)
+    private static List<(int[] horizontal, int[] vertical_rotated)> GetMirrorPatterns(string puzzle_input)
     {
         /*
          * parts look like this
@@ -71,6 +72,7 @@ class Part1
                 // vertical iteration (columns) -> transform to horizontal representation (rotated 90 degrees)
                 if (i < columns)
                 {
+                    // create binary repr. of the line converting '#' or '.' to '1' or '0' respectively
                     string base_two = string.Concat(part_lines.Select(line => line[i] == '#' ? '1' : '0'));
 
                     // convert our binary to an integer and add to array

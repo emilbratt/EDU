@@ -96,7 +96,7 @@
 
             // Point of Incidence
             ( "13", "1" ) => AoC.Day13.Part1.Run(puzzle_input),
-            // ( "13", "2" ) => AoC.Day13.Part2.Run(puzzle_input),
+            ( "13", "2" ) => AoC.Day13.Part2.Run(puzzle_input),
 
             // Aplenty
             ( "19", "1" ) => AoC.Day19.Part1.Run(puzzle_input),
