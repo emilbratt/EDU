@@ -115,6 +115,42 @@ But, ..I am still wrapping my head around this..
 
 I might update this paragraph with more at a later time. Now I need to rest.. :)
 
+### Day 13
+
+[Change in requirements problem](https://en.wikipedia.org/wiki/Scrum_(software_development)#Sprint_planning)
+
+Well, not exactly the theme in particular for this puzzle (it happens for every day after solving part 1).\
+This day was just a good example because of how it impacted my solution.\
+What i did for part 1 was converting every line in the input to one single number.\
+A hashtag '#' becomes '1' and a period '.' becomes '0' which I can represent as a binary number.\
+I then converted the binary to an int32.\
+
+Following the above, these lines.
+
+```
+.#...##..
+#.#######
+....####.
+..##.##.#
+..##.##.#
+....####.
+#.#######
+```
+
+become this array of integers
+
+```
+140, 383, 30, 109, 109, 30, 383
+```
+
+I wanted to be clever and compare numbers instead of comparing strings.\
+However, for part 2 we are tasked with finding a reflection which has exactly one mismatch (smudge on the mirror).\
+My implementation for part 1 was not well suited for the change in requirements for part 2.\
+In part 2 this will not work because we have to find the one irregular character, '.' or '#'.\
+I guess I could convert the int32 back to base 2 and then compare each '1' and '0',\
+but that would defeat the whole purpose of creating the integers in the first place.\
+I decided to leave it as is for part 1 and then do a new implementation for part 2.
+
 ### Day 19 Part 2
 
 [A range problem](https://advent-of-code.xavd.id/writeups/2023/day/19/#part-2)

@@ -10,10 +10,12 @@ class Part1
 
         foreach ((int[] horizontal, int[] vertical_rotated) in mirror_patterns)
         {
-            int res_horizontal = CalculateReflection(horizontal);
-            int res_vertical = CalculateReflection(vertical_rotated);
+            int reflection = CalculateReflection(horizontal) * 100;
 
-            res += 100*res_horizontal + res_vertical;
+            // no horizontal reflection, lets try vertical instead
+            if (reflection == 0) reflection = CalculateReflection(vertical_rotated);
+
+            res += reflection;
         }
 
         return res.ToString();
@@ -54,28 +56,26 @@ class Part1
             int[] arr_horizontal = new int[rows];
             int[] arr_vertical = new int[columns];
 
+            string base_two = String.Empty;
+
             int i = 0; // we can use i for both rows and columns
             while (i < rows || i < columns)
             {
+                // create binary repr. of the line converting '#' or '.' to '1' or '0' respectively
+
                 // horizontal iteration (rows) -> extract and keep as is
                 if (i < rows)
                 {
-                    string line = part_lines[i];
+                    base_two = string.Concat(part_lines[i].Select(character => character == '#' ? '1' : '0' ));
 
-                    // create binary repr. of the line converting '#' or '.' to '1' or '0' respectively
-                    string base_two = string.Concat(line.Select(s => s == '#' ? '1' : '0' ));
-
-                    // convert our binary to an integer and add to array
-                    arr_horizontal[i] = Convert.ToInt32(base_two.ToString(), 2);
+                    arr_horizontal[i] = Convert.ToInt32(base_two, 2);
                 }
 
-                // vertical iteration (columns) -> transform to horizontal representation (rotated 90 degrees)
+                // vertical iteration (columns) -> reformat to horizontal representation (rotated 90 degrees)
                 if (i < columns)
                 {
-                    // create binary repr. of the line converting '#' or '.' to '1' or '0' respectively
-                    string base_two = string.Concat(part_lines.Select(line => line[i] == '#' ? '1' : '0'));
+                    base_two = string.Concat(part_lines.Select(line => line[i] == '#' ? '1' : '0'));
 
-                    // convert our binary to an integer and add to array
                     arr_vertical[i] = Convert.ToInt32(base_two, 2);
                 }
 
@@ -89,35 +89,24 @@ class Part1
     }
 
     // works for both horizontal and vertical because the vertical array is rotated
-    private static int CalculateReflection(int[] numbers)
+    private static int CalculateReflection(int[] mirrror_numbers)
     {
-        int res = 0;
-        int i = 1;
-        bool reflection = false;
-        while (i < numbers.Length && !reflection)
+        for (int i = 1; i < mirrror_numbers.Length; i++)
         {
-            res = 0; // reset on every iteration (we might have had increase during semi-valid reflection)
-
-            // found reflection
-            if (numbers[i-1] == numbers[i])
+            bool reflection = mirrror_numbers[i - 1] == mirrror_numbers[i];
+            int j = 0;
+            while (i - j - 1 >= 0 && i + j < mirrror_numbers.Length && reflection)
             {
-                reflection = true;
-                int k = 0;
-                while (i-k-1 >= 0 && i+k < numbers.Length && reflection)
-                {
-                    // expand left and right
-                    (int left, int right) = (i-k-1, i+k);
+                // expand left + right and compare numbers, breaks out if not reflection
+                reflection = mirrror_numbers[i - j - 1] == mirrror_numbers[i + j];
 
-                    reflection = numbers[left] == numbers[right];
-                    res++;
-                    k++;
-                }
-                res += i-k;
+                j++;
             }
 
-            i++;
+            // if we reached the first or last number while still reflection, success!
+            if (reflection) return mirrror_numbers.Length - (mirrror_numbers.Length - i);
         }
 
-        return res;
+        return 0;
     }
 }
