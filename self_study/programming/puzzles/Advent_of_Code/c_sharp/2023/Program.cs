@@ -98,6 +98,10 @@
             ( "13", "1" ) => AoC.Day13.Part1.Run(puzzle_input),
             ( "13", "2" ) => AoC.Day13.Part2.Run(puzzle_input),
 
+            // Parabolic Reflector Dish
+            ( "14", "1" ) => AoC.Day14.Part1.Run(puzzle_input),
+            ( "14", "2" ) => AoC.Day14.Part2.Run(puzzle_input),
+
             // Aplenty
             ( "19", "1" ) => AoC.Day19.Part1.Run(puzzle_input),
             ( "19", "2" ) => AoC.Day19.Part2.Run(puzzle_input),
@@ -106,16 +110,15 @@
         };
 
         stop_watch.Stop();
-        long timer = stop_watch.ElapsedMilliseconds;
 
         if (puzzle_input == String.Empty)
         {
-            Console.WriteLine($"Day {day} Part {part}\t| No puzzle input, no output or not implemented");
+            Console.WriteLine($"Day {day} Part {part}\t| No puzzle input or puuzle not implemented");
         }
         else
         {
             string output_response = puzzle_io.Output(puzzle_output, day, part);
-            Console.WriteLine($"Day {day} part {part}\t| Output: {output_response}\t| time: {timer} milliseconds");
+            Console.WriteLine($"Day {day} part {part}\t| Output: {output_response}\t| time: {stop_watch.ElapsedMilliseconds} milliseconds");
         }
     }
 }
