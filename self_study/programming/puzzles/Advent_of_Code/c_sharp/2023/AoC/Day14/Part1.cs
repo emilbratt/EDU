@@ -6,7 +6,7 @@ class Part1
     {
         string[] grid = GetPlatformGrid(puzzle_input);
 
-        int res = CalculateWhenTilted(grid);
+        int res = CalculateLoad(grid);
 
         return res.ToString();
     }
@@ -16,8 +16,10 @@ class Part1
         return puzzle_input.Split('\n', StringSplitOptions.RemoveEmptyEntries);
     }
 
-    private static int CalculateWhenTilted(string[] grid)
+    private static int CalculateLoad(string[] grid)
     {
+        // roll rocks north and calculate the load
+
         int total_load = 0;
 
         int row_count = grid.Length;
