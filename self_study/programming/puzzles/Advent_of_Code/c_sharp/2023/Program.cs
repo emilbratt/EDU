@@ -110,6 +110,7 @@
         };
 
         stop_watch.Stop();
+        long time_lapsed = stop_watch.ElapsedMilliseconds;
 
         if (puzzle_input == String.Empty)
         {
@@ -118,7 +119,7 @@
         else
         {
             string output_response = puzzle_io.Output(puzzle_output, day, part);
-            Console.WriteLine($"Day {day} part {part}\t| Output: {output_response}\t| time: {stop_watch.ElapsedMilliseconds} milliseconds");
+            Console.WriteLine($"Day {day} part {part}\t| Output: {output_response}\t| time: {time_lapsed} milliseconds");
         }
     }
 }

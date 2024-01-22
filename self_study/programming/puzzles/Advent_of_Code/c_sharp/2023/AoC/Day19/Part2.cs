@@ -1,10 +1,8 @@
-#pragma warning disable CS8602 // Dereference of a possibly null reference.
-
 namespace AoC.Day19;
 
 class Part2
 {
-    private static Dictionary<string, string[]>? _workflows; // key => workflow/rules
+    private static Dictionary<string, string[]> _workflows = []; // key => workflow/rules
 
     public static string Run(string puzzle_input)
     {
@@ -147,6 +145,7 @@ internal class WorkflowRanges
             _ => (0, 0),
         };
     }
+
     public void Set(char c, (int low, int high) new_tupple)
     {
         if      (c == 'x') X = new_tupple;
@@ -154,6 +153,7 @@ internal class WorkflowRanges
         else if (c == 'a') A = new_tupple;
         else if (c == 's') S = new_tupple;
     }
+
     public long Product()
     {
         long x = X.high + 1 - X.low;

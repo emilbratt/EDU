@@ -1,10 +1,8 @@
-#pragma warning disable CS8602 // Dereference of a possibly null reference.
-
 namespace AoC.Day19;
 
 class Part1
 {
-    private static Dictionary<string, string[]>? _workflows; // key => workflow/rules
+    private static Dictionary<string, string[]> _workflows = []; // key => workflow/rules
 
     public static string Run(string puzzle_input)
     {
