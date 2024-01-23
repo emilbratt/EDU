@@ -102,6 +102,10 @@
             ( "14", "1" ) => AoC.Day14.Part1.Run(puzzle_input),
             ( "14", "2" ) => AoC.Day14.Part2.Run(puzzle_input),
 
+            // Lens Library
+            ( "15", "1" ) => AoC.Day15.Part1.Run(puzzle_input),
+            ( "15", "2" ) => AoC.Day15.Part2.Run(puzzle_input),
+
             // Aplenty
             ( "19", "1" ) => AoC.Day19.Part1.Run(puzzle_input),
             ( "19", "2" ) => AoC.Day19.Part2.Run(puzzle_input),
