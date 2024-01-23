@@ -14,7 +14,7 @@ class Part1
             IsTravelling = true,
         };
 
-        int[,] energized = EnterContraption(contraption, beam);
+        int[,] energized = TravelThroughContraption(contraption, beam);
 
         int res = 0;
 
@@ -47,7 +47,7 @@ class Part1
         return grid;
     }
 
-    private static int[,] EnterContraption(char[,] contraption, Beam beam)
+    private static int[,] TravelThroughContraption(char[,] contraption, Beam beam)
     {
         int row_count = contraption.GetLength(0);
         int col_count = contraption.GetLength(1);
@@ -108,7 +108,7 @@ class Part1
                     }
                 }
 
-                beam.Move();
+                beam.Travel();
 
                 // check if beam is within the boundary of the contraption
                 if (beam.Row >= row_count || beam.Row < 0) beam.IsTravelling = false;
@@ -128,7 +128,7 @@ class Part1
         public char Direction;
         public bool IsTravelling;
 
-        public void Move()
+        public void Travel()
         {
             Row += Direction == 'N' ? -1 : Direction == 'S' ? 1 : 0;
             Col += Direction == 'W' ? -1 : Direction == 'E' ? 1 : 0;
