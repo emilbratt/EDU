@@ -106,6 +106,10 @@
             ( "15", "1" ) => AoC.Day15.Part1.Run(puzzle_input),
             ( "15", "2" ) => AoC.Day15.Part2.Run(puzzle_input),
 
+            // The Floor Will Be Lava
+            ( "16", "1" ) => AoC.Day16.Part1.Run(puzzle_input),
+            ( "16", "2" ) => AoC.Day16.Part2.Run(puzzle_input),
+
             // Aplenty
             ( "19", "1" ) => AoC.Day19.Part1.Run(puzzle_input),
             ( "19", "2" ) => AoC.Day19.Part2.Run(puzzle_input),
