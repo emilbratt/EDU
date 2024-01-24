@@ -46,8 +46,8 @@ podman run --privileged -it --rm --mount type=bind,source="$(pwd)",target=/App m
 Our task is to find the steps it takes for all nodes starting with 'A' to end with 'Z', simultaneously.\
 However, doing this will take forever.
 
-Instead, we run each node at a time until we find first node ending with 'Z'.\
-We end up with having calculated the steps for each node, one at a time.
+Instead, we run each node at a time until it ends with 'Z'.\
+Ultimately we calculate the total steps it would have taken for every node by using [this](https://en.wikipedia.org/wiki/Least_common_multiple#Gears_problem) method.
 
 Finding the lowest common multiple from all the nodes will yield\
 the number that would eventually be found by doing them all simultaneously.
