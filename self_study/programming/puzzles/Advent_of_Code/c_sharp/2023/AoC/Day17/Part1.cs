@@ -148,7 +148,7 @@ class Part1
 
             if (s_row == start_node.row && s_col == start_node.col) break;
             s_row = nodes[s_row, s_col].Previous.row;
-            s_col = nodes[s_col, s_col].Previous.col;
+            s_col = nodes[s_row, s_col].Previous.col;
 
 
             /* Console.ForegroundColor = ConsoleColor.White;
