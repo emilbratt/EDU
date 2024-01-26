@@ -1,4 +1,4 @@
-﻿class Program
+class Program
 {
     static void Main(string[] args)
     {
@@ -109,6 +109,10 @@
             // The Floor Will Be Lava
             ( "16", "1" ) => AoC.Day16.Part1.Run(puzzle_input),
             ( "16", "2" ) => AoC.Day16.Part2.Run(puzzle_input),
+
+            // Clumsy Crucible
+            ( "17", "1" ) => AoC.Day17.Part1.Run(puzzle_input),
+            ( "17", "2" ) => AoC.Day17.Part2.Run(puzzle_input),
 
             // Aplenty
             ( "19", "1" ) => AoC.Day19.Part1.Run(puzzle_input),
