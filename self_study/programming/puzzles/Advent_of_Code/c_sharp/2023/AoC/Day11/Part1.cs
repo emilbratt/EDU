@@ -5,7 +5,6 @@ class Part1
 
     public static string Run(string puzzle_input)
     {
-        // System.Diagnostics.Debug.Assert(false);
         string[] lines = puzzle_input.Split('\n', StringSplitOptions.RemoveEmptyEntries);
 
         (int row, int col)[] galaxy_coordinates = RegisterGalaxies(lines);

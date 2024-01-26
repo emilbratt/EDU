@@ -5,7 +5,6 @@ class Part2
 
     public static string Run(string puzzle_input)
     {
-        // System.Diagnostics.Debug.Assert(false);
         string[] lines = puzzle_input.Split('\n', StringSplitOptions.RemoveEmptyEntries);
 
         (int row, int col)[] galaxy_coordinates = RegisterGalaxies(lines);
@@ -20,7 +19,7 @@ class Part2
     private static (int[] rows, int[] cols) RegisterMegaWidth(string[] matrix)
     {
         // for empty rows and empty collumns (no galaxies),
-        // ..the space is twice as large so we preserve these rows+collumns for use later
+        // ..the space is one million times wider, we preserve these rows+collumns for use later
 
         List<int> double_row_width = [];
         List<int> double_col_width = [];
