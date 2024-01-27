@@ -1,5 +1,9 @@
 namespace AoC.Day17;
 
+/*
+    regel: må snu 90 grader etter 3 noder
+*/
+
 class Part1
 {
     public static string Run(string puzzle_input)
@@ -10,11 +14,6 @@ class Part1
         (int row, int col) target = (graph.GetLength(0) - 1, graph.GetLength(1) - 1); // bottom right
 
         List<(int, int)> path = Dijkstra(graph, start, target);
-
-        Console.Write("Path: ");
-        if (path.Count > 0) foreach (var (row, col) in path) Console.Write($"({row},{col}) ");
-        else Console.Write($"..not found");
-        Console.WriteLine();
 
         int res = 0;
 
@@ -38,7 +37,7 @@ class Part1
         return grid;
     }
 
-    private static List<(int, int)> Dijkstra(int[,] graph, (int, int) start, (int, int) target)
+    private static List<(int, int)> Dijkstra(int[,] graph, (int row, int col) start, (int row, int col) target)
     {
         List<(int, int)> path = [];
 
@@ -57,48 +56,79 @@ class Part1
         nodes[start.Item1, start.Item2].Distance = 0;
         nodes[start.Item1, start.Item2].Cost = 0;
 
-        Queue<(int, int)> queue = [];
+        List<(int row, int col, int same_direction_count)> queue = [];
 
-        (int row, int col)[] directions = [(1,  0), ( 0,  1), ( 1,  0), ( 0, -1)];
+        (int row, int col)[] directions = [(-1,  0), ( 1,  0), ( 0, -1), ( 0,  1)];
 
-        queue.Enqueue(start);
-        bool target_found = false;
-        int k = 0;
+        queue.Add( (start.row, start.col, 0 ));
+        DrawGraph(graph);
 
-        while (queue.Count > 0 && !target_found)
+        while (queue.Count > 0)
         {
-            k++;
+            // (int row, int col, int same_direction_count) current_item = queue.Dequeue();
+            queue.Sort((a, b) =>
+                nodes[a.row, a.col].Distance < nodes[b.row, b.col].Distance ? -1 : 1);
 
-            (int row, int col) cur_position = queue.Dequeue();
+            (int row, int col, int same_direction_count) current_item = queue[0];
+            queue.RemoveAt(0);
 
-            if (nodes[cur_position.row, cur_position.col].Visited) continue;
+            (int row, int col) cur_position = (current_item.row, current_item.col);
 
-            nodes[cur_position.row, cur_position.col].Visited = true;
-            target_found = target == cur_position;
+            Node current_node = nodes[cur_position.row, cur_position.col];
+            
+            if (current_node.Visited) continue;
+            current_node.Visited = true;
+            Console.SetCursorPosition(current_item.col, current_item.row);
+            Console.BackgroundColor = ConsoleColor.DarkCyan;
+            Console.Write(current_node.Cost);
+            Console.BackgroundColor = ConsoleColor.Black;
+            Thread.Sleep(50);
+            /* if (target == (cur_position.row, cur_position.col)) break; */
 
-            foreach (var next_position in directions)
+            for (int i = 0; i < 4; i++)
             {
+                var next_position = directions[i];
                 int new_row = cur_position.row + next_position.row;
                 int new_col = cur_position.col + next_position.col;
 
                 if (new_row < 0 || new_row >= row_count || new_col < 0 || new_col >= col_count) continue;
-                if (nodes[new_row, new_col].Visited) continue;
 
-                int new_distance = nodes[cur_position.row, cur_position.col].Distance + nodes[new_row, new_col].Cost;
+                Node next_node = nodes[new_row, new_col];
 
-                if (new_distance < nodes[new_row, new_col].Distance)
+                int new_distance = current_node.Distance + next_node.Cost;
+
+                if (new_distance < next_node.Distance)
                 {
-                    nodes[new_row, new_col].Distance = new_distance;
-                    nodes[new_row, new_col].Previous = cur_position;
+                    next_node.Distance = new_distance;
+                    next_node.Previous = cur_position;
 
-                    queue.Enqueue( (new_row, new_col) );
+                    next_node.LastDirection = (Direction)i;
+                    bool is_queued = false;
+                    if (current_node.LastDirection == next_node.LastDirection)
+                    {
+                        int next_same_direction_count = current_item.same_direction_count + 1;
+                        if (next_same_direction_count < 3)
+                        {
+                            queue.Add( (new_row, new_col, next_same_direction_count) );
+                            is_queued = true;
+                        }
+                    }
+                    else
+                    {
+                        queue.Add( (new_row, new_col, 0) );
+                        is_queued = true;
+                    } 
+                    if (is_queued)
+                    {
+                        Console.SetCursorPosition(new_col, new_row);
+                        Console.BackgroundColor = ConsoleColor.DarkGreen;
+                        Console.Write(next_node.Cost);
+                        Console.BackgroundColor = ConsoleColor.Black;
+                    }
+                    // queue.Add( (new_row, new_col, 0) );
                 }
             }
         }
-
-        Console.WriteLine($"Dijkstra loop iterations: {k}");
-
-        if (!target_found) return path;
 
         // reconstruct path and from the nodes array and add to list
         (int row, int col) previous = target;
@@ -110,6 +140,7 @@ class Part1
         path.Add(start);
         path.Reverse();
 
+        Print(nodes, path);
         return path;
     }
 
@@ -120,5 +151,64 @@ class Part1
         public int Distance = int.MaxValue; // distance from start node (all distances start as infinity)
         public bool Visited = false;
         public (int row, int col) Previous; // undefined until visited
+        public Direction LastDirection;
+    }
+
+    private enum Direction
+    {
+        Up,
+        Down,
+        Left,
+        Right,
+    }
+
+    private static void Print(Node[,] nodes, List<(int, int)> path)
+    {
+        char[] arrows = ['^', 'v', '<', '>'];
+        
+        int total_arrow_cost = 0;
+        path.RemoveAt(0);
+        Console.CursorVisible = false;
+        Console.BackgroundColor = ConsoleColor.Yellow;
+        foreach (var (row, col) in path)
+        {
+            total_arrow_cost += nodes[row, col].Cost;
+            Console.SetCursorPosition(col, row);
+            Console.Write(arrows[(int)nodes[row, col].LastDirection]);
+            Thread.Sleep(50);
+        }
+        Console.BackgroundColor = ConsoleColor.Black;
+        Console.WriteLine($"\nTotal cost of printed arrows: {total_arrow_cost}");
+        Console.WriteLine($"\nTotal distance stored in end node: {nodes[nodes.GetLength(0) - 1, nodes.GetLength(1) - 1].Distance}");
+
+        Console.CursorVisible = true;
+    }
+
+    private static void DrawGraph(int[,] graph)
+    {
+        for (int row = 0; row < graph.GetLength(0); row++)
+        {
+            for (int col = 0; col < graph.GetLength(1); col++)
+            {
+                Console.SetCursorPosition(col, row);
+                Console.Write(graph[row, col]);
+            }
+        }
     }
 }
+
+/*
+2>>34^>>>1323  0>>34^>>>1323  2413432311323
+32v>>>35v5623  32v>>>35v>623  3215453535623
+32552456v>>54  325524565v>54  3255245654254
+3446585845v52  3446585845v52  3446585845452
+4546657867v>6  4546657867v>6  4546657867536
+14385987984v4  14385987984v4  1438598798454
+44578769877v6  44578769877v6  4457876987766
+36378779796v>  3637877979<v3  3637877979653
+465496798688v  4654967986v87  4654967986887
+456467998645v  4564679986v>>  4564679986453
+12246868655<v  122468686556v  1224686865563
+25465488877v5  254654888773v  2546548887735
+43226746555v>  432267465553v  4322674655533
+*/
