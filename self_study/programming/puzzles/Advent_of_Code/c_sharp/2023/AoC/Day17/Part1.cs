@@ -31,6 +31,23 @@ class Part1
         return grid;
     }
 
+    private static (int dist, int row, int col, int dir_count, int direction_index) PopMin(List<(int dist, int row, int col, int dir_count, int direction_index)> queue)
+    {
+        int min_index = 0;
+        var min = queue[min_index];
+        for (int i = 0; i < queue.Count; i++)
+        {
+            if (min.dist > queue[i].dist)
+            {
+                min = queue[i];
+                min_index = i;
+            }
+        }
+
+        queue.RemoveAt(min_index);
+        return min;
+    }
+
     private static int Dijkstra(int[,] graph, (int row, int col) start, (int row, int col) target)
     {
         List<int> possible_distances = [];
@@ -48,10 +65,7 @@ class Part1
 
         while (queue.Count > 0)
         {
-            queue.Sort((a, b) => a.dist < b.dist ? -1 : 1);
-
-            (int dist, int row, int col, int dir_count, int direction_index) current_item = queue[0];
-            queue.RemoveAt(0);
+            var current_item = PopMin(queue);
 
             int current_cost = graph[current_item.row, current_item.col];
 
@@ -93,7 +107,6 @@ class Part1
                 }
             }
         }
-
         return possible_distances.Min();
     }
 }
