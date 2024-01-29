@@ -4,7 +4,7 @@ class Part1
 {
     public static string Run(string puzzle_input)
     {
-        int[,] graph = Getstates(puzzle_input);
+        int[,] graph = GetMap(puzzle_input);
 
         (int row, int col) start = (0, 0); // top left
         (int row, int col) target = (graph.GetLength(0) - 1, graph.GetLength(1) - 1); // bottom right
@@ -14,7 +14,7 @@ class Part1
         return res.ToString();
     }
 
-    private static int[,] Getstates(string puzzle_input)
+    private static int[,] GetMap(string puzzle_input)
     {
         string[] s_grid = puzzle_input.Split('\n', StringSplitOptions.RemoveEmptyEntries);
 
@@ -31,6 +31,23 @@ class Part1
         return grid;
     }
 
+    private static (int dist, int row, int col, int dir_count, int direction_index) PopMin(List<(int dist, int row, int col, int dir_count, int direction_index)> queue)
+    {
+        int min_index = 0;
+        var min = queue[min_index];
+        for (int i = 0; i < queue.Count; i++)
+        {
+            if (min.dist > queue[i].dist)
+            {
+                min = queue[i];
+                min_index = i;
+            }
+        }
+
+        queue.RemoveAt(min_index);
+        return min;
+    }
+
     private static int Dijkstra(int[,] graph, (int row, int col) start, (int row, int col) target)
     {
         List<int> possible_distances = [];
@@ -42,16 +59,11 @@ class Part1
 
         queue.Add( (0, start.row, start.col, 0, -1));
 
-        Dictionary<(int row, int col, int dir_count, int direction_index), int> states = [];
-
         (int row, int col)[] directions = [(-1,  0), ( 1,  0), ( 0, -1), ( 0,  1)];
 
         while (queue.Count > 0)
         {
-            queue.Sort((a, b) => a.dist < b.dist ? -1 : 1);
-
-            (int dist, int row, int col, int dir_count, int direction_index) current_item = queue[0];
-            queue.RemoveAt(0);
+            var current_item = PopMin(queue);
 
             int current_cost = graph[current_item.row, current_item.col];
 
@@ -94,6 +106,6 @@ class Part1
             }
         }
 
-        return possible_distances.Min();
+      return possible_distances.Min();
     }
 }
