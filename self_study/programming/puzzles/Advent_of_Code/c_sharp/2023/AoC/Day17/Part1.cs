@@ -31,7 +31,7 @@ class Part1
         return grid;
     }
 
-    private static (int dist, int row, int col, int dir_count, int direction_index) PopMin(List<(int dist, int row, int col, int dir_count, int direction_index)> queue)
+    private static (int, int, int, int, int) PopMin(List<(int dist, int, int, int, int)> queue)
     {
         int min_index = 0;
         var min = queue[min_index];
@@ -43,8 +43,8 @@ class Part1
                 min_index = i;
             }
         }
-
         queue.RemoveAt(min_index);
+
         return min;
     }
 
@@ -55,30 +55,30 @@ class Part1
         int row_count = graph.GetLength(0);
         int col_count = graph.GetLength(1);
 
-        List<(int dist, int row, int col, int dir_count, int direction_index)> queue = [];
+        List<(int dist, int row, int col, int dir_count, int dir_index)> queue = [];
 
         queue.Add( (0, start.row, start.col, 0, -1));
+
+        Dictionary<(int row, int col, int dir_count, int dir_index), int> states = [];
 
         (int row, int col)[] directions = [(-1,  0), ( 1,  0), ( 0, -1), ( 0,  1)];
 
         while (queue.Count > 0)
         {
-            var current_item = PopMin(queue);
+            (int dist, int row, int col, int dir_count, int dir_index) cur_item = PopMin(queue);
 
-            int current_cost = graph[current_item.row, current_item.col];
-
-            var state = (current_item.row, current_item.col, current_item.dir_count, current_item.direction_index);
+            var state = (cur_item.row, cur_item.col, cur_item.dir_count, cur_item.dir_index);
 
             if (states.ContainsKey(state)) continue;
-            states.Add(state, current_cost);
 
-            (int row, int col) cur_position = (current_item.row, current_item.col);
+            int cost = graph[cur_item.row, cur_item.col];
+            states.Add(state, cost);
 
-            if (state.row == target.row && state.col == target.col) possible_distances.Add(current_item.dist);
+            if (cur_item.row == target.row && cur_item.col == target.col) possible_distances.Add(cur_item.dist);
 
             for (int i = 0; i < 4; i++)
             {
-                bool is_reverse = current_item.direction_index switch
+                bool is_reverse = cur_item.dir_index switch
                 {
                     -1 => false, // start node is always -1
                     0 => i == 1,
@@ -89,23 +89,21 @@ class Part1
                 };
                 if (is_reverse) continue;
 
-                int new_row = cur_position.row + directions[i].row;
-                int new_col = cur_position.col + directions[i].col;
-
+                int new_row = cur_item.row + directions[i].row;
+                int new_col = cur_item.col + directions[i].col;
                 if (new_row < 0 || new_row >= row_count || new_col < 0 || new_col >= col_count) continue;
 
-                int new_distance = current_item.dist + graph[new_row, new_col];
+                int next_dir_count = cur_item.dir_index != i ? 0 : cur_item.dir_count + 1;
+                if (next_dir_count >= 3) continue;
 
-                int next_dir_count =  current_item.direction_index != i ? 0 : current_item.dir_count + 1;
+                var new_state = (new_row, new_col, next_dir_count, i);
+                if (states.ContainsKey(new_state)) continue;
 
-                if (next_dir_count < 3)
-                {
-                    var new_state = (new_row, new_col, next_dir_count, i);
-                    if (!states.ContainsKey(new_state)) queue.Add( (new_distance, new_row, new_col, next_dir_count, i) );
-                }
+                int new_distance = cur_item.dist + graph[new_row, new_col];
+                queue.Add( (new_distance, new_row, new_col, next_dir_count, i) );
             }
         }
 
-      return possible_distances.Min();
+        return possible_distances.Min();
     }
 }
