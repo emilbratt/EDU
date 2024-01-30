@@ -6,12 +6,10 @@ class Part2
     {
         int[,] graph = GetMap(puzzle_input);
 
-        // (int row, int col) start = (0, 0); // top left
-        // (int row, int col) target = (graph.GetLength(0) - 1, graph.GetLength(1) - 1); // bottom right
+        (int row, int col) start = (0, 0); // top left
+        (int row, int col) target = (graph.GetLength(0) - 1, graph.GetLength(1) - 1); // bottom right
 
-        // int res = Dijkstra(graph, start, target);
-
-        int res = 0;
+        int res = Dijkstra(graph, start, target);
 
         return res.ToString();
     }
@@ -50,6 +48,14 @@ class Part2
         return min;
     }
 
+    private static bool IsDirectionInvalid(int dir_count, int dir_index, int i)
+    {
+        if (dir_index == -1) return false;
+        if (dir_count < 3 && dir_index != i) return true;
+        if (dir_count == 9 && dir_index == i) return true;
+        return false;
+    }
+
     private static int Dijkstra(int[,] graph, (int row, int col) start, (int row, int col) target)
     {
         List<int> possible_distances = [];
@@ -76,7 +82,10 @@ class Part2
             int cost = graph[cur_item.row, cur_item.col];
             states.Add(state, cost);
 
-            if (cur_item.row == target.row && cur_item.col == target.col) possible_distances.Add(cur_item.dist);
+            if (cur_item.row == target.row && cur_item.col == target.col)
+            {
+                if (cur_item.dir_count >= 3) possible_distances.Add(cur_item.dist);
+            }
 
             for (int i = 0; i < 4; i++)
             {
@@ -91,24 +100,19 @@ class Part2
                 };
                 if (is_reverse) continue;
 
-
-                if (cur_item.dir_index != -1) {
-                    if (cur_item.dir_count < 4 && cur_item.dir_index != i) continue;
-                }
-                if (cur_item.dir_count >= 10 && cur_item.dir_index == i) continue;
-                Console.WriteLine(cur_item.dir_count);
-
                 int new_row = cur_item.row + directions[i].row;
                 int new_col = cur_item.col + directions[i].col;
-
                 if (new_row < 0 || new_row >= row_count || new_col < 0 || new_col >= col_count) continue;
 
-                int new_distance = cur_item.dist + graph[new_row, new_col];
+                if (IsDirectionInvalid(cur_item.dir_count, cur_item.dir_index, i)) continue;
 
                 int next_dir_count =  cur_item.dir_index != i ? 0 : cur_item.dir_count + 1;
 
                 var new_state = (new_row, new_col, next_dir_count, i);
-                if (!states.ContainsKey(new_state)) queue.Add( (new_distance, new_row, new_col, next_dir_count, i) );
+                if (states.ContainsKey(new_state)) continue;
+
+                int new_distance = cur_item.dist + graph[new_row, new_col];
+                queue.Add( (new_distance, new_row, new_col, next_dir_count, i) );
             }
         }
 
