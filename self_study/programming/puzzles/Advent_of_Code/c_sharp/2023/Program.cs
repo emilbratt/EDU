@@ -114,6 +114,10 @@ class Program
             ( "17", "1" ) => AoC.Day17.Part1.Run(puzzle_input),
             ( "17", "2" ) => AoC.Day17.Part2.Run(puzzle_input),
 
+            // Lavaduct Lagoon
+            ( "18", "1" ) => AoC.Day18.Part1.Run(puzzle_input),
+            ( "18", "2" ) => AoC.Day18.Part2.Run(puzzle_input),
+
             // Aplenty
             ( "19", "1" ) => AoC.Day19.Part1.Run(puzzle_input),
             ( "19", "2" ) => AoC.Day19.Part2.Run(puzzle_input),
