@@ -18,7 +18,7 @@ class Part1
 
         for (int i = 0; i < lines.Length; i++)
         {
-            var parts = lines[i].Split();
+            string[] parts = lines[i].Split();
             dig_plan[i] = (lines[i][0], int.Parse(parts[1]));
         }
 
@@ -38,6 +38,7 @@ class Part1
         int trench_circumference = 0;
         int trench_area = 0;
 
+        // Calculate the fields offset
         int max_row = 0;
         int min_row = 0;
         int cur_row = 0;
@@ -58,10 +59,12 @@ class Part1
             else if (cur_row < min_row) min_row = cur_row;
         }
 
+        // Apply offset to row and collumn
         int total_rows = Math.Abs(min_row) + max_row + 1;
         int total_cols = Math.Abs(min_col) + max_col + 1;
 
-        var field = new bool[total_rows, total_cols]; // true = trench, false = outside
+        // the field with our trench, every tile == true => part of the trench
+        var field = new bool[total_rows, total_cols];
 
         int row_pointer = 0 + Math.Abs(min_row);
         int col_pointer = 0 + Math.Abs(min_col);
@@ -69,20 +72,20 @@ class Part1
         foreach ((char direction, int meters) in dig_plan)
         {
             var (row, col) = direction_map[direction];
-            field[row_pointer, col_pointer] = true;
+
             for (int i = 0; i < meters; i++)
             {
                 row_pointer += row;
                 col_pointer += col;
+
                 field[row_pointer, col_pointer] = true;
+
                 trench_circumference++;
             }
         }
 
-        // flood fill the field for any tile outside the trench
+        // Enqueue rows and collumns from all four sides (if not part of trench)
         Queue<(int row, int col)> queue = [];
-
-        // enque from all four edges (every row and collumn), if not trench
         for (int row = 0; row < total_rows; row++)
         {
             if (!field[row, 0]) queue.Enqueue((row, 0));
@@ -94,7 +97,7 @@ class Part1
             if (!field[total_rows - 1, col]) queue.Enqueue((total_rows - 1, col));
         }
 
-        // flood fill very non-trench tile
+        // Start flood fill on tiles located outside the circumference of the trench
         while (queue.Count > 0)
         {
             (int row, int col) = queue.Dequeue();
@@ -115,6 +118,7 @@ class Part1
             }
         }
 
+        // What is left after flood fill will give us the area of the trench
         foreach (bool is_outside in field)
         {
             if (!is_outside) trench_area++;
