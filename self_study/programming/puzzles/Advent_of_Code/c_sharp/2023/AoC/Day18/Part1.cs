@@ -1,5 +1,3 @@
-using System.Diagnostics;
-
 namespace AoC.Day18;
 
 class Part1
@@ -13,29 +11,22 @@ class Part1
         return res.ToString();
     }
 
-    private static (char direction, int meters, string color)[] GetDigPlan(string puzzle_input)
+    private static (char direction, int meters)[] GetDigPlan(string puzzle_input)
     {
         string[] lines = puzzle_input.Split('\n', StringSplitOptions.RemoveEmptyEntries);
-        var dig_plan = new(char direction, int meters, string color)[lines.Length];
+        var dig_plan = new(char direction, int meters)[lines.Length];
 
         for (int i = 0; i < lines.Length; i++)
         {
             var parts = lines[i].Split();
-            dig_plan[i] = (lines[i][0], int.Parse(parts[1]), parts[2]);
+            dig_plan[i] = (lines[i][0], int.Parse(parts[1]));
         }
 
         return dig_plan;
     }
 
-    private static int DigTrench((char direction, int meters, string color)[] dig_plan)
+    private static int DigTrench((char direction, int meters)[] dig_plan)
     {
-        int max_row = 0;
-        int min_row = 0;
-        int cur_row = 0;
-        int max_col = 0;
-        int min_col = 0;
-        int cur_col = 0;
-
         var direction_map = new Dictionary<char, (int row, int col)>()
         {
             { 'U', (-1,  0) },
@@ -44,12 +35,22 @@ class Part1
             { 'L', ( 0, -1) },
         };
 
-        foreach (var t in dig_plan)
+        int trench_circumference = 0;
+        int trench_area = 0;
+
+        int max_row = 0;
+        int min_row = 0;
+        int cur_row = 0;
+        int max_col = 0;
+        int min_col = 0;
+        int cur_col = 0;
+
+        foreach ((char direction, int meters) in dig_plan)
         {
-            if (t.direction == 'R') cur_col += t.meters;
-            else if (t.direction == 'L') cur_col -= t.meters;
-            else if (t.direction == 'D') cur_row += t.meters;
-            else if (t.direction == 'U') cur_row -= t.meters;
+            if (direction == 'R') cur_col += meters;
+            else if (direction == 'L') cur_col -= meters;
+            else if (direction == 'D') cur_row += meters;
+            else if (direction == 'U') cur_row -= meters;
 
             if (cur_col > max_col) max_col = cur_col;
             else if (cur_row > max_row) max_row = cur_row;
@@ -60,70 +61,65 @@ class Part1
         int total_rows = Math.Abs(min_row) + max_row + 1;
         int total_cols = Math.Abs(min_col) + max_col + 1;
 
-        var field = new int[total_rows, total_cols];
+        var field = new bool[total_rows, total_cols]; // true = trench, false = outside
 
         int row_pointer = 0 + Math.Abs(min_row);
         int col_pointer = 0 + Math.Abs(min_col);
 
-        foreach (var t in dig_plan)
+        foreach ((char direction, int meters) in dig_plan)
         {
-            var current_direction = direction_map[t.direction];
-            field[row_pointer, col_pointer] = 1;
-            for (int i = 0; i < t.meters; i++)
+            var (row, col) = direction_map[direction];
+            field[row_pointer, col_pointer] = true;
+            for (int i = 0; i < meters; i++)
             {
-                row_pointer += current_direction.row;
-                col_pointer += current_direction.col;
-                field[row_pointer, col_pointer] = 1;
+                row_pointer += row;
+                col_pointer += col;
+                field[row_pointer, col_pointer] = true;
+                trench_circumference++;
             }
         }
 
+        // flood fill the field for any tile outside the trench
         Queue<(int row, int col)> queue = [];
 
-        bool[,] visited_graph = new bool[total_rows, total_cols];
-
-        for (int i = 0; i < total_rows; i++)
+        // enque from all four edges (every row and collumn), if not trench
+        for (int row = 0; row < total_rows; row++)
         {
-            if (field[i, 0] == 0) queue.Enqueue((i, 0));
-            if (field[i, total_cols - 1] == 0) queue.Enqueue((i, total_cols - 1));
+            if (!field[row, 0]) queue.Enqueue((row, 0));
+            if (!field[row, total_cols - 1]) queue.Enqueue((row, total_cols - 1));
         }
-        for (int i = 1; i < total_cols - 1; i++)
+        for (int col = 1; col < total_cols - 1; col++)
         {
-            if (field[0, i] == 0) queue.Enqueue((0, i));
-            if (field[total_rows - 1, i] == 0) queue.Enqueue((total_rows - 1, i));
+            if (!field[0, col]) queue.Enqueue((0, col));
+            if (!field[total_rows - 1, col]) queue.Enqueue((total_rows - 1, col));
         }
 
-        char[] directions = ['U', 'D', 'R', 'L'];
-
+        // flood fill very non-trench tile
         while (queue.Count > 0)
         {
             (int row, int col) = queue.Dequeue();
 
-            if (visited_graph[row, col]) continue;
+            if (field[row, col] == true) continue;
 
-            field[row, col] = 2;
-            visited_graph[row, col] = true;
+            field[row, col] = true;
 
-            foreach (char direction in directions)
+            foreach (var direction in direction_map.Values)
             {
-                var current_direction = direction_map[direction];
-
-                int new_row = current_direction.row + row;
-                int new_col = current_direction.col + col;
+                int new_row = row + direction.row;
+                int new_col = col + direction.col;
 
                 if (new_row < 0 || new_row >= total_rows || new_col < 0 || new_col >= total_cols) continue;
-                if (field[new_row, new_col] != 0) continue;
+                if (field[new_row, new_col] == true) continue;
 
-                queue.Enqueue((new_row, new_col));
+                queue.Enqueue( (new_row, new_col) );
             }
         }
 
-        int tiles_dug = 0;
-
-        foreach (var num in field)
+        foreach (bool is_outside in field)
         {
-            if (num != 2) tiles_dug++;
+            if (!is_outside) trench_area++;
         }
 
-        return tiles_dug;
+        return trench_circumference + trench_area;
     }
 }
