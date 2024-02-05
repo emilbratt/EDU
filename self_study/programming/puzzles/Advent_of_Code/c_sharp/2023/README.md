@@ -151,6 +151,17 @@ I guess I could convert the int32 back to base 2 and then compare each '1' and '
 but that would defeat the whole purpose of creating the integers in the first place.\
 I decided to leave it as is for part 1 and then do a new implementation for part 2.
 
+
+### Day 18 Part 2
+
+[Area of a Polygon problem](https://en.wikipedia.org/wiki/Shoelace_formula)
+
+The bruteforce attempt from part 1 will not suffice for part 2 as we expect a 15 digit answer.\
+I did read about other programmers using coordinate compression (allows to solve with bruteforce).\
+While there are multiple ways of going about this problem, I decided to use the [shoelace formula](https://en.wikipedia.org/wiki/Shoelace_formula#Example).\
+A very cool math problem.
+
+
 ### Day 19 Part 2
 
 [A range problem](https://advent-of-code.xavd.id/writeups/2023/day/19/#part-2)

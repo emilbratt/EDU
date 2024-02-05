@@ -50,35 +50,24 @@ class Part2
         long trench_circumference = 0;
         long trench_area = 0;
 
-        (int x, int y) cur_pos = (0, 0);
-        List<(int x, int y)> coordinates = [];
-
+        // shoelace formula
+        (long x, long y) current_pos = (0, 0);
+        (long x, long y) previous_pos = (0, 0);
         foreach ((char direction, int meters) in dig_plan)
         {
-            var (row, col) = direction_map[direction];
+            current_pos.x += direction_map[direction].col * meters;
+            current_pos.y += direction_map[direction].row * meters;
 
-            for (int i = 0; i < meters; i++)
-            {
-                cur_pos.x += col;
-                cur_pos.y += row;
-                trench_circumference++;
-            }
-            coordinates.Add(cur_pos);
+            trench_area += (previous_pos.x * current_pos.y) - (current_pos.x * previous_pos.y);
+
+            trench_circumference += meters; // no part of shoelace formula, but we need the perimeter as well
+
+            previous_pos = (current_pos.x, current_pos.y);
         }
 
         trench_circumference /= 2;
-
-        for (int i = 1; i < coordinates.Count; i++)
-        {
-            (long x1, long y1) = coordinates[i-1];
-            (long x2, long y2) = coordinates[i];
-
-            trench_area += (x1 * y2) - (x2 * y1);
-        }
-
         trench_area /= 2;
-        trench_area = Math.Abs(trench_area);
 
-        return trench_area + trench_circumference + 1;
+        return Math.Abs(trench_area) + trench_circumference + 1;
     }
 }

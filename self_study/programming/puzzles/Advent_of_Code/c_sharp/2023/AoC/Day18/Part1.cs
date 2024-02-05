@@ -102,7 +102,7 @@ class Part1
         {
             (int row, int col) = queue.Dequeue();
 
-            if (field[row, col] == true) continue;
+            if (field[row, col]) continue;
 
             field[row, col] = true;
 
@@ -112,7 +112,7 @@ class Part1
                 int new_col = col + direction.col;
 
                 if (new_row < 0 || new_row >= total_rows || new_col < 0 || new_col >= total_cols) continue;
-                if (field[new_row, new_col] == true) continue;
+                if (field[new_row, new_col]) continue;
 
                 queue.Enqueue( (new_row, new_col) );
             }
