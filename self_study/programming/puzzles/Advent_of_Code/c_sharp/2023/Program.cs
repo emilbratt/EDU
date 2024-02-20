@@ -122,6 +122,10 @@ class Program
             ( "19", "1" ) => AoC.Day19.Part1.Run(puzzle_input),
             ( "19", "2" ) => AoC.Day19.Part2.Run(puzzle_input),
 
+            // Pulse Propagation
+            ( "20", "1" ) => AoC.Day20.Part1.Run(puzzle_input),
+            ( "20", "2" ) => AoC.Day20.Part2.Run(puzzle_input),
+
             _ => String.Empty,
         };
 
