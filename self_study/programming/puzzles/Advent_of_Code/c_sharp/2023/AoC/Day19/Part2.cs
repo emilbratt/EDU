@@ -76,10 +76,10 @@ class Part2
                     string next_wf_key = expression_or_goto.Split(':')[1];
 
                     // which range to use in condition e.g. x, m, a or s
-                    char key = Convert.ToChar(expression_or_goto[0]);
+                    char key = expression_or_goto[0];
 
                     // conditional operation - greater than > or less than <
-                    char op =  Convert.ToChar(expression_or_goto[1]);
+                    char op =  expression_or_goto[1];
 
                     // target value for conditional opearation
                     int target_val = int.Parse(expression_or_goto.Split(':')[0].Split(op)[1]);
