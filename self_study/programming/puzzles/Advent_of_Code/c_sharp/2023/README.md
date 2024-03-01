@@ -98,10 +98,10 @@ I finally succeeded and I am feeling great about it.
 
 [A Dynamic Programming problem](https://en.wikipedia.org/wiki/Dynamic_programming)
 
-The hardest AoC puzzle I have encountered and good chunks of the AoC community seem to agree.
+The hardest AoC puzzle I have encountered with good chunks of the AoC community seeming to agree.
 
 There was simply no way where I would be capable of solving both parts on my own.\
-It is all about trying different configurations to see what "final result" satisfies all the defined rules.\
+In essence, we are trying different configurations to see what "final result" satisfies all the defined rules.\
 Kinda like a [nonogram logic puzzle](https://en.wikipedia.org/wiki/Nonogram#Example).\
 Also, part 2 is 100% unsolvable for any brute-force attempted solutions.
 
@@ -110,10 +110,8 @@ He uses dynamic programming and memoization (both new concepts to me) but are us
 I think a good way to approach these concepts is by first looking at the [Fibonacci sequence](https://en.wikipedia.org/wiki/Dynamic_programming#Fibonacci_sequence) example.
 
 If I understand this correctly, it is all about defining sub-problems and attacking them first.\
-Solving the sub-probles according to the set of rules and then build solutions keeping only the onse that still follow the set of rules.\
+Solving the sub-problems according to the set of rules and then build solutions keeping only the ones that still follow the set of rules.\
 But, ..I am still wrapping my head around this..
-
-I might update this paragraph with more at a later time. Now I need to rest.. :)
 
 ### Day 13
 

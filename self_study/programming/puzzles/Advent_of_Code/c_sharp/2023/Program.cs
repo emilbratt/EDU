@@ -12,8 +12,8 @@ class Program
 
             for (int day = 1; day <= 25; day++)
             {
-                Puzzle(day.ToString(), "1");
-                Puzzle(day.ToString(), "2");
+                Solve(day.ToString(), "1");
+                Solve(day.ToString(), "2");
             }
 
             stop_watch.Stop();
@@ -25,18 +25,18 @@ class Program
         // ONE ARGUMENT PASSED -> RUN ONE DAY AND BOTH PARTS
         else if (number_of_arguments == 1)
         {
-            Puzzle(args[0], "1");
-            Puzzle(args[0], "2");
+            Solve(args[0], "1");
+            Solve(args[0], "2");
         }
 
         // TWO ARGUMENT PASSED -> RUN ONE PART FOR ONE DAY
         else if (number_of_arguments == 2)
         {
-            Puzzle(args[0], args[1]);
+            Solve(args[0], args[1]);
         }
     }
 
-    private static void Puzzle(string day, string part)
+    private static void Solve(string day, string part)
     {
         var puzzle_io = new AoC.PuzzleIO();
 
@@ -126,20 +126,20 @@ class Program
             ( "20", "1" ) => AoC.Day20.Part1.Run(puzzle_input),
             // ( "20", "2" ) => AoC.Day20.Part2.Run(puzzle_input),
 
-            _ => String.Empty,
+            _ => string.Empty,
         };
 
         stop_watch.Stop();
         long time_lapsed = stop_watch.ElapsedMilliseconds;
 
-        if (puzzle_input == String.Empty)
+        if (puzzle_input != string.Empty)
         {
-            Console.WriteLine($"Day {day} Part {part}\t| No puzzle input or puuzle not implemented");
+            string output_response = puzzle_io.Output(puzzle_output, day, part);
+            Console.WriteLine($"Day {day} part {part}\t| Output: {output_response}\t| time: {time_lapsed} ms");
         }
         else
         {
-            string output_response = puzzle_io.Output(puzzle_output, day, part);
-            Console.WriteLine($"Day {day} part {part}\t| Output: {output_response}\t| time: {time_lapsed} milliseconds");
+            Console.WriteLine($"Day {day} Part {part}\t| No puzzle input or puuzle not implemented");
         }
     }
 }

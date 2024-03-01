@@ -41,28 +41,34 @@ class Part1
             module_destinations[name] = destinations;
         }
 
+        // create the final data for this puzzle
         Dictionary<string, Module> modules = [];
-        foreach ( (string name, ModuleType type) in module_types)
+
+        foreach ( (string module_name, ModuleType type) in module_types)
         {
-            Dictionary<string, ModulePulse> modules_from_pulse = [];
-            foreach ( (string module_from, string[] modules_to) in module_destinations)
+            Dictionary<string, bool> input_modules = [];
+
+            if (type == ModuleType.Conjunction)
             {
-                foreach (string module_to in modules_to)
+                foreach ( (string input_module_name, string[] output_modules) in module_destinations)
                 {
-                    if (module_to == name)
+                    foreach (string output_module in output_modules)
                     {
-                        modules_from_pulse[module_from] = ModulePulse.Low;
-                        break;
+                        if (output_module == module_name)
+                        {
+                            input_modules[input_module_name] = false; // default pulse is low e.g. false
+                            break;
+                        }
                     }
                 }
             }
 
-            modules[name] = new Module
+            modules[module_name] = new Module
             {
                 Type = type,
-                DestinationModules = module_destinations[name],
-                PulseMemory = modules_from_pulse,
-                PulseOut = ModulePulse.Low,
+                DestinationModules = module_destinations[module_name],
+                PulseMemory = input_modules,
+                PulseOut = false,
             };
         }
 
@@ -78,21 +84,20 @@ class Part1
 
         while (button_pushes > 0)
         {
-            // we always start with a low pulse when queueing the broadcaster
-            button_pushes--;
+            // we always start with firng a low pulse into the broadcaster
             low_pulses++;
             queue.Enqueue("broadcaster");
 
             while (queue.Count > 0)
             {
                 string cur_module = queue.Dequeue();
+                bool pulse = modules[cur_module].PulseOut;
 
                 foreach (string next_module in modules[cur_module].DestinationModules)
                 {
-                    ModulePulse pulse = modules[cur_module].PulseOut;
 
-                    if (pulse == ModulePulse.High) high_pulses++;
-                    else if (pulse == ModulePulse.Low) low_pulses++;
+                    if (pulse) high_pulses++;
+                    else low_pulses++;
 
                     // do not handle modules with no input
                     if (!modules.ContainsKey(next_module)) continue;
@@ -102,15 +107,11 @@ class Part1
                     if (pulse_received) queue.Enqueue(next_module);
                 }
             }
+
+            button_pushes--;
         }
 
         return high_pulses * low_pulses;
-    }
-
-    private enum ModulePulse
-    {
-        Low  = 0,
-        High = 1,
     }
 
     private enum ModuleType
@@ -124,13 +125,11 @@ class Part1
     {
         public required ModuleType Type;
         public required string[] DestinationModules;
-        public required Dictionary<string, ModulePulse> PulseMemory;
-        public required ModulePulse PulseOut;
+        public required Dictionary<string, bool> PulseMemory; // only for conjunction module
+        public required bool PulseOut; // true => high, low => false
 
-        public bool ReseivePulse(ModulePulse pulse, string from)
+        public bool ReseivePulse(bool pulse, string from)
         {
-            PulseMemory[from] = pulse;
-
             if (Type == ModuleType.FlipFlop)
             {
                 /*
@@ -138,14 +137,9 @@ class Part1
                     If received high pulse -> ignore it
                     If received low pulse -> flip pulse high to low or low to high e.g. on / off
                 */
-                if (pulse == ModulePulse.Low)
+                if (pulse == false)
                 {
-                    PulseOut = PulseOut switch
-                    {
-                        ModulePulse.High => ModulePulse.Low,
-                        ModulePulse.Low => ModulePulse.High,
-                        _ => PulseOut,
-                    };
+                    PulseOut = !PulseOut;
 
                     return true;
                 }
@@ -158,12 +152,15 @@ class Part1
                     If it remembers high pulses for all inputs, set low pulse;
                     otherwise, set high pulse.
                 */
-                PulseOut = ModulePulse.Low;
-                foreach (ModulePulse p in PulseMemory.Values)
+
+                PulseMemory[from] = pulse;
+
+                PulseOut = false;
+                foreach (bool p in PulseMemory.Values)
                 {
-                    if (p == ModulePulse.Low)
+                    if (p == false)
                     {
-                        PulseOut = ModulePulse.High;
+                        PulseOut = true;
                         return true;
                     }
                 }
