@@ -124,7 +124,7 @@ class Program
 
             // Pulse Propagation
             ( "20", "1" ) => AoC.Day20.Part1.Run(puzzle_input),
-            // ( "20", "2" ) => AoC.Day20.Part2.Run(puzzle_input),
+            ( "20", "2" ) => AoC.Day20.Part2.Run(puzzle_input),
 
             _ => string.Empty,
         };
