@@ -2,47 +2,47 @@ namespace AoC.Day21;
 
 class Part1
 {
-	public static string Run(string puzzle_input)
-	{
-		char[,] map = GetMap(puzzle_input);
+    public static string Run(string puzzle_input)
+    {
+        char[,] map = GetMap(puzzle_input);
 
         (int start_row, int start_col) = GetStartPosition(map, 'S');
 
-		int steps = 64;
+        int steps = 64;
 
-		int res = CalculateReachableGardenPlots(map, start_row, start_col, steps);
+        int res = CalculateReachableGardenPlots(map, start_row, start_col, steps);
 
-		return res.ToString();
-	}
+        return res.ToString();
+    }
 
-	private static char[,] GetMap(string puzzle_input)
-	{
-		string[] s_grid = puzzle_input.Split('\n', StringSplitOptions.RemoveEmptyEntries);
-
-		char[,] map = new char[s_grid.Length, s_grid[0].Length];
-
-		for (int row = 0; row < s_grid.Length; row++)
-		{
-			for (int col = 0; col < s_grid[row].Length; col++)
-			{
-				map[row, col] = s_grid[row][col];
-			}
-		}
-
-		return map;
-	}
-
-	private static (int row, int col) GetStartPosition(char[,] map, char marker)
+    private static char[,] GetMap(string puzzle_input)
     {
-		for (int row = 0; row < map.GetLength(0); row++)
-		{
-			for (int col = 0; col < map.GetLength(1); col++)
-			{
-				if (map[row, col] == marker) return (row, col);
-			}
-		}
+        string[] s_grid = puzzle_input.Split('\n', StringSplitOptions.RemoveEmptyEntries);
 
-		System.Diagnostics.Debug.Assert(false, " could not findd start position");
+        char[,] map = new char[s_grid.Length, s_grid[0].Length];
+
+        for (int row = 0; row < s_grid.Length; row++)
+        {
+            for (int col = 0; col < s_grid[row].Length; col++)
+            {
+                map[row, col] = s_grid[row][col];
+            }
+        }
+
+        return map;
+    }
+
+    private static (int row, int col) GetStartPosition(char[,] map, char marker)
+    {
+        for (int row = 0; row < map.GetLength(0); row++)
+        {
+            for (int col = 0; col < map.GetLength(1); col++)
+            {
+                if (map[row, col] == marker) return (row, col);
+            }
+        }
+
+        System.Diagnostics.Debug.Assert(false, " could not findd start position");
         return (-1, -1);
     }
 
@@ -80,10 +80,10 @@ class Part1
             for (int i = 0; i < 4; i++)
             {
                 int new_row = row + directions[i].row;
-                if (new_row < 0 || new_row >= row_count) continue;
+                if (new_row < 0 || new_row == row_count) continue;
 
                 int new_col = col + directions[i].col;
-                if (new_col < 0 || new_col >= col_count) continue;
+                if (new_col < 0 || new_col == col_count) continue;
 
                 if (map[new_row, new_col] == '#') continue;
 

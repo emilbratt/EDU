@@ -2,51 +2,51 @@ namespace AoC.Day21;
 
 class Part2
 {
-	public static string Run(string puzzle_input)
-	{
-		char[,] map = GetMap(puzzle_input);
+    public static string Run(string puzzle_input)
+    {
+        char[,] map = GetMap(puzzle_input);
 
         (int start_row, int start_col) = GetStartPosition(map, 'S');
 
         map[start_row, start_col] = '.';
 
-		// int steps = 26501365;
-		int steps = 100;
+        // int steps = 26501365;
+        int steps = 100;
 
-		int res = CalculateReachableGardenPlots(map, start_row, start_col, steps);
+        int res = CalculateReachableGardenPlots(map, start_row, start_col, steps);
 
         Console.WriteLine($"\nresult: {res}");
-		return res.ToString();
-	}
+        return res.ToString();
+    }
 
-	private static char[,] GetMap(string puzzle_input)
-	{
-		string[] s_grid = puzzle_input.Split('\n', StringSplitOptions.RemoveEmptyEntries);
-
-		char[,] map = new char[s_grid.Length, s_grid[0].Length];
-
-		for (int row = 0; row < s_grid.Length; row++)
-		{
-			for (int col = 0; col < s_grid[row].Length; col++)
-			{
-				map[row, col] = s_grid[row][col];
-			}
-		}
-
-		return map;
-	}
-
-	private static (int row, int col) GetStartPosition(char[,] map, char marker)
+    private static char[,] GetMap(string puzzle_input)
     {
-		for (int row = 0; row < map.GetLength(0); row++)
-		{
-			for (int col = 0; col < map.GetLength(1); col++)
-			{
-				if (map[row, col] == marker) return (row, col);
-			}
-		}
+        string[] s_grid = puzzle_input.Split('\n', StringSplitOptions.RemoveEmptyEntries);
 
-		System.Diagnostics.Debug.Assert(false, " could not findd start position");
+        char[,] map = new char[s_grid.Length, s_grid[0].Length];
+
+        for (int row = 0; row < s_grid.Length; row++)
+        {
+            for (int col = 0; col < s_grid[row].Length; col++)
+            {
+                map[row, col] = s_grid[row][col];
+            }
+        }
+
+        return map;
+    }
+
+    private static (int row, int col) GetStartPosition(char[,] map, char marker)
+    {
+        for (int row = 0; row < map.GetLength(0); row++)
+        {
+            for (int col = 0; col < map.GetLength(1); col++)
+            {
+                if (map[row, col] == marker) return (row, col);
+            }
+        }
+
+        System.Diagnostics.Debug.Assert(false, " could not findd start position");
         return (-1, -1);
     }
 
