@@ -6,16 +6,14 @@ class Part2
     {
         char[,] map = GetMap(puzzle_input);
 
+        AssertInput(map);
+
         (int start_row, int start_col) = GetStartPosition(map, 'S');
 
-        map[start_row, start_col] = '.';
+        const int steps = 26501365;
 
-        // int steps = 26501365;
-        int steps = 100;
+        long res = CalculateReachableGardenPlotsBFS(map, start_row, start_col, steps);
 
-        int res = CalculateReachableGardenPlots(map, start_row, start_col, steps);
-
-        Console.WriteLine($"\nresult: {res}");
         return res.ToString();
     }
 
@@ -36,6 +34,33 @@ class Part2
         return map;
     }
 
+    private static void AssertInput(char[,] map)
+    {
+        int row_count = map.GetLength(0);
+        int CC = map.GetLength(1);
+
+        // Our grid should have an odd number of rows and columns.
+        System.Diagnostics.Debug.Assert(row_count % 2 == 1, " input has an even amount of rows");
+        System.Diagnostics.Debug.Assert(CC % 2 == 1, " input has an even amount of columns");
+
+        // We expect our upper and lower edge to have only '.' (no rocks)
+        for (int row = 0; row < row_count; row++)
+        {
+            System.Diagnostics.Debug.Assert(map[row, 0] == '.', " perimeter has blocking rocks '#'");
+            System.Diagnostics.Debug.Assert(map[row, CC - 1] == '.', " perimeter has blocking rocks '#'");
+        }
+
+        // We expect our left and right edge to have only '.' (no rocks)
+        for (int col = 0; col < CC; col++)
+        {
+            System.Diagnostics.Debug.Assert(map[0, col] == '.', " perimeter has blocking rocks '#'");
+            System.Diagnostics.Debug.Assert(map[row_count - 1, col] == '.', " perimeter has blocking rocks '#'");
+        }
+
+        // Make sure we are only working with a squared grid
+        System.Diagnostics.Debug.Assert(row_count == CC, " grid is not a perfect square");
+    }
+
     private static (int row, int col) GetStartPosition(char[,] map, char marker)
     {
         for (int row = 0; row < map.GetLength(0); row++)
@@ -50,95 +75,138 @@ class Part2
         return (-1, -1);
     }
 
-    private static int CalculateReachableGardenPlots(char[,] map, int start_row, int start_col, int total_steps)
+    private static long CalculateReachableGardenPlotsBFS(char[,] map, int sr, int sc, int steps)
     {
-        int row_count = map.GetLength(0);
-        int col_count = map.GetLength(1);
+        int RC = map.GetLength(0);
+        int CC = map.GetLength(1);
 
-        (int row, int col) start_bound = (0, 0);
+        bool STEPS_ARE_EVEN = steps % 2 == 0;
 
-        Dictionary<(int row, int col), bool[,]> bounds_visited = [];
-        Dictionary<(int row, int col), int[,]> bounds_steps = [];
+        int EXPAND_MAP = 5; // How many map copies we allow for increasing the map size in all directions.
+        int EXPAND_RANGE = EXPAND_MAP*2+1;
 
-        bounds_visited[start_bound] = new bool[map.GetLength(0), map.GetLength(1)];
-        bounds_steps[start_bound] = new int[map.GetLength(0), map.GetLength(1)];
-
-        (int row, int col)[] directions = [(-1,  0), ( 0, -1), ( 1,  0), ( 0,  1)];
-
-        int reachable_tiles = 0;
-
-        void RecNextStep(int row, int col, int remaining_steps, (int row, int col) bound)
+        Dictionary<(int row, int col), int[,]> DISTANCES = [];
+        for (int i = 0; i < EXPAND_RANGE * EXPAND_RANGE; i++)
         {
-            if (remaining_steps < 0) return;
+            // We get both row and col by doing this and can skip one extra nesting..
+            // It is the same as doing:
+            // for (int tr = -EXPAND_MAP; tr <= EXPAND_MAP; tr++)
+            //      for (int tc = -EXPAND_MAP; tc <= EXPAND_MAP; tc++)
+            int tr = (i / EXPAND_RANGE) - EXPAND_MAP;
+            int tc = (i % EXPAND_RANGE) - EXPAND_MAP;
 
-            if (!bounds_visited[bound][row, col])
+            DISTANCES[(tr, tc)] = new int[RC, CC];
+
+            for (int j = 0; j < RC * CC; j++)
             {
-                reachable_tiles += remaining_steps % 2 == 0 ? 1 : 0;
-            }
-
-            bounds_visited[bound][row, col] = remaining_steps % 2 == 0;
-            remaining_steps--;
-
-            for (int i = 0; i < 4; i++)
-            {
-                int new_row = row + directions[i].row;
-
-                int new_bound_row = bound.row;
-                int new_bound_col = bound.col;
-
-                if (new_row < 0)
-                {
-                    new_bound_row--;
-                    new_row = row_count - 1;
-                }
-                else if (new_row == row_count)
-                {
-                    new_bound_row++;
-                    new_row = 0;
-                };
-
-                int new_col = col + directions[i].col;
-                if (new_col < 0)
-                {
-                    new_bound_col--;
-                    new_col = col_count - 1;
-                }
-                else if (new_col == col_count)
-                {
-                    new_bound_col++;
-                    new_col = 0;
-                }
-
-                if (!bounds_visited.ContainsKey( (new_bound_row, new_bound_col) ))
-                {
-                    bounds_visited[ (new_bound_row, new_bound_col) ] = new bool[map.GetLength(0), map.GetLength(1)];
-                }
-
-                if (!bounds_steps.ContainsKey( (new_bound_row, new_bound_col) ))
-                {
-                    bounds_steps[ (new_bound_row, new_bound_col) ] = new int[map.GetLength(0), map.GetLength(1)];
-                }
-
-                if (map[new_row, new_col] == '#') continue;
-
-                // Comment out this block => you'll be waiting for an eternity (or until the stack overflows)..
-                if (bounds_visited[ (new_bound_row, new_bound_col) ][new_row, new_col])
-                {
-                    // If tile is visited and if we used more or an equal amount of steps getting there
-                    // (which vaguely indicates going in circles),
-                    // then we skip this tile as we have already visited it via a shorter route.
-                    // We end up having to run less than a fraction of the iterations we would otherwise have to run.
-                    if (bounds_steps[ (new_bound_row, new_bound_col) ][new_row, new_col] >= remaining_steps) continue;
-                }
-
-                bounds_steps[ (new_bound_row, new_bound_col) ][new_row, new_col] = remaining_steps;
-
-                RecNextStep(new_row, new_col, remaining_steps,  (new_bound_row, new_bound_col) );
+                int r = j / RC;
+                int c = j % CC;
+                DISTANCES[(tr,tc)][r,c] = -1; // set all default to -1
             }
         }
 
-        RecNextStep(start_row, start_col, total_steps, start_bound);
+        Queue<(int tr, int tc, int r, int c, int d)> Q = [];
 
-        return reachable_tiles;
+        // We add the distance offset "1" because 0 == not visited, otherwise we would have used 0..
+        Q.Enqueue( (0, 0 ,sr, sc, 0) );
+        long ans = 0;
+
+        // Breadth First Search - BFS ..for getting the distance for a subset of the inf. size of the map.
+        // Each map-part is represented as a tile which holds all sub-tiles (rows and cols) for the copy of the map.
+        while (Q.Count > 0)
+        {
+            // Q values: tile row, tile column, row, column, distance | tile row and tile column => the map copy.
+            (int tr, int tc, int r, int c, int d) = Q.Dequeue();
+
+            if (r < 0)
+            {
+                tr -= 1;
+                r = RC - 1;
+            }
+            if (r == RC)
+            {
+                tr += 1;
+                r = 0;
+            }
+            if (c < 0)
+            {
+                tc -= 1;
+                c = CC - 1;
+            }
+            if (c == CC)
+            {
+                tc += 1;
+                c = 0;
+            }
+
+            if (map[r,c] == '#') continue; // not allowed to step on
+            if (Math.Abs(tr) > EXPAND_MAP) continue; // outside vertical bounds
+            if (Math.Abs(tc) > EXPAND_MAP) continue; // outside horizontal bounds
+            if (DISTANCES[(tr, tc)][r,c] != -1) continue; // already visited
+
+            if (d <= steps)
+            {
+                bool dist_is_even = d % 2 == 0;
+                if (dist_is_even == STEPS_ARE_EVEN) ans += 1;
+            }
+
+            DISTANCES[(tr,tc)][r,c] = d;
+
+            Q.Enqueue( (tr, tc, r+1, c, d+1) );
+            Q.Enqueue( (tr, tc, r-1, c, d+1) );
+            Q.Enqueue( (tr, tc, r, c+1, d+1) );
+            Q.Enqueue( (tr, tc, r, c-1, d+1) );
+        }
+
+        Dictionary<(int distance, bool is_corner), long> memoized = [];
+
+        // Iterate over our increased but fixd subset of the infinite map to add all steps occuring outside it.
+        // Only distances marked along the perimeter of our increased map are evaluated.
+        for (int i = 0; i < RC * CC; i++)
+        {
+            int r = i / RC;
+            int c = i % CC;
+
+            // Not visited for original map means it is not visited for all copies too..
+            if (DISTANCES[(0, 0)][r, c] == -1) continue;
+
+            for (int j = 0; j < EXPAND_RANGE * EXPAND_RANGE; j++)
+            {
+                int tr = (j / EXPAND_RANGE) - EXPAND_MAP;
+                int tc = (j % EXPAND_RANGE) - EXPAND_MAP;
+
+                bool is_inside_perimeter = Math.Abs(tr) < EXPAND_MAP && Math.Abs(tc) < EXPAND_MAP;
+                if (is_inside_perimeter) continue;
+
+                int d = DISTANCES[ (tr,tc) ][r,c];
+
+                bool is_corner = Math.Abs(tr) == EXPAND_MAP && Math.Abs(tc) == EXPAND_MAP;
+
+                (int distance, bool is_corner) key = (d, is_corner);
+
+                bool is_memoized = memoized.ContainsKey(key);
+
+                if (is_memoized) ans += memoized[key];
+                if (is_memoized) continue;
+
+                memoized[key] = 0;
+                for (int k = 1; k <= (steps-d) / RC; k++)
+                {
+                    int new_dist = d + (k * RC);
+                    if (new_dist > steps) continue;
+
+                    // Only add for every other tile (this works for any both odd and even input for steps)..
+                    bool dist_is_even = new_dist % 2 == 0;
+                    if (dist_is_even != STEPS_ARE_EVEN) continue;
+
+                    if (is_corner) memoized[key] += k + 1;
+                    else memoized[key] += 1;
+                }
+
+                ans += memoized[key];
+            }
+        }
+
+        return ans;
     }
 }

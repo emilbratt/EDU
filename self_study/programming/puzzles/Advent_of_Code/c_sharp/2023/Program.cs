@@ -128,7 +128,7 @@ class Program
 
             // Step Counter
             ( "21", "1" ) => AoC.Day21.Part1.Run(puzzle_input),
-            // ( "21", "2" ) => AoC.Day21.Part2.Run(puzzle_input),
+            ( "21", "2" ) => AoC.Day21.Part2.Run(puzzle_input),
 
             _ => string.Empty,
         };
