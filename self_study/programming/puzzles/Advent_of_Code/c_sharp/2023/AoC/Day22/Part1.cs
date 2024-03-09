@@ -6,7 +6,11 @@ class Part1
     {
         Brick[] B = GetSnapShotPositions(puzzle_input);
 
-        int ans = CountPossibleDisintegrations(B);
+        B = FallDown(B);
+
+        List<int> removed = CanSafelyRemove(B);
+
+        int ans = removed.Count;
 
         return ans.ToString();
     }
@@ -65,7 +69,7 @@ class Part1
         return B;
     }
 
-    private static int CountPossibleDisintegrations(Brick[] B)
+    private static Brick[] FallDown(Brick[] B)
     {
         bool fell = true;
         while (fell)
@@ -94,43 +98,55 @@ class Part1
             }
         }
 
-        int ans = 0;
-        foreach (Brick brick_a in B)
+        foreach (Brick brick in B)
         {
-            brick_a.Disintegrated = true;
-
-            foreach (Brick brick_b in B)
+            brick.Z.s--;
+            brick.Z.e--;
+            foreach (Brick support_brick in B)
             {
-                if (brick_b.Disintegrated) continue;
-                if (brick_b.Z.s == 1) continue;
+                if (brick.Index == support_brick.Index) continue;
 
-                brick_b.Z.s--;
-                brick_b.Z.e--;
-                bool can_fall = true;
-                foreach (Brick brick_c in B)
+                if (support_brick.Collision(brick))
                 {
-                    if (brick_c.Disintegrated) continue;
-                    if (brick_b.Index == brick_c.Index) continue;
-                    if (!brick_b.Collision(brick_c)) continue;
-
-                    can_fall = false;
-                    break;
+                    brick.SupportedBy.Add(support_brick.Index);
                 }
-                brick_b.Z.s++;
-                brick_b.Z.e++;
-
-                if (!can_fall) continue;
-
-                brick_a.Disintegrated = false;
-                break;
             }
-
-            if (brick_a.Disintegrated) ans++;
-
-            brick_a.Disintegrated = false;
+            brick.Z.s++;
+            brick.Z.e++;
         }
 
-        return ans;
+        foreach (Brick brick in B)
+        {
+            foreach (int index in brick.SupportedBy)
+            {
+                if (B[index].Supporting.Contains(brick.Index)) continue;
+                B[index].Supporting.Add(brick.Index);
+            }
+        }
+
+        return B;
+    }
+
+    private static List<int> CanSafelyRemove(Brick[] B)
+    {
+        List<int> removed = [];
+        foreach (Brick brick in B)
+        {
+            bool can_fall = false;
+
+            foreach (int index in brick.Supporting)
+            {
+                if (B[index].SupportedBy.Count < 2)
+                {
+                    can_fall = true;
+                    break;
+                }
+            }
+
+            if (!can_fall) removed.Add(brick.Index);
+        }
+
+        return removed;
     }
 
     private class Brick
@@ -139,7 +155,9 @@ class Part1
         public required (int s, int e) X;
         public required (int s, int e) Y;
         public required (int s, int e) Z;
-        public bool Disintegrated = false;
+
+        public List<int> Supporting = [];
+        public List<int> SupportedBy = [];
 
         public int PossibleFallPosition(Brick b)
         {
