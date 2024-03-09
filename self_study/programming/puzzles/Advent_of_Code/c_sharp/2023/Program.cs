@@ -130,6 +130,10 @@ class Program
             ( "21", "1" ) => AoC.Day21.Part1.Run(puzzle_input),
             ( "21", "2" ) => AoC.Day21.Part2.Run(puzzle_input),
 
+            // Sand Slabs
+            ( "22", "1" ) => AoC.Day22.Part1.Run(puzzle_input),
+            // ( "22", "2" ) => AoC.Day22.Part2.Run(puzzle_input),
+
             _ => string.Empty,
         };
 
