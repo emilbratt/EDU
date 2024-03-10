@@ -14,20 +14,9 @@ class Part1
             IsTravelling = true,
         };
 
-        int[,] energized = TravelThroughContraption(contraption, beam);
+        int ans = TravelThroughContraption(contraption, beam);
 
-        int res = 0;
-
-        for (int row = 0; row < energized.GetLength(0); row++)
-        {
-            for (int col = 0; col < energized.GetLength(1); col++)
-            {
-                // any number above 0 means it is energized, count it as +1
-                if (energized[row, col] > 0) res += 1;
-            }
-        }
-
-        return res.ToString();
+        return ans.ToString();
     }
 
     private static char[,] GetContraptionLayout(string puzzle_input)
@@ -47,7 +36,7 @@ class Part1
         return grid;
     }
 
-    private static int[,] TravelThroughContraption(char[,] contraption, Beam beam)
+    private static int TravelThroughContraption(char[,] contraption, Beam beam)
     {
         int row_count = contraption.GetLength(0);
         int col_count = contraption.GetLength(1);
@@ -118,7 +107,11 @@ class Part1
 
         NewBeam(beam);
 
-        return energized;
+        int ans = 0;
+
+        foreach (int n in energized) if (n > 0) ans++;
+
+        return ans;
     }
 
     private class Beam

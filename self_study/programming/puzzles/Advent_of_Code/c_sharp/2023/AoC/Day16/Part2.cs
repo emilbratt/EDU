@@ -30,7 +30,7 @@ class Part2
 
     private static int TryAllEntries(char[,] contraption)
     {
-        int highest_res = 0;
+        int ans = 0;
 
         int row_count = contraption.GetLength(0);
         int col_count = contraption.GetLength(1);
@@ -44,14 +44,14 @@ class Part2
             beam.Direction = 'E';
             beam.EnergizedTiles = 0;
             beam = TravelThroughContraption(contraption, beam);
-            if (beam.EnergizedTiles > highest_res) highest_res = beam.EnergizedTiles;
+            if (beam.EnergizedTiles > ans) ans = beam.EnergizedTiles;
 
             beam.Col = col_count;  // first move is into the grid from right
             beam.Row = row;
             beam.Direction = 'W';
             beam.EnergizedTiles = 0;
             beam = TravelThroughContraption(contraption, beam);
-            if (beam.EnergizedTiles > highest_res) highest_res = beam.EnergizedTiles;
+            if (beam.EnergizedTiles > ans) ans = beam.EnergizedTiles;
         }
 
         // start from all collumns top and bottom
@@ -62,17 +62,17 @@ class Part2
             beam.Direction = 'S';
             beam.EnergizedTiles = 0;
             beam = TravelThroughContraption(contraption, beam);
-            if (beam.EnergizedTiles > highest_res) highest_res = beam.EnergizedTiles;
+            if (beam.EnergizedTiles > ans) ans = beam.EnergizedTiles;
 
             beam.Col = col;
             beam.Row = row_count;  // first move is into the grid from bottom
             beam.Direction = 'N';
             beam.EnergizedTiles = 0;
             beam = TravelThroughContraption(contraption, beam);
-            if (beam.EnergizedTiles > highest_res) highest_res = beam.EnergizedTiles;
+            if (beam.EnergizedTiles > ans) ans = beam.EnergizedTiles;
         }
 
-        return highest_res;
+        return ans;
     }
 
     private static Beam TravelThroughContraption(char[,] contraption, Beam beam)

@@ -37,9 +37,12 @@ class Part2
 
     private static long BinarySearchPossibleWinConditions(long time, long record_distance)
     {
-        // using binary search, find lowest push time while still beating the record distance
+        // Dividing time by 2 yields best pushtime for longest distance.
+
+        // Binary search - find lowest push time while still beating the record distance.
         long lo = 0;
-        long hi = time / 2;
+        long hi = time / 2; // Start from middle instead of top, we want to approach lower end..
+
         while (lo <= hi)
         {
             long middle = (lo + hi) / 2;
@@ -47,16 +50,12 @@ class Part2
             long push_time = middle / 2;
             long travel = push_time * (time - push_time);
 
-            if (travel > record_distance)
-            {
-                hi = middle - 1;
-            }
-            else if (travel <= record_distance)
-            {
-                lo = middle + 1;
-            } 
+            if (travel > record_distance) hi = middle - 1;
+            else if (travel <= record_distance) lo = middle + 1;
         }
 
-        return time - hi;
+        long ans = time - hi;
+
+        return ans;
     }
 }

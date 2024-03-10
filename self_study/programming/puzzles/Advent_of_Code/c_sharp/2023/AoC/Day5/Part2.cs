@@ -62,24 +62,18 @@ class InputHandle
     }
 }
 
-class Mapper
+class Mapper(string puzzle_input)
 {
-    private readonly List<(long, long, long)[]> _maps;
-    private readonly (long seed, long range)[] _seeds;
-
-    public Mapper(string puzzle_input)
-    {
-        _seeds = InputHandle.GetSeeds(puzzle_input);
-        _maps = new List<(long, long, long)[]> {
-            InputHandle.GetMaps("seed-to-soil", puzzle_input),
-            InputHandle.GetMaps("soil-to-fertilizer", puzzle_input),
-            InputHandle.GetMaps("fertilizer-to-water", puzzle_input),
-            InputHandle.GetMaps("water-to-light", puzzle_input),
-            InputHandle.GetMaps("light-to-temperature", puzzle_input),
-            InputHandle.GetMaps("temperature-to-humidity", puzzle_input),
-            InputHandle.GetMaps("humidity-to-location", puzzle_input),
-        };
-    }
+    private readonly (long seed, long range)[] _seeds = InputHandle.GetSeeds(puzzle_input);
+    private readonly List<(long, long, long)[]> _maps = [
+        InputHandle.GetMaps("seed-to-soil", puzzle_input),
+        InputHandle.GetMaps("soil-to-fertilizer", puzzle_input),
+        InputHandle.GetMaps("fertilizer-to-water", puzzle_input),
+        InputHandle.GetMaps("water-to-light", puzzle_input),
+        InputHandle.GetMaps("light-to-temperature", puzzle_input),
+        InputHandle.GetMaps("temperature-to-humidity", puzzle_input),
+        InputHandle.GetMaps("humidity-to-location", puzzle_input),
+    ];
 
     public long FindLowestLocation()
     {
@@ -141,15 +135,14 @@ class Mapper
     {
         foreach (var map in _maps)
         {
-            long offset = GetMapOffset(value, map);
-            value = value + offset;
+            value += GetMapOffset(value, map);
         }
         return value;
     }
 
     private static long GetMapOffset(long input, (long dest, long source, long range)[] map)
     {
-        foreach (var (dest, source, range) in map)
+        foreach ((long dest, long source, long range) in map)
         {
             // use map values only if the input falls within the range specified
             if (input >= source && input < source + range) return dest - source;

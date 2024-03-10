@@ -37,28 +37,28 @@ class Part2
     private static void AssertInput(char[,] map)
     {
         int row_count = map.GetLength(0);
-        int CC = map.GetLength(1);
+        int C = map.GetLength(1);
 
         // Our grid should have an odd number of rows and columns.
         System.Diagnostics.Debug.Assert(row_count % 2 == 1, " input has an even amount of rows");
-        System.Diagnostics.Debug.Assert(CC % 2 == 1, " input has an even amount of columns");
+        System.Diagnostics.Debug.Assert(C % 2 == 1, " input has an even amount of columns");
 
         // We expect our upper and lower edge to have only '.' (no rocks)
         for (int row = 0; row < row_count; row++)
         {
             System.Diagnostics.Debug.Assert(map[row, 0] == '.', " perimeter has blocking rocks '#'");
-            System.Diagnostics.Debug.Assert(map[row, CC - 1] == '.', " perimeter has blocking rocks '#'");
+            System.Diagnostics.Debug.Assert(map[row, C - 1] == '.', " perimeter has blocking rocks '#'");
         }
 
         // We expect our left and right edge to have only '.' (no rocks)
-        for (int col = 0; col < CC; col++)
+        for (int col = 0; col < C; col++)
         {
             System.Diagnostics.Debug.Assert(map[0, col] == '.', " perimeter has blocking rocks '#'");
             System.Diagnostics.Debug.Assert(map[row_count - 1, col] == '.', " perimeter has blocking rocks '#'");
         }
 
         // Make sure we are only working with a squared grid
-        System.Diagnostics.Debug.Assert(row_count == CC, " grid is not a perfect square");
+        System.Diagnostics.Debug.Assert(row_count == C, " grid is not a perfect square");
     }
 
     private static (int row, int col) GetStartPosition(char[,] map, char marker)
@@ -77,8 +77,8 @@ class Part2
 
     private static long CalculateReachableGardenPlotsBFS(char[,] map, int sr, int sc, int steps)
     {
-        int RC = map.GetLength(0);
-        int CC = map.GetLength(1);
+        int R = map.GetLength(0);
+        int C = map.GetLength(1);
 
         bool STEPS_ARE_EVEN = steps % 2 == 0;
 
@@ -95,12 +95,12 @@ class Part2
             int tr = (i / EXPAND_RANGE) - EXPAND_MAP;
             int tc = (i % EXPAND_RANGE) - EXPAND_MAP;
 
-            DISTANCES[(tr, tc)] = new int[RC, CC];
+            DISTANCES[(tr, tc)] = new int[R, C];
 
-            for (int j = 0; j < RC * CC; j++)
+            for (int j = 0; j < R * C; j++)
             {
-                int r = j / RC;
-                int c = j % CC;
+                int r = j / R;
+                int c = j % C;
                 DISTANCES[(tr,tc)][r,c] = -1; // set all default to -1
             }
         }
@@ -121,9 +121,9 @@ class Part2
             if (r < 0)
             {
                 tr -= 1;
-                r = RC - 1;
+                r = R - 1;
             }
-            if (r == RC)
+            if (r == R)
             {
                 tr += 1;
                 r = 0;
@@ -131,9 +131,9 @@ class Part2
             if (c < 0)
             {
                 tc -= 1;
-                c = CC - 1;
+                c = C - 1;
             }
-            if (c == CC)
+            if (c == C)
             {
                 tc += 1;
                 c = 0;
@@ -162,10 +162,10 @@ class Part2
 
         // Iterate over our increased but fixd subset of the infinite map to add all steps occuring outside it.
         // Only distances marked along the perimeter of our increased map are evaluated.
-        for (int i = 0; i < RC * CC; i++)
+        for (int i = 0; i < R * C; i++)
         {
-            int r = i / RC;
-            int c = i % CC;
+            int r = i / R;
+            int c = i % C;
 
             // Not visited for original map means it is not visited for all copies too..
             if (DISTANCES[(0, 0)][r, c] == -1) continue;
@@ -190,17 +190,18 @@ class Part2
                 if (is_memoized) continue;
 
                 memoized[key] = 0;
-                for (int k = 1; k <= (steps-d) / RC; k++)
+                for (int k = 1; k <= (steps-d) / R; k++)
                 {
-                    int new_dist = d + (k * RC);
+                    int new_dist = d + (k * R);
                     if (new_dist > steps) continue;
 
-                    // Only add for every other tile (this works for any both odd and even input for steps)..
+                    // Only add for every other tile (this works for both odd and even input for steps..).
                     bool dist_is_even = new_dist % 2 == 0;
                     if (dist_is_even != STEPS_ARE_EVEN) continue;
 
-                    if (is_corner) memoized[key] += k + 1;
-                    else memoized[key] += 1;
+                    if (is_corner) memoized[key] += k;
+
+                    memoized[key] += 1;
                 }
 
                 ans += memoized[key];
