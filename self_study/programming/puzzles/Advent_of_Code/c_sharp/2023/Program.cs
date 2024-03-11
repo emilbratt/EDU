@@ -134,6 +134,10 @@ class Program
             ( "22", "1" ) => AoC.Day22.Part1.Run(puzzle_input),
             ( "22", "2" ) => AoC.Day22.Part2.Run(puzzle_input),
 
+            // A Long Walk
+            ( "23", "1" ) => AoC.Day23.Part1.Run(puzzle_input),
+            // ( "23", "2" ) => AoC.Day23.Part2.Run(puzzle_input),
+
             _ => string.Empty,
         };
 
