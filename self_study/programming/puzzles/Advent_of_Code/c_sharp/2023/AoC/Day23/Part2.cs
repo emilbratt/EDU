@@ -30,72 +30,126 @@ class Part2
 
     private static int TraverseSnowIsland(char[,] map)
     {
-        int ans = 0;
-
         int R = map.GetLength(0);
         int C = map.GetLength(1);
-
-        (int row, int col)[] DIRECTIONS = [(-1,  0), ( 1,  0), ( 0, -1), ( 0,  1)];
 
         (int r, int c) start = (0, 1);
         (int r, int c) target = (R - 1, C - 2);
 
-        // Depth First Search using a stack (instead of a Queue..).
-        Stack<(int id, int dist, int r, int c)> dfs = [];
-        dfs.Push((0, 0, start.r, start.c));
+        (int row, int col)[] DIRECTIONS = [(-1,  0), ( 1,  0), ( 0, -1), ( 0,  1)];
 
-        // We keep track of each path by assigning an id to it.
-        Dictionary<int, bool[,]> visited = [];
-        visited[0] = new bool[R, C];
-
-        while (dfs.Count > 0)
+        HashSet<(int r, int c)> VERTICES = [];
+        for (int r = 0; r < R; r++)
         {
-            (int id, int dist, int r, int c) = dfs.Pop();
-
-            int nid = id;
-            int ndist = dist + 1;
-
-            for (int i = 0; i <= 3; i++)
+            for (int c = 0; c < C; c++)
             {
-                int nr = DIRECTIONS[i].row + r;
-                int nc = DIRECTIONS[i].col + c;
+                if (map[r,c] == '#') continue;
 
-                if (nr == target.r && nc == target.c)
+                int pathways = 0;
+                for (int i = 0; i < 4; i++)
                 {
-                    if (ndist > ans) ans = ndist;
-                    continue; // we are at trails end
+                    int nr = DIRECTIONS[i].row + r;
+                    int nc = DIRECTIONS[i].col + c;
+
+                    if (nr >= R || nr < 0) continue;
+                    if (nc >= C || nc < 0) continue;
+                    if (map[nr,nc] == '#') continue;
+
+                    pathways++;
                 }
 
-                if (nr == R || nr < 0) continue; // to far up or down
-
-                if (nc == C || nc < 0) continue; // to far left or right
-
-                if (visited[id][nr,nc]) continue; // visited
-
-                if (map[nr,nc] == '#') continue; // forest
-
-                visited[id][nr,nc] = true; // OK, good to go
-
-                // If new id has increased, then we know we have encountered an intersection.
-                // Lets preserve visited so far, if first path is shorter, re-starting from here is possible.
-                if (nid > id)
-                {
-                    bool[,] nvisited = new bool[R,C];
-                    for (int vr = 0; vr < R; vr++)
-                    {
-                        for (int vc = 0; vc < C; vc++)
-                        {
-                            nvisited[vr,vc] = visited[id][vr,vc];
-                        }
-                    }
-                    visited[nid] = nvisited;
-                }
-
-                dfs.Push((nid, ndist, nr, nc));
-
-                nid++;
+                if (pathways > 2) VERTICES.Add((r,c));
             }
         }
+        VERTICES.Add(start);
+        VERTICES.Add(target);
+
+        // We represent each vertex and its edges with a graph datastructur (adacency list).
+        Dictionary<(int r, int c), Dictionary<(int r, int c), int>> GRAPH = [];
+
+        // Build graph e.g. connect nodes (vertices via edges).
+        foreach ((int r, int c) v in VERTICES)
+        {
+            GRAPH[v] = [];
+
+            Stack<(int id, int dist, int r, int c)> v_dfs = [];
+            v_dfs.Push((0, 0, v.r, v.c));
+
+            // We keep track of each path by assigning an id to it.
+            Dictionary<int, bool[,]> v_visited = [];
+            v_visited[0] = new bool[R, C];
+            v_visited[0][v.r,v.c] = true;
+
+            while (v_dfs.Count > 0)
+            {
+                (int id, int dist, int r, int c) = v_dfs.Pop();
+
+                int new_id = id;
+                int new_dist = dist + 1;
+
+                for (int i = 0; i < 4; i++)
+                {
+                    int nr = DIRECTIONS[i].row + r;
+                    int nc = DIRECTIONS[i].col + c;
+
+                    if (nr == R || nr < 0) continue;
+                    if (nc == C || nc < 0) continue;
+                    if (v_visited[id][nr,nc]) continue;
+                    if (map[nr,nc] == '#') continue;
+
+                    v_visited[id][nr,nc] = true;
+
+                    (int r, int c) new_pos = (nr, nc);
+
+                    if (VERTICES.Contains(new_pos))
+                    {
+                        GRAPH[v][new_pos] = new_dist;
+                    }
+                    else
+                    {
+                        v_dfs.Push((new_id, new_dist, nr, nc));
+                    }
+
+                    if (new_id > id)
+                    {
+                        bool[,] nvisited = new bool[R,C];
+                        for (int vr = 0; vr < R; vr++)
+                        {
+                            for (int vc = 0; vc < C; vc++)
+                            {
+                                nvisited[vr,vc] = v_visited[id][vr,vc];
+                            }
+                        }
+                        v_visited[new_id] = nvisited;
+                    }
+
+                    new_id++;
+                }
+            }
+        }
+
+        int ans = 0;
+
+        // Find longest path using the graph structure usng depth first search.
+        HashSet<(int r, int c)> visited = [];
+        void RecDFS(int dist, (int r, int c) pos)
+        {
+            if (pos == target) ans = (dist > ans) ? dist : ans;
+            foreach (var node in GRAPH[pos])
+            {
+                (int r, int c) new_pos = node.Key;
+                int new_dist = dist + node.Value;
+
+                if (!visited.Contains(new_pos))
+                {
+                    visited.Add(new_pos);
+                    RecDFS(new_dist, new_pos);
+                    visited.Remove(new_pos);
+                }
+            }
+        }
+
+        RecDFS(0, start);
 
         return ans;
     }
