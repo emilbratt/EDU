@@ -138,6 +138,9 @@ class Program
             ( "23", "1" ) => AoC.Day23.Part1.Run(puzzle_input),
             ( "23", "2" ) => AoC.Day23.Part2.Run(puzzle_input),
 
+            // Never Tell Me The Odds
+            ( "24", "1" ) => AoC.Day24.Part1.Run(puzzle_input),
+            // ( "24", "2" ) => AoC.Day24.Part2.Run(puzzle_input),
             _ => string.Empty,
         };
 
