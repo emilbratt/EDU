@@ -4,21 +4,19 @@ class Part1
 {
     public static string Run(string puzzle_input)
     {
-        const long min_test = 200000000000000;
-        const long max_test = 400000000000000;
-
-        // const long min_test = 7;
-        // const long max_test = 27;
-        // string ex_input = @"19, 13, 30 @ -2,  1, -2
-        //                     18, 19, 22 @ -1, -1, -2
-        //                     20, 25, 34 @ -2, -2, -4
-        //                     12, 31, 28 @ -1, -2, -1
-        //                     20, 19, 15 @  1, -5, -3";
+        long min_dist = 7;
+        long max_dist = 27;
 
         (long px, long py, long vx, long vy)[] hailstones = GetHailstones(puzzle_input);
 
+        // Dynamically adjust for example input vs real input by checking first x position..
+        if (hailstones[0].px != 19)
+        {
+            min_dist = 200000000000000;
+            max_dist = 400000000000000;
+        }
 
-        int ans = CountIntersections(hailstones, min_test, max_test);
+        int ans = CountIntersections(hailstones, min_dist, max_dist);
 
         return ans.ToString();
     }
@@ -44,7 +42,9 @@ class Part1
         return hailstones.ToArray();
     }
 
-    private static int CountIntersections((long px, long py, long vx, long vy)[] hs, long min, long max)
+    private static int CountIntersections((long px, long py, long vx, long vy)[] hs,
+                                          long min,
+                                          long max)
     {
         int ans = 0;
 
@@ -52,18 +52,37 @@ class Part1
         {
             for (int j = i + 1; j < hs.Length; j++)
             {
-                Console.WriteLine($"{i},{j}");
-                PrintHailstone(hs[i]);
-                PrintHailstone(hs[j]);
-                Console.WriteLine();
+                if (WillCollide(hs[i], hs[j], min, max)) ans++;
             }
         }
 
         return ans;
     }
 
-    private static void PrintHailstone((long px, long py, long vx, long vy) hs)
+    private static bool WillCollide((long px, long py, long vx, long vy) h1,
+                                    (long px, long py, long vx, long vy) h2,
+                                    long min,
+                                    long max)
     {
-        Console.WriteLine($"Hailstone: {hs.px}, {hs.py} @ {hs.vx}, {hs.vy}");
+        long D = (h2.vx * h1.vy) - (h2.vy * h1.vx);
+        if (D == 0) return false;
+
+        // Difference (delta) for both positions.
+        long dy = h2.py - h1.py;
+        long dx = h2.px - h1.px;
+        long u = (dy * h2.vx - dx * h2.vy) / D;
+        long v = (dy * h1.vx - dx * h1.vy) / D;
+        if (u < 0 || v < 0) return false;
+
+        // Intersection point for both X.
+        long xi = h1.px +  h1.vx * u;
+        if (xi <= min || xi >= max) return false;
+
+        // Intersection point for both Y.
+        long yi = h1.py + h1.vy * u;
+        if (yi <= min || yi >= max) return false;
+
+        // If we made it to this point, they intersect inside the boundaries limit (min and max).
+        return true;
     }
 }
