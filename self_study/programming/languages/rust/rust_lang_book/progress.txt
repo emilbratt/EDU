@@ -973,3 +973,9 @@ https://doc.rust-lang.org/book/ch15-05-interior-mutability.html#having-multiple-
 Chapter 16 - Fearless Concurrency
 https://doc.rust-lang.org/book/ch16-00-concurrency.html
   Threads and communicating between them.
+
+https://doc.rust-lang.org/book/ch16-02-message-passing.html
+	Message passing
+
+https://doc.rust-lang.org/book/ch16-03-shared-state.html
+	Shared state

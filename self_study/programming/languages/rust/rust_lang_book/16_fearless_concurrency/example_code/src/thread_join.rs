@@ -1,8 +1,8 @@
 use std::thread::{self, JoinHandle};
 use std::time::Duration;
 
+// Waiting for All Threads to Finish Using join Handles.
 pub fn run() {
-    println!("\n\nthread_join.rs\n");
     let handle: JoinHandle<()> = thread::spawn(|| {
         for i in 1..10 {
             println!("hi number {} from the spawned thread!", i);
