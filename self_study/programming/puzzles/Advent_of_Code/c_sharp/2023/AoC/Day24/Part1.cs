@@ -64,23 +64,26 @@ class Part1
                                       long min,
                                       long max)
     {
-        long determinant = (h2.vx * h1.vy) - (h2.vy * h1.vx);
+        // Check if determinant is '0' which means they do not intersect.
+        long ad = h2.vx * h1.vy;
+        long bc = h2.vy * h1.vx;
+        long determinant = ad - bc;
         if (determinant == 0) return false;
 
         // Check if hailstones intersect at all.
         float dy = h2.y - h1.y;
         float dx = h2.x - h1.x;
-        float u = (dy * h2.vx - dx * h2.vy) / determinant;
-        float v = (dy * h1.vx - dx * h1.vy) / determinant;
+        float u = ( (dy * h2.vx) - (dx * h2.vy) ) / determinant;
+        float v = ( (dy * h1.vx) - (dx * h1.vy) ) / determinant;
         if (u < 0 || v < 0) return false;
 
         // Check if intersection point x is inside boundaries.
-        float xi = h1.x + (h1.vx * u);
-        if (xi < min || xi > max) return false;
+        float ix = h1.x + (h1.vx * u);
+        if (ix < min || ix > max) return false;
 
         // Check if intersection point y is inside boundaries.
-        float yi = h1.y + (h1.vy * u);
-        if (yi < min || yi > max) return false;
+        float iy = h1.y + (h1.vy * u);
+        if (iy < min || iy > max) return false;
 
         // If we made it to this point, hailstones intersect inside the boundaries.
         return true;

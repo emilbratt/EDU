@@ -4,30 +4,41 @@ class Part2
 {
     public static string Run(string puzzle_input)
     {
-        var hs = GetHailstones(puzzle_input);
+        (long x, long y, long z, long vx, long vy, long vz)[] hailstones = GetHailstones(puzzle_input);
 
-        int ans = 0;
+        int ans = FindPositionAndVelocity(hailstones);
+
         return ans.ToString();
     }
 
-    private static int GetHailstones(string input)
+    private static (long x, long y, long z, long vx, long vy, long vz)[] GetHailstones(string input)
     {
         string[] s_hailstones = input.Split('\n', StringSplitOptions.RemoveEmptyEntries);
 
-        List<(int px, int py, int pz, int vx, int vy, int vz)> hailstones = [];
+        List<(long x, long y, long z, long vx, long vy, long vz)> hailstones = [];
 
         for (int i = 0; i < s_hailstones.Length; i++)
         {
             string[] parts = s_hailstones[i].Split(" @ ");
 
-            int[] p = Array.ConvertAll( parts[0].Split(", "), int.Parse );
-            int[] v = Array.ConvertAll( parts[1].Split(", "), int.Parse );
+            long[] p = Array.ConvertAll( parts[0].Split(", "), long.Parse );
+            long[] v = Array.ConvertAll( parts[1].Split(", "), long.Parse );
 
-            (int px, int py, int pz, int vx, int vy, int vz) hs = (p[0], p[1], p[2], v[0], v[1], v[2]);
+            (long x, long y, long z, long vx, long vy, long vz) hs = (p[0], p[1], p[2], v[0], v[1], v[2]);
 
             hailstones.Add(hs);
         }
 
-        return 0;
+        return hailstones.ToArray();
     }
+
+    private static int FindPositionAndVelocity((long x, long y, long z, long vx, long vy, long vz)[] hs)
+    {
+        int ans = 0;
+
+
+        return ans;
+    }
+
+
 }
