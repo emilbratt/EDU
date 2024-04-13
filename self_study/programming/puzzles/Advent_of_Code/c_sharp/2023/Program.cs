@@ -141,6 +141,11 @@ class Program
             // Never Tell Me The Odds
             ( "24", "1" ) => AoC.Day24.Part1.Run(puzzle_input),
             ( "24", "2" ) => AoC.Day24.Part2.Run(puzzle_input),
+
+            // Snowverload
+            ( "25", "1" ) => AoC.Day25.Part1.Run(puzzle_input),
+            ( "25", "2" ) => AoC.Day25.Part2.Run(puzzle_input),
+
             _ => string.Empty,
         };
 
