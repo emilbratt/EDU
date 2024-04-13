@@ -40,7 +40,7 @@ class Part1
         (int r, int c) start = (0, 1);
         (int r, int c) target = (R - 1, C - 2);
 
-        // Depth First Search using a stack (instead of a Queue..).
+        // Depth First Search using a stack.
         Stack<(int id, int dist, int r, int c)> dfs = [];
         dfs.Push((0, 0, start.r, start.c));
 
@@ -53,7 +53,7 @@ class Part1
             (int id, int dist, int r, int c) = dfs.Pop();
 
             int nid = id;
-            int ndist = dist + 1;
+            dist++;
 
             for (int i = 0; i <= 3; i++)
             {
@@ -62,7 +62,7 @@ class Part1
 
                 if (nr == target.r && nc == target.c)
                 {
-                    if (ndist > ans) ans = ndist;
+                    if (dist > ans) ans = dist;
                     continue; // we are at trails end
                 }
 
@@ -90,9 +90,9 @@ class Part1
                 if (nid > id)
                 {
                     bool[,] nvisited = new bool[R,C];
-                    for (int vr = 0; vr < map.GetLength(0); vr++)
+                    for (int vr = 0; vr < R; vr++)
                     {
-                        for (int vc = 0; vc < map.GetLength(1); vc++)
+                        for (int vc = 0; vc < C; vc++)
                         {
                             nvisited[vr,vc] = visited[id][vr,vc];
                         }
@@ -100,7 +100,7 @@ class Part1
                     visited[nid] = nvisited;
                 }
 
-                dfs.Push((nid, ndist, nr, nc));
+                dfs.Push((nid, dist, nr, nc));
 
                 nid++;
             }

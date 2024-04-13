@@ -34,6 +34,7 @@ class Part1
     public static int ExtrapolateForward(int[] row)
     {
         int extrapolation = 0;
+
         int last_index = row.Length - 1;
 
         bool only_zeroes = false;
@@ -44,11 +45,9 @@ class Part1
             only_zeroes = true;
             for (int index = 0; index < last_index; index++)
             {
-                int subtracted = row[index + 1] - row[index];
+                row[index] = row[index + 1] - row[index];
 
-                if (subtracted != 0) only_zeroes = false;
-
-                row[index] = subtracted;
+                if (row[index] != 0) only_zeroes = false;
             }
 
             last_index--;

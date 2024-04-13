@@ -64,7 +64,8 @@ class Part2
         VERTICES.Add(start);
         VERTICES.Add(target);
 
-        // We represent each vertex and its edges with a graph datastructur (adacency list).
+        // Improve time/performance for the brute-force by "compressing" the map meaning that
+        // we represent each vertex and its edges with a graph datastructure e.g. an adjacency list.
         Dictionary<(int r, int c), Dictionary<(int r, int c), int>> GRAPH = [];
 
         // Build graph e.g. connect nodes (vertices via edges).
@@ -130,7 +131,7 @@ class Part2
 
         int ans = 0;
 
-        // Find longest path using the graph structure usng depth first search.
+        // Find longest path using the adjacency list structure usng depth first search.
         HashSet<(int r, int c)> visited = [];
         void RecDFS(int dist, (int r, int c) pos)
         {

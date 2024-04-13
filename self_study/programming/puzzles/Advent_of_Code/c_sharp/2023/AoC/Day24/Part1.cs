@@ -25,7 +25,7 @@ class Part1
     {
         string[] s_hailstones = input.Split('\n', StringSplitOptions.RemoveEmptyEntries);
 
-        List<(long x, long y, long vx, long vy)> hailstones = [];
+        var hailstones = new (long x, long y, long vx, long vy)[s_hailstones.Length];
 
         for (int i = 0; i < s_hailstones.Length; i++)
         {
@@ -34,12 +34,11 @@ class Part1
             long[] p = Array.ConvertAll( parts[0].Split(", "), long.Parse );
             long[] v = Array.ConvertAll( parts[1].Split(", "), long.Parse );
 
-            (long x, long y, long vx, long vy) hs = (p[0], p[1], v[0], v[1]);
-
-            hailstones.Add(hs);
+            (long x, long y, long z, long vx, long vy, long vz) = (p[0], p[1], p[2], v[0], v[1], v[2]);
+            hailstones[i] = (x, y, vx, vy);
         }
 
-        return hailstones.ToArray();
+        return hailstones;
     }
 
     private static int CountIntersections((long x, long y, long vx, long vy)[] hs,
@@ -60,9 +59,9 @@ class Part1
     }
 
     private static bool IntersectIsnideBoundaries((long x, long y, long vx, long vy) h1,
-                                      (long x, long y, long vx, long vy) h2,
-                                      long min,
-                                      long max)
+                                                  (long x, long y, long vx, long vy) h2,
+                                                  long min,
+                                                  long max)
     {
         // Check if determinant is '0' which means they do not intersect.
         long ad = h2.vx * h1.vy;
@@ -70,7 +69,7 @@ class Part1
         long determinant = ad - bc;
         if (determinant == 0) return false;
 
-        // Check if hailstones intersect at all.
+        // Check if hailstones intersect in the future (both u and v must be positive).
         float dy = h2.y - h1.y;
         float dx = h2.x - h1.x;
         float u = ( (dy * h2.vx) - (dx * h2.vy) ) / determinant;
@@ -78,11 +77,11 @@ class Part1
         if (u < 0 || v < 0) return false;
 
         // Check if intersection point x is inside boundaries.
-        float ix = h1.x + (h1.vx * u);
+        long ix = (long)(h1.x + (h1.vx * u));
         if (ix < min || ix > max) return false;
 
         // Check if intersection point y is inside boundaries.
-        float iy = h1.y + (h1.vy * u);
+        long iy = (long)(h1.y + (h1.vy * u));
         if (iy < min || iy > max) return false;
 
         // If we made it to this point, hailstones intersect inside the boundaries.

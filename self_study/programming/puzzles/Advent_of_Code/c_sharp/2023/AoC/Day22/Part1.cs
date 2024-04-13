@@ -61,7 +61,7 @@ class Part1
             for (int j = 0; j < B.Length; j++)
             {
                 if (i == j) continue;
-                bool collided = B[i].Collision(B[j]);
+                bool collided = B[i].CollidesWith(B[j]);
                 System.Diagnostics.Debug.Assert(!collided, " invalid input, some bricks already collide)");
             }
         }
@@ -106,7 +106,7 @@ class Part1
             {
                 if (brick.Index == support_brick.Index) continue;
 
-                if (support_brick.Collision(brick))
+                if (support_brick.CollidesWith(brick))
                 {
                     brick.SupportedBy.Add(support_brick.Index);
                 }
@@ -167,7 +167,7 @@ class Part1
             return b.Z.e + 1;
         }
 
-        public bool Collision(Brick b)
+        public bool CollidesWith(Brick b)
         {
             if (X.e < b.X.s || b.X.e < X.s) return false;
             if (Y.e < b.Y.s || b.Y.e < Y.s) return false;
