@@ -1,0 +1,20 @@
+# The app crate command
+$ cargo new app
+
+# The library crate command
+$ cargo new --lib blog
+
+├── app
+│   ├── Cargo.lock
+│   ├── Cargo.toml
+│   └── src
+│       └── main.rs
+└── blog
+    ├── Cargo.toml
+    └── src
+        └── lib.rs
+
+Note: app/Cargo.toml references the blog library.
+
+Navigate to ./app
+run example app with command: $ cargo run
