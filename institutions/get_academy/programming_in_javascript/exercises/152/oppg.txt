@@ -1,0 +1,41 @@
+A.
+Lag en funksjon som lager og returnerer en liste.
+Listen skal ha med hvert sjuende tall fra 100 til 1000,
+..altså 100, 107, 114 osv.
+
+B.
+Lag en funksjon som tar en liste av tall som parameter og som returnerer summen av tallene.
+
+C.
+Lag et tall-puslespill som viser tallene 1-8 i er rutenett på 3x3, dvs. 9 ruter.
+Den siste ruten er blank.
+Hvis man trykker på et tall som ligger over, under, til høyre eller til venstre for den blanke,
+skal dette tallet og den blanke bytte plass.
+Bruk en liste av tall i modellen, for eksempel
+let numbers = [1, 2, 5, 7, 0, 3, 4, 8, 6];
+
+D.
+Lag en nettside hvor brukeren kan lime inn en lengre tekst.
+For eksempel ved å kopiere fra en nettavis inn i en <textarea>
+og trykke på en knapp for å få telt opp hvor mange det er av hvert ord.
+
+Fremgangsmåten er som følger:
+Rens teksten for alt annet enn tegnene A-Z, Æ, Ø og Å i store og små bokstaver.
+
+Bruk en løkke til å gå gjennom alle bokstavene - og kopier bare bokstaver over i en ny tekst.
+
+Bruk text.split(' ') til å dele opp en tekst i en liste av ord.
+
+Til opptellingen trenger du to lister: words og wordCounts. Gå gjennom alle ordene.
+Sjekk først om ordet finnes i words.
+Hvis det gjør det, er opptellingen i samme indes i wordCounts - øk den med én.
+Hvis ordet ikke finnes i words, legger du det til med push() - og du legger til 1 i wordCounts,
+altså wordsCounts.push(1).
+
+Etter opptellingen, går du gjennom begge listene samtidig
+i en løkke og viser hvor mange forekomster det var av hvert ord.
+
+E  .
+Skriv en funksjon som tar en liste av tall som parameter.
+Den returnerer true eller false basert på om listen er sortert eller ikke.
+Du skal bare gå gjennom listen en gang med kun én løkke.

@@ -1,0 +1,11 @@
+Oppgave 162 A
+
+Gå tilbake til noe du har laget med MVC og lag unit tester.
+De sjekker at controller-funksjonene endre modellen som de skal.
+For eksmpel under "Lister 2" er en av de siste oppgavene å fullføre et stolpediagram
+- denne er fin å unit teste.
+
+----
+
+Jeg har valgt å teste oppgaven under "Lister 2" -> stolpediagram -> 153 K.
+Besvarelse finner sted i filene test.js og vises fra test.html.

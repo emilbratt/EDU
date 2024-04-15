@@ -1,0 +1,21 @@
+* {
+    font-size: 1.2rem;
+}
+
+body {
+    margin: 1rem; padding: 1rem; background-color: rgb(206, 206, 206);
+}
+
+rect.selectedBar {
+    stroke:#000000;
+    stroke-width: 0.03rem;
+}
+
+input {
+    width: 3rem;
+}
+
+#chart {
+    border: solid 0.1rem;
+    padding-left: 0.6rem;
+}

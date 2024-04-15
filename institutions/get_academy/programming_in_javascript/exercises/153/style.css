@@ -1,0 +1,11 @@
+body {
+    margin: 1rem; padding: 1rem; background-color: rgb(206, 206, 206);
+}
+
+.pageSelection {
+    width: 3rem;
+}
+
+.filterSelection {
+    width: 6rem;
+}

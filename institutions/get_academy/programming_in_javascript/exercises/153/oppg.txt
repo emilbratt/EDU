@@ -1,0 +1,9 @@
+A.
+Lag en nettside som lister opp alle tallene.
+Når du har fått til det, implementerer du paging, dvs. at du kun ser de 10 første tallene fra start.
+Vis lenker for de andre sidene, fra og med 2 til og med 13.
+Når brukeren trykker på en av disse lenkene, vises disse tallene.
+
+B.
+Lag mulighet til å filtrere listen så den bare viser partall eller bare oddetall.
+Eventuelt begge deler ved å bruke n % 2 == 0

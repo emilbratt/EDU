@@ -1,0 +1,67 @@
+A.
+Lag en funksjon fixText(text) som tar en tekst som parameter og returnerer den samme teksten,
+men hvis første tegn er en bokstav, så skal den alltid returneres som stor bokstav
+- uavhengig av om inputen har stor eller liten bokstav der.
+I tillegg skal alle mellomrom først og sist i teksten fjernes.
+
+Ta utgangspunkt i testene under:
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>QUnit Example</title>
+    <link rel="stylesheet" href="https://code.jquery.com/qunit/qunit-2.9.2.css">
+</head>
+<body>
+    <div id="qunit"></div>
+    <div id="qunit-fixture"></div>
+    <script src="https://code.jquery.com/qunit/qunit-2.9.2.js"></script>
+    <script src="lib.js"></script>
+    <script>
+        QUnit.test("fix - 'terje'", function (assert) {
+            const actual = fixText('terje');
+            const expected = 'Terje';
+            assert.equal(actual, expected);
+        });
+
+        QUnit.test("fix - 'terje '", function (assert) {
+            const actual = fixText('terje ');
+            const expected = 'Terje';
+            assert.equal(actual, expected);
+        });
+
+        QUnit.test("fix - ' terje'", function (assert) {
+            const actual = fixText(' terje');
+            const expected = 'Terje';
+            assert.equal(actual, expected);
+        });
+
+        QUnit.test("fix - ' terje '", function (assert) {
+            const actual = fixText(' terje ');
+            const expected = 'Terje';
+            assert.equal(actual, expected);
+        });
+    </script>
+</body>
+</html>
+
+Lag filen lib.js og funksjonen function fixText(txt),
+og implementer funksjonen slik at alle testene blir godkjente.
+
+Nå skal funksjonen også sørge for at alle andre tegn enn det første er i små bokstaver.
+Løs dette ved først å skrive tester for det,
+og deretter endre funksjonen og sjekker at testene blir godkjente.
+
+
+B.  
+Lag en enkel funksjon som tar en tekst som parameter og returnerer true eller false.
+Den skal sjekke om teksten er en epostadresse eller ikke.
+I første omgang basert på om teksten inneholder @.
+Lag en test for dette og implementer så funksjonen.
+
+
+C.
+I tillegg: teksten skal inneholde et punktum før @ og et punktum etter.
+Lag tester for dette og endre så funksjonen.

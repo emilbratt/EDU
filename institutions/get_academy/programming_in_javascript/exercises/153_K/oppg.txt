@@ -1,0 +1,38 @@
+Oppgave 153 K
+Oppgaven tar utgangspunkt i denne koden: getacademy.github.io/BarChart
+
+Dette er kode som lager et stolpediagram basert på en liste av tall.
+Hvert tall er mellom 1 og 10.
+Oppgaven består i å fullføre applikasjonen.
+
+Den er skrevet etter Model View Controller-patternet.
+Koden du legger til skal også være det.
+
+Man skal kunne velge en stolpe ved å klikke på den.
+Den skal da få en svart ramme rundt seg.
+I tillegg skal teksten oppdateres til for eksempel "Valgt stolpe: 1".
+
+Hvis man klikker på den stolpen som allerede er valgt
+så skal ingen stolpe være valgt.
+
+Knappene "Endre valgt stolpe" og "Fjerne valgt stolpe"
+..skal være disablet når ingen stolpe er valgt- og enablet ellers.
+
+Når man trykker på "Fjerne valgt stolpe", skal den valgte stolpen fjernes.
+Alle stolper som var til høyre for denne, flyttes da ett hakk til venstre.
+Det vil si at om numbers er [1, 2, 3, 4, 5] - og så fjerner stolpen i midten,
+så skal numbers etter det være [1, 2, 4, 5].
+
+Når man trykker på "Endre valgt stolpe" så skal den valgte stolpen
+endre verdien som brukeren har skrevet i input-boksen.
+
+Det er kun 1,2,3,4,5,6,7,8, 9 og 10 som er gyldige verdier.
+Dersom brukeren ikke har skrevet en gyldig verdi i input-boksen
+så skal det gis en feilmelding.
+
+Når man trykker på "Legg til stolpe" så skal det legges til et nytt tall sist i listen.
+I tilleg skal en ny stolpe lengst til høyre i stolpediagrammet legges til.
+Denne skal ha verdien som brukeren har skrevet i input-boksen.
+
+Dersom brukeren ikke har skrevet en gyldig verdi i input-boksen
+så skal det gis en feilmelding.

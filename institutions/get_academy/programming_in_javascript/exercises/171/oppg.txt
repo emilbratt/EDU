@@ -1,0 +1,58 @@
+A.
+En RGB-farge kan modelleres som et objekt med tre felt
+red, green og blue
+som hver er et tall fra 0 til 255.
+Som for eksempel let currentColor = { red: 100, green: 200, blue: 50}.
+Lag en funksjon som tar et slikt objekt som parameter.
+Den legger til en div på 50 x 50 px med bakgrunnsfarge fra parameteren.
+Dette trenger ikke følge MVC.
+
+
+B.
+Lag en funksjon som tar et farge-objekt som parameter.
+Den returnerer den inverse fargen.
+Med invers menes at hver farge settes til 255 - nåværende verdi.
+For eksempel blir svart (0,0,0) invertert til hvit (255,255,255)
+og blå (0,0,255) invertert blir gult (255,255,0).
+Endre forrige funksjon så den både viser fargen fra parameter
+- og den inverterte fargen.
+
+
+C.
+Lag en funksjon som returnerer gjennomsnittet av to farger,
+dvs. rød = (rød1 + rød2)/2 og tilsvarende for de andre fargene.
+
+
+D.
+Bruk funksjonen fra forrige oppgave til å lage en funksjon
+som tar en farge som parameter og returnerer en liste på 5 farger.
+Farge 1 skal være parameteren.
+Farge 5 skal være den inverterte fargen.
+Farge 3 skal være gjennomsnittet av farge 1 og 5.
+Farge 2 skal være gjennomsnittet av farge 1 og farge 3
+Farge 4 skal være gjennomsnittet av farge 3 og farge 5.
+Dette vil til slutt tilsvare en gradient.
+
+
+E.
+La brukeren skrive inn en tekst i en <textarea>.
+Bruk
+
+    .split(' ')
+
+til å dele opp teksten i en liste av ord.
+Loop gjennom alle ordene og bruk et objekt til å telle opp
+hvor mange forekomster det er av hvert ord.
+Om du har ordet i variabelen word, teller du opp med:
+
+    if (wordCounts['hei']) wordCounts['hei']++ else wordCounts['hei'] = 1
+
+Etterpå looper du gjennom alle ordene med
+
+    for(let word in words)
+
+Merk at det her skal være "in", som betyr alle feltene i et objekt,
+og ikke "of" som er alle elementene i en liste.
+Antall av et bestemt ord blir da
+
+    wordCounts[word].

@@ -1,0 +1,26 @@
+body {
+    margin: 1rem; padding: 1rem; background-color: rgb(206, 206, 206);
+}
+
+button {
+    height: 2rem;
+    width: 5rem;
+}
+
+#taskC {
+    display: grid;
+    grid-template-columns: repeat(3, 10rem);
+    grid-template-rows: repeat(3, 10rem);
+}
+
+#taskC>div {
+    border: 0.1rem solid rgb(33, 57, 64);
+    font-size: 2rem;
+    text-align: center;
+    padding-top: 35%;
+}
+
+#taskD>textarea {
+    height: 5rem;
+    width: 80%;
+}

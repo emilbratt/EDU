@@ -1,0 +1,47 @@
+Oppgave 172 A.
+Lag en liste av noen objekter som representerer oppgaver du skal gjøre (todo-liste).
+Hver oppgave har feltene:
+    - text
+    - doneDate (dato som ISO-string eller null hvis ikke gjort)
+    - responsible (for navnet til hvem som skal gjøre oppgaven)
+Lag en view-funksjone som viser hele todolisten basert på en liste av objekter i modellen.
+
+
+Oppgave 172 B.
+Gjør det mulig å krysse av at en oppgave er gjort.
+Da settes dagens dato i feltet doneDate.
+
+
+Oppgave 172 C.
+Gjør det mulig å slette en oppgave.
+
+
+Oppgave 172 D.
+Gjør det mulig å legge til en ny oppgave.
+
+
+Oppgave 172 E.
+Gjør det mulig å redigere text og responsible for en oppave.
+
+
+Oppgave 172 F.
+Lag en funksjon som finner alle unike verdier under
+
+    responsible
+
+og bruk denne til å vise en
+
+    dropdownboks (<select>)
+
+hvor man kan filtrere på person.
+Ha med et valg for å se alle.
+
+
+Oppgave 172 G  
+Lag mulighet for å sortere på "doneDate".
+
+
+Oppgave 172 H  
+Legg til paging om det er mer enn 10 oppgaver på listen.
+Da vises bare de 10 første også vises en lenke til side 2.
+Deretter side 3 osv så langt det er behov.

@@ -1,0 +1,53 @@
+body {
+    margin: 1rem; padding: 1rem; background-color: rgb(206, 206, 206);
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+td, th {
+    padding: 0.5rem;
+}
+
+textarea, input, select, button {
+    border: 0.2rem solid transparent;
+}
+
+.todoAddBox {
+    width: 50%;
+    padding: 0.5rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.pagination {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.pagination button {
+    padding: 0.5rem 1rem;
+}
+
+.headerColor, .paginationActiveColor {
+    background-color: rgb(210, 203, 218);
+}
+
+.checkedColor, .settingEnableColor {
+    background-color: rgb(185, 211, 190);
+}
+
+.uncheckedColor1 {
+    background-color: rgb(203, 213, 218);
+}
+
+.uncheckedColor2 {
+    background-color: rgb(193, 203, 209);
+}
+
+.deletedColor {
+    background-color: rgb(198, 177, 171);
+}

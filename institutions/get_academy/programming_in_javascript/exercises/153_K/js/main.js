@@ -1,0 +1,5 @@
+// entrypoint
+//
+function main() {
+    updateView();
+}
