@@ -975,7 +975,34 @@ https://doc.rust-lang.org/book/ch16-00-concurrency.html
   Threads and communicating between them.
 
 https://doc.rust-lang.org/book/ch16-02-message-passing.html
-	Message passing
+  Message passing
 
 https://doc.rust-lang.org/book/ch16-03-shared-state.html
-	Shared state
+  Shared state
+
+
+Chapter 17 - Object-Oriented Programming Features of Rust
+https://doc.rust-lang.org/book/ch17-00-oop.html
+
+
+Chapter 18 -  Patterns and Matching
+https://doc.rust-lang.org/book/ch18-00-patterns.html
+
+
+Chapter 19 - Advanced Features
+https://doc.rust-lang.org/book/ch19-00-advanced-features.html
+  You can take five actions in unsafe Rust that you can’t in safe Rust.
+    1. Dereference a raw pointer
+    2. Call an unsafe function or method
+    3. Access or modify a mutable static variable
+    4. Implement an unsafe trait
+    5. Access fields of 'union' s
+    
+    Unsafe Rust has two new types called raw pointers
+    immutable:
+      > *const T
+    mutable:
+      > *mut T
+
+  Why raw pointers? Because it allows interfacing with C code.
+  
