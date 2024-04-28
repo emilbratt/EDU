@@ -9,10 +9,15 @@ fn main() {
         process::exit(1);
     });
 
-    println!("Searching for {}", config.query); // print to stdout
-    println!("In file {}", config.file_path); // print to stdout
+    print!("Searching for '{}' in {}", &config.query, &config.file_path);
+    if config.ignore_case {
+        println!(" with case sensitive on.\n");
+    }
+    else {
+        println!(" with case sensitive off.\n");
+    }
 
-    if let Err(e) = minigrep::run(config) {
+    if let Err(e) = minigrep::run(&config) {
         eprintln!("Application error: {e}"); // print to stderr
         process::exit(1);
     }
