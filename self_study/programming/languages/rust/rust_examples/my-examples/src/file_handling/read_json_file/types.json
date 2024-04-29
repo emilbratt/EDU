@@ -1,0 +1,8 @@
+{
+    "is_string": "hello world!",
+    "is_integer": 42,
+    "is_float": 3.14,
+    "is_bool": true,
+    "is_null": null,
+    "is_object": {"name":"Bob", "age":30, "city":"Oslo"}
+}

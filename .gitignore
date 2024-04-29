@@ -1,7 +1,7 @@
 # user generated
 .vscode
 
-# compiled
+# rust book
 self_study/programming/languages/rust/rust_lang_book/1_getting_started/main
 self_study/programming/languages/rust/rust_lang_book/1_getting_started/test_cargo/target
 self_study/programming/languages/rust/rust_lang_book/2_Programming_a_Guessing_Game/guessing_game/target
@@ -33,3 +33,6 @@ self_study/programming/languages/rust/rust_lang_book/17_oop_features_of_rust/exa
 self_study/programming/languages/rust/rust_lang_book/18_patterns_and_matching/example_code/target
 self_study/programming/languages/rust/rust_lang_book/19_advanced_features/example_code/target
 self_study/programming/languages/rust/rust_lang_book/20_multi_threaded_web_server/hello/target
+
+# rust examples
+self_study/programming/languages/rust/rust_examples/my-examples/target
