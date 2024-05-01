@@ -1,6 +1,15 @@
+
+
+pub mod date_handling;
+pub mod error_handling;
 pub mod file_handling;
 
+
 fn main() {
-    file_handling::read_text_file::run();
+    date_handling::examples::run();
+
+    error_handling::examples::run();
+
     file_handling::read_json_file::run();
+    file_handling::read_text_file::run();
 }
