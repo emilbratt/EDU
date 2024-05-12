@@ -19,7 +19,7 @@ pub fn run() {
 fn string_value(data: &serde_json::Value) {
     match data.get("is_string").and_then(Value::as_str) {
         Some(value) => println!("{}", value),
-        None => println!("not a string :("),
+        None => panic!("not a string :("),
     }
 }
 
@@ -27,7 +27,7 @@ fn integer_value(data: &serde_json::Value) {
     if let Some(value) = data.get("is_integer").and_then(Value::as_i64) {
         println!("Integer value: {}", value);
     } else {
-        println!("not an integer :(");
+        panic!("not an integer :(");
     }
 }
 
@@ -35,7 +35,7 @@ fn float_value(data: &serde_json::Value) {
     if let Some(value) = data.get("is_float").and_then(Value::as_f64) {
         println!("float value: {}", value);
     } else {
-        println!("not a float :(");
+        panic!("not a float :(");
     }
 }
 
@@ -43,14 +43,14 @@ fn bool_value(data: &serde_json::Value) {
     if let Some(value) = data.get("is_bool").and_then(Value::as_bool) {
         println!("boolean value: {}", value);
     } else {
-        println!("not a boolean :(");
+        panic!("not a boolean :(");
     }
 }
 
 fn null_value(data: &serde_json::Value) {
     match data.get("is_null").and_then(Value::as_null) {
         Some(_) => println!("it is null"),
-        None => println!("not a null :("),
+        None => panic!("not a null :("),
     }
 }
 
@@ -61,6 +61,6 @@ fn object_value(data: &serde_json::Value) {
         println!(", object[city]: {}", value["city"]);
 
     } else {
-        println!("not an object :(");
+        panic!("not an object :(");
     }
 }
