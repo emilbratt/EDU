@@ -1,17 +1,20 @@
 #![allow(unused)]
-
-use std::collections::HashMap;
 use std::net::SocketAddr;
+use std::{thread, time};
+use std::future::IntoFuture;
 
 use axum;
 use axum::extract::{Path, Query};
+use axum::http::{StatusCode, Uri, header::{self, HeaderMap, HeaderName}};
 use axum::response::{Html, IntoResponse, Json};
 use axum::routing::{get, get_service};
 use axum::Router;
-use axum::http::{StatusCode, Uri, header::{self, HeaderMap, HeaderName}};
 
 use serde_json::{Value, json};
 use serde::Deserialize;
+
+use tokio;
+use tokio::task;
 
 use tower_http::services::ServeDir;
 
@@ -19,15 +22,42 @@ use tower_http::services::ServeDir;
 async fn main() {
     let addr = SocketAddr::from(([127,0,0,1], 8080));
 
+    println!("--> LISTENING on {addr}\n");
+
     let routes = Router::new()
         .merge(get_routes_dynamic())
         .fallback_service(get_routes_static());
 
-    println!("--> LISTENING on {addr}\n");
-
     let listener = tokio::net::TcpListener::bind(&addr).await.unwrap();
 
-    axum::serve(listener, routes).await.unwrap();
+    let axum_worker = tokio::task::spawn(
+        async move {
+            axum::serve(
+                listener,
+                routes,
+            ).await
+        }
+    );
+
+    let some_other_worker = tokio::task::spawn(
+        some_worker().into_future()
+    );
+
+    let (axum_res, some_worker_res) = tokio::join!(axum_worker, some_other_worker);
+
+    axum_res.unwrap();
+    some_worker_res.unwrap();
+}
+
+
+async fn some_worker() {
+    let duration = time::Duration::from_millis(10000);
+    let mut n: u32 = 0;
+    loop {
+        n += 1;
+        println!("some_worker loop count: {}", n);
+        thread::sleep(duration);
+    }
 }
 
 fn get_routes_dynamic() -> Router {
