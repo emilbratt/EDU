@@ -12,8 +12,7 @@ fn main() {
     print!("Searching for '{}' in {}", &config.query, &config.file_path);
     if config.ignore_case {
         println!(" with case sensitive on.\n");
-    }
-    else {
+    } else {
         println!(" with case sensitive off.\n");
     }
 

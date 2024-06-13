@@ -19,25 +19,27 @@ pub fn run() {
 
     file.read_to_string(&mut json_str).unwrap();
 
-    // Parse the JSON string into a vector of Person structs
     let data: serde_json::Value = serde_json::from_str(&json_str).unwrap();
-    let people: &Vec<serde_json::Value> = data["people"].as_array().expect("Invalid JSON format");
+
+    let adults: &Vec<serde_json::Value> = data["adults"].as_array().expect("Invalid JSON format");
 
     // Deserialize each person JSON object into a Person struct
-    let mut persons: Vec<Person> = Vec::new();
-    for person_json in people {
+    let mut people: Vec<Person> = Vec::new();
+    for person_json in adults {
         let person: Person = serde_json::from_value(person_json.clone()).expect("Failed to deserialize JSON");
-        persons.push(person);
+        people.push(person);
     }
 
-    println!("Parsed persons: {:?}", persons[0]);
-    println!("Parsed persons: {:?}", persons[1]);
-    println!("{} {}", persons[2].name, persons[2].age);
+    println!("{:?}", people[0]);
+    println!("{:?}", people[1]);
+    println!("{} {}", people[2].name, people[2].age);
 
     let new_person = Person {
-        name: persons[2].name.clone(),
-        age: persons[2].age.clone(),
+        name: people[2].name.clone(),
+        age: people[2].age.clone(),
     };
 
-    println!("Parsed persons: {:?}", new_person);
+    println!("{:?}", new_person);
+
+    let _children: &Vec<serde_json::Value> = data["children"].as_array().expect("Invalid JSON format");
 }

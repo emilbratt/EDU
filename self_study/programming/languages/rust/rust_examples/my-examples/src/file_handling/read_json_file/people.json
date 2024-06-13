@@ -1,5 +1,5 @@
 {
-    "people": [
+    "adults": [
         {
             "name": "Alice",
             "age": 30
@@ -11,6 +11,20 @@
         {
             "name": "Lisa",
             "age": 65
+        }
+    ],
+    "children": [
+        {
+            "name": "Alice",
+            "age": 3
+        },
+        {
+            "name": "Bob",
+            "age": 13
+        },
+        {
+            "name": "Lisa",
+            "age": 6
         }
     ]
 }
