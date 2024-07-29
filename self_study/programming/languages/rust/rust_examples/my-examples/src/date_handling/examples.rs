@@ -28,6 +28,8 @@ pub fn run() {
     println!("{:?}", summertime_and_wintertime_shenanigans());
 
     println!("{:?}", local_with_timezone_to_utc());
+
+    println!("{:?}", utc_to_dt_with_timezone());
 }
 
 fn naive_date() -> NaiveDate {
@@ -116,4 +118,10 @@ fn local_with_timezone_to_utc() -> DateTime<Utc> {
     let l: DateTime<Tz> = Local::now().with_timezone(&Europe::Oslo);
 
     l.to_utc()
+}
+
+fn utc_to_dt_with_timezone() -> DateTime<Tz> {
+    let utc = Utc::now();
+
+    utc.with_timezone(&Europe::Oslo)
 }
