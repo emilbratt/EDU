@@ -25,11 +25,15 @@ pub fn run() {
 
     println!("{:?}", stockholm_time_now());
 
-    println!("{:?}", summertime_and_wintertime_shenanigans());
+    println!("{:?}", cest_to_cet_ambiguity());
 
     println!("{:?}", local_with_timezone_to_utc());
 
     println!("{:?}", utc_to_dt_with_timezone());
+
+    println!("{:?}", custom_time());
+
+    println!("{:?}", seconds_until_next_hour());
 }
 
 fn naive_date() -> NaiveDate {
@@ -80,29 +84,28 @@ fn local_utc_offset_in_seconds(dt: DateTime<Local>) -> i32 {
 }
 
 fn london_datetime_now() -> DateTime<Tz> {
-    let dt: DateTime<Tz> = Local::now().with_timezone(&chrono_tz::Europe::London);
+    let dt: DateTime<Tz> = Utc::now().with_timezone(&chrono_tz::Europe::London);
 
     dt
 }
 
 fn oslo_date_now() -> NaiveDate {
-    let dt: DateTime<Tz> = Local::now().with_timezone(&chrono_tz::Europe::Oslo);
+    let dt: DateTime<Tz> = Utc::now().with_timezone(&chrono_tz::Europe::Oslo);
 
     dt.date_naive()
 }
 
 fn stockholm_time_now() -> NaiveTime {
-    let dt: DateTime<Tz> = Local::now().with_timezone(&chrono_tz::Europe::Stockholm);
+    let dt: DateTime<Tz> = Utc::now().with_timezone(&chrono_tz::Europe::Stockholm);
 
     dt.time()
 }
 
-fn summertime_and_wintertime_shenanigans() -> DateTime<Tz> {
-    // This is one hour before we turn clock 1 hour back e.g. moving from CET to CEST.
+fn cest_to_cet_ambiguity() -> DateTime<Tz> {
+    // This is one hour before we turned clock 1 hour back, e.g. moving from CEST to CET.
     let dt: DateTime<Tz> = chrono_tz::Europe::Oslo.with_ymd_and_hms(2022, 10, 30, 1, 0, 0).unwrap();
-    // NOTE: setting (2022, 10, 30, 2, 0, 0) (e.g. 02:00) would actually panick because of ambiguity.
+    // NOTE: setting (2022, 10, 30, 2, 0, 0) (e.g. 02:00) will panic because of ambiguity.
 
-    // These should be the same even though we add 1 and 2 hours.
     let add_one_hours = dt + Duration::hours(1);
     let add_two_hours = dt + Duration::hours(2);
 
@@ -124,4 +127,25 @@ fn utc_to_dt_with_timezone() -> DateTime<Tz> {
     let utc = Utc::now();
 
     utc.with_timezone(&Europe::Oslo)
+}
+
+fn custom_time() -> DateTime<Utc> {
+    // +1 hour, minut = 0, seconds = 0
+    let dt = (Utc::now() + Duration::hours(1))
+        .with_minute(0).unwrap()
+        .with_second(0).unwrap();
+
+    dt
+}
+
+fn seconds_until_next_hour() -> i64 {
+    let now = Utc::now();
+
+    let next_hour = (Utc::now() + Duration::hours(1))
+        .with_minute(0).unwrap()
+        .with_second(0).unwrap();
+
+    let s = (next_hour - now).num_seconds();
+
+    s
 }
