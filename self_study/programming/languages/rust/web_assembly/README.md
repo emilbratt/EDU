@@ -4,6 +4,8 @@
 
 * Building parts of an application..
 
+Run the wasm-pack command to see the options for compiling rust to webassembly.
+
 ```sh
 wasm-pack
 ```
@@ -17,3 +19,20 @@ wasm-pack
 ├── Cargo.toml
 └── src
     └── lib.rs
+
+
+Run 'hello-wasm' example (cd into hello-wasm directory)
+
+1. Compile to web assembly targetting 'web'.
+
+```sh
+wasm-pack build --release --target web
+```
+
+2. Serve this directory via http (we can just use python for this).
+
+```sh
+python3 -m http.server
+```
+
+3. Open a web-browser and visit http://localhost:8000.
