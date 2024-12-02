@@ -6,8 +6,8 @@ Place your input files here.\
 Make sure it has the same name as the solution file.
 
 For example:\
-for solution y2024d01p01.rs -> src/solutions/y2024d01p01.rs\
-create input y2024d01p01.in -> ./y2024d01p01.in
+for solution y2024d01p1.rs -> src/solutions/y2024d01p1.rs\
+create input y2024d01.in -> ./y2024d01.in
 
 Download input with curl
 ```sh
@@ -15,7 +15,7 @@ Download input with curl
 AOC_SESSION=746c5645f5...........................
 
 # run curl for select year and day, example uses year 2024 and day 1
-curl https://adventofcode.com/2024/day/1/input --cookie "session=${AOC_SESSION}" > y2024d01p01.in
+curl https://adventofcode.com/2024/day/1/input --cookie "session=${AOC_SESSION}" > y2024d01.in
 ```
 
 
@@ -23,7 +23,7 @@ curl https://adventofcode.com/2024/day/1/input --cookie "session=${AOC_SESSION}"
 
 Run with `cargo run`.\
 All solutions are isolated (no shared code).\
-This means that you can copy code directly from the solution file e.g. src/solutions/y2024d01p01.rs\
+This means that you can copy code directly from the solution file e.g. src/solutions/y2024d01p1.rs\
 ..and into your crate if you want.
 
 

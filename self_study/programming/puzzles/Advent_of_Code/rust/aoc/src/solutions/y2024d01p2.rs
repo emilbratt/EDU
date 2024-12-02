@@ -1,7 +1,7 @@
 use std::fs;
 
 pub fn main() {
-    let input = fs::read_to_string("y2024d01p01.in").unwrap();
+    let input = fs::read_to_string("y2024d01.in").unwrap();
 
     let mut res: i64 = 0;
 
@@ -20,11 +20,17 @@ pub fn main() {
         v_r.push(right.parse::<i64>().unwrap());
     }
 
-    v_l.sort();
-    v_r.sort();
     for i in 0..capacity {
-        // println!("{}", v_l[i]);
-        res += (v_l[i] - v_r[i]).abs();
+        let a = v_l[i];
+        let mut r_f: i64 = 0;
+        for j in 0..capacity {
+            let b = v_r[j];
+            if a == b {
+                r_f += 1;
+            }
+        }
+
+        res += (a * r_f);
     }
 
     print!("{res}");

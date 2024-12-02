@@ -7,7 +7,7 @@ mod solutions;
 mod options;
 
 fn main() {
-    let (year, day, part) = options::get(2024, 1, 1);
+    let (year, day, part) = options::get(2024, 1, 2);
     let timer = true;
 
     match solutions::get(year, day, part) {
