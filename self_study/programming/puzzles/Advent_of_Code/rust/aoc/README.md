@@ -15,7 +15,7 @@ Download input with curl
 AOC_SESSION=746c5645f5...........................
 
 # run curl for select year and day, example uses year 2024 and day 1
-curl https://adventofcode.com/2024/day/1/input --cookie "session=${AOC_SESSION}" -A \'{useragent}\' > y2024d01p01.in
+curl https://adventofcode.com/2024/day/1/input --cookie "session=${AOC_SESSION}" > y2024d01p01.in
 ```
 
 
