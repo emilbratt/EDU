@@ -8,14 +8,17 @@ mod options;
 
 fn main() {
     let (year, day, part) = options::get(2024, 1, 1);
+    let timer = true;
 
     match solutions::get(year, day, part) {
         None => println!("{:?} {:?} {:?} - not implemented", year, day, part),
         Some(solution) => {
             let instant = Instant::now();
-            print!("{:?} {:?} {:?} | ", year, day, part);
+            print!("{:?} {:?} {:?} | Result: ", year, day, part);
             solution();
-            println!(" | {} ms",instant.elapsed().as_millis());
+            if timer {
+                println!(" | Time: {} ms",instant.elapsed().as_millis());
+            }
         }
     }
 }
