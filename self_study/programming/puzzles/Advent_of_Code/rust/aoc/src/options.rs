@@ -1,20 +1,38 @@
 // use std::fmt;
 
-#[derive(Debug)]
+#[derive(Debug, Copy, Clone)]
 pub enum Year {
+    Year2015,
+    Year2016,
+    Year2017,
+    Year2018,
+    Year2019,
+    Year2020,
+    Year2021,
+    Year2022,
+    Year2023,
     Year2024,
 }
 
 impl Year {
     fn new(n: u16) -> Self {
         match n {
+            2015 => Self::Year2015,
+            2016 => Self::Year2016,
+            2017 => Self::Year2017,
+            2018 => Self::Year2018,
+            2019 => Self::Year2019,
+            2020 => Self::Year2020,
+            2021 => Self::Year2021,
+            2022 => Self::Year2022,
+            2023 => Self::Year2023,
             2024 => Self::Year2024,
             _ => panic!(),
         }
     }
 }
 
-#[derive(Debug)]
+#[derive(Debug, Copy, Clone)]
 pub enum Day {
     Day01,
     Day02,
@@ -76,7 +94,7 @@ impl Day {
     }
 }
 
-#[derive(Debug)]
+#[derive(Debug, Copy, Clone)]
 pub enum Part {
     Part1,
     Part2,
