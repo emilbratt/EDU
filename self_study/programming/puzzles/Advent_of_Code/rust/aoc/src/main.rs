@@ -12,6 +12,7 @@ fn main() {
     let instant = Instant::now();
 
     for year in 2015..=2024 {
+        if year != 2015 { continue }
         for day in 1..=25 {
             for part in 1..=2 {
                 let (y, d, p) = options::get(year, day, part);

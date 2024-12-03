@@ -4,6 +4,17 @@ type Solution = Box<dyn Fn() + 'static>;
 
 pub fn get(year: Year, day: Day, part: Part) -> Option<Solution> {
     let solution = match (year, day, part) {
+
+        // YEAR 2015
+        // --- Day 1: Not Quite Lisp ---
+        (Year::Year2015, Day::Day01, Part::Part1) => y2015d01p1::main,
+        (Year::Year2015, Day::Day01, Part::Part2) => y2015d01p2::main,
+
+        // --- Day 2: I Was Told There Would Be No Math ---
+        (Year::Year2015, Day::Day02, Part::Part1) => y2015d02p1::main,
+        (Year::Year2015, Day::Day02, Part::Part2) => y2015d02p2::main,
+
+        // YEAR 2024
         // --- Day 1: Historian Hysteria ---
         (Year::Year2024, Day::Day01, Part::Part1) => y2024d01p1::main,
         (Year::Year2024, Day::Day01, Part::Part2) => y2024d01p2::main,
@@ -23,6 +34,15 @@ pub fn get(year: Year, day: Day, part: Part) -> Option<Solution> {
 }
 
 // add solution files in ./solutions/ and define them as modules here..
+
+// 2015
+mod y2015d01p1;
+mod y2015d01p2;
+
+mod y2015d02p1;
+mod y2015d02p2;
+
+// 2024
 mod y2024d01p1;
 mod y2024d01p2;
 
