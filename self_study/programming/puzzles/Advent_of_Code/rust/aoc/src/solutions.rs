@@ -12,6 +12,10 @@ pub fn get(year: Year, day: Day, part: Part) -> Option<Solution> {
         (Year::Year2024, Day::Day02, Part::Part1) => y2024d02p1::main,
         (Year::Year2024, Day::Day02, Part::Part2) => y2024d02p2::main,
 
+        // --- Day 3: Mull It Over ---
+        (Year::Year2024, Day::Day03, Part::Part1) => y2024d03p1::main,
+        (Year::Year2024, Day::Day03, Part::Part2) => y2024d03p2::main,
+
         (year, day, part) => return None,
     };
 
@@ -21,5 +25,9 @@ pub fn get(year: Year, day: Day, part: Part) -> Option<Solution> {
 // add solution files in ./solutions/ and define them as modules here..
 mod y2024d01p1;
 mod y2024d01p2;
+
 mod y2024d02p1;
 mod y2024d02p2;
+
+mod y2024d03p1;
+mod y2024d03p2;

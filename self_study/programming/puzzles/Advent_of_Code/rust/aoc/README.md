@@ -18,7 +18,6 @@ AOC_SESSION=746c5645f5...........................
 curl https://adventofcode.com/2024/day/1/input --cookie "session=${AOC_SESSION}" > y2024d01.in
 ```
 
-
 ### Run solution
 
 Run with `cargo run`.\
@@ -31,4 +30,11 @@ This means that you can copy code directly from the solution file e.g. src/solut
 
 I will most likely select the puzzles that are not too hard to solve.
 When the first 9-10 puzzle days for 2024 are completed or when they get sufficiently hard,\
-then I will pick days from earlier years and solve them :).
+then I will pick days from earlier years and solve them instead. :)
+
+### How I solve
+
+I have three things in mind when solving.\
+1. No external dependencies as I like to make my own implementations.\
+2. Try to write performant code.\
+3. Isolate solutions having each one in their own respective file.

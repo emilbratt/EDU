@@ -27,7 +27,7 @@ impl Year {
             2022 => Self::Year2022,
             2023 => Self::Year2023,
             2024 => Self::Year2024,
-            _ => panic!(),
+            n => panic!("{n} is not a valid year"),
         }
     }
 }
@@ -89,7 +89,7 @@ impl Day {
             23 => Self::Day23,
             24 => Self::Day24,
             25 => Self::Day25,
-            _ => panic!(),
+            n => panic!("{n} is not a valid day"),
         }
     }
 }
@@ -105,7 +105,7 @@ impl Part {
         match part {
             1 => Self::Part1,
             2 => Self::Part2,
-            _ => panic!(),
+            n => panic!("{n} is not a valid part"),
         }
     }
 }

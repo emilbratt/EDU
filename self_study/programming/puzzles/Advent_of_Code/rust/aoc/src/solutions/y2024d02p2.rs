@@ -44,7 +44,6 @@ pub fn main() {
 
             l.clear();
         }
-
     }
 
     print!("{res}");
