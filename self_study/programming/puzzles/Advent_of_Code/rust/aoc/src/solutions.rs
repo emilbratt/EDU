@@ -41,7 +41,7 @@ pub fn get(year: Year, day: Day, part: Part) -> Option<Solution> {
         (Year::Year2024, Day::Day03, Part::Part1) => y2024d03p1::main,
         (Year::Year2024, Day::Day03, Part::Part2) => y2024d03p2::main,
 
-        (year, day, part) => return None,
+        (_, _, _) => return None,
     };
 
     Some(Box::new(solution))

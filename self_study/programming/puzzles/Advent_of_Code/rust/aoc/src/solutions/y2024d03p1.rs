@@ -24,7 +24,7 @@ pub fn main() {
         let f1 = l.parse::<i64>().unwrap();
         let f2 = r.parse::<i64>().unwrap();
 
-        res += (f1 * f2);
+        res += f1 * f2;
     }
 
     print!("{res}");
@@ -34,7 +34,7 @@ pub fn has_invalid_char(s: &str) -> bool {
     for c in s.chars() {
         match c {
             '0'..='9' | ',' => (),
-            c => return true,
+            _ => return true,
         }
     }
 

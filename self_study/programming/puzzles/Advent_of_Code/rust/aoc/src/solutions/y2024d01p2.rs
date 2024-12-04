@@ -30,7 +30,7 @@ pub fn main() {
             }
         }
 
-        res += (a * r_f);
+        res += a * r_f;
     }
 
     print!("{res}");

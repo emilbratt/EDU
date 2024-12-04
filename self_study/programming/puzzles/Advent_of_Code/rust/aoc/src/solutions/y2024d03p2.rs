@@ -54,5 +54,5 @@ fn calc(s: &str) -> i64 {
     let f1 = l.parse::<i64>().unwrap();
     let f2 = r.parse::<i64>().unwrap();
 
-    (f1 * f2)
+    f1 * f2
 }
