@@ -1,6 +1,8 @@
 use std::fs;
 
-#[derive(Clone, Copy, PartialEq)]
+use std::collections::HashSet;
+
+#[derive(Clone, Copy, PartialEq, Eq, Hash)]
 struct Point<T> {
     x: T,
     y: T,
@@ -9,12 +11,12 @@ struct Point<T> {
 pub fn main() {
     let input: Vec<u8> = fs::read("y2015d03.in").unwrap();
 
-    let mut points: Vec<Point<i64>> = Vec::new();
+    let mut points: HashSet<Point<i64>> = HashSet::new();
 
     // start point (always counted..).
     let mut point = Point { x: 0_i64, y: 0_i64 };
 
-    points.push(point);
+    points.insert(point);
 
     for b in input {
         match b {
@@ -25,9 +27,7 @@ pub fn main() {
             _ => panic!(),
         }
 
-        if !points.contains(&point) {
-            points.push(point);
-        }
+        points.insert(point);
     }
 
     let res = points.len();
