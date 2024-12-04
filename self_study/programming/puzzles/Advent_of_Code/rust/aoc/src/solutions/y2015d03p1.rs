@@ -13,9 +13,9 @@ pub fn main() {
 
     let mut points: HashSet<Point<i64>> = HashSet::new();
 
-    // start point (always counted..).
     let mut point = Point { x: 0_i64, y: 0_i64 };
-
+    
+    // Start point is always counted.
     points.insert(point);
 
     for b in input {

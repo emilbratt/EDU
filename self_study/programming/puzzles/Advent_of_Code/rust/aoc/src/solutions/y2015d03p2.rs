@@ -1,4 +1,5 @@
 use std::fs;
+
 use std::collections::HashSet;
 
 #[derive(Clone, Copy, PartialEq, Eq, Hash)]
@@ -12,17 +13,15 @@ pub fn main() {
 
     let mut points: HashSet<Point<i64>> = HashSet::new();
 
-    // start points (always counted..).
     let mut point_santa = Point { x: 0_i64, y: 0_i64 };
     let mut point_robo = Point { x: 0_i64, y: 0_i64 };
-
+    
+    // Start point is always counted.
     points.insert(point_santa);
 
     let mut santa = true;
 
-    for i in 0..input.len() {
-        let b = input[i];
-
+    for b in input {
         let (x, y) = match b {
             60  => (-1, 0), // left '<'
             62  => (1, 0),  // right '>'
@@ -37,7 +36,7 @@ pub fn main() {
                 point_santa.y += y;
 
                 point_santa
-            },
+            }
             false => {
                 point_robo.x += x;
                 point_robo.y += y;
