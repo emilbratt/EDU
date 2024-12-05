@@ -10,9 +10,9 @@ const DEBUG: bool = false;
 
 const YEAR: options::Year = options::Year::Year2024;
 const DAY: options::Day   = options::Day::Day04;
-const PART: options::Part = options::Part::Part1;
+const PART: options::Part = options::Part::Part2;
 
-const USE_CONST_OPTIONS: bool = true;
+const USE_CONST_OPTIONS: bool = false;
 
 fn main() {
     if USE_CONST_OPTIONS {
