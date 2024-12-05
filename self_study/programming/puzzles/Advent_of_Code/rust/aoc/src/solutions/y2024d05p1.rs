@@ -21,24 +21,7 @@ pub fn main() {
 
     for line in pge_nums.lines() {
         let page_numbers = get_pages(line);
-
-        let mut in_order = true;
-        for i in 1..page_numbers.len() {
-            let (page, next_page) = (page_numbers[i-1], page_numbers[i]);
-
-            if let Some(pages) = pge_ord_rls.get(&page) {
-                if !pages.contains(&next_page) {
-                    in_order = false;
-                    break;
-                }
-            } else {
-                in_order = false;
-                break;
-            }
-        }
-
-        if in_order {
-            // The middle page number.
+        if is_ordered(&page_numbers, &pge_ord_rls) {
             res += page_numbers[page_numbers.len()/2] as i64;
         }
     }
@@ -46,6 +29,21 @@ pub fn main() {
     print!("{res}");
 }
 
+fn is_ordered(page_numbers: &Vec<u8>, pge_ord_rls: &HashMap<u8, Vec<u8>>) -> bool {
+    for i in 1..page_numbers.len() {
+        let (page, next_page) = (page_numbers[i-1], page_numbers[i]);
+
+        if let Some(pages) = pge_ord_rls.get(&page) {
+            if !pages.contains(&next_page) {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+
+    true
+}
 
 fn get_rules(s: &str) -> HashMap<u8, Vec<u8>> {
     let mut rules: HashMap<u8, Vec<u8>> = HashMap::new();
