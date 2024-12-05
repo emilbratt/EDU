@@ -31,6 +31,9 @@ pub fn main() {
                     in_order = false;
                     break;
                 }
+            } else {
+                in_order = false;
+                break;
             }
         }
 
