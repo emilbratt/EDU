@@ -45,6 +45,10 @@ pub fn get(year: Year, day: Day, part: Part) -> Option<Solution> {
         (Year::Year2024, Day::Day04, Part::Part1) => y2024d04p1::main,
         (Year::Year2024, Day::Day04, Part::Part2) => y2024d04p2::main,
 
+        // --- Day 5: Print Queue ---
+        (Year::Year2024, Day::Day05, Part::Part1) => y2024d05p1::main,
+        (Year::Year2024, Day::Day05, Part::Part2) => y2024d05p2::main,
+
         (_, _, _) => return None,
     };
 
@@ -81,3 +85,6 @@ mod y2024d03p2;
 
 mod y2024d04p1;
 mod y2024d04p2;
+
+mod y2024d05p1;
+mod y2024d05p2;
