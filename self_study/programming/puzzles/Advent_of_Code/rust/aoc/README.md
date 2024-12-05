@@ -38,3 +38,20 @@ I have three things in mind when solving.\
 1. No external dependencies as I like to make my own implementations.\
 2. Try to write performant code.\
 3. Isolate solutions having each one in their own respective file.
+
+### Solution template
+
+When adding new solution file, copy the code block below to save some time.
+
+```rs
+use std::fs;
+
+const INPUT: &str = "y2015d01.in";
+
+pub fn main() {
+    let input: Vec<u8> = fs::read(INPUT).unwrap();
+    let input: String = fs::read_to_string(INPUT).unwrap();
+
+    print!("N/A");
+}
+```

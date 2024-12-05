@@ -41,6 +41,10 @@ pub fn get(year: Year, day: Day, part: Part) -> Option<Solution> {
         (Year::Year2024, Day::Day03, Part::Part1) => y2024d03p1::main,
         (Year::Year2024, Day::Day03, Part::Part2) => y2024d03p2::main,
 
+        // --- Day 4: Ceres Search ---
+        (Year::Year2024, Day::Day04, Part::Part1) => y2024d04p1::main,
+        (Year::Year2024, Day::Day04, Part::Part2) => y2024d04p2::main,
+
         (_, _, _) => return None,
     };
 
@@ -74,3 +78,6 @@ mod y2024d02p2;
 
 mod y2024d03p1;
 mod y2024d03p2;
+
+mod y2024d04p1;
+mod y2024d04p2;
