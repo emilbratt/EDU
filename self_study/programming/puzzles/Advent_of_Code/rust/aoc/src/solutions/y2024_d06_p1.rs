@@ -24,9 +24,9 @@ impl Direction {
 }
 
 struct Position {
-    pub x: i16,
-    pub y: i16,
-    pub direction: Direction,
+    x: i16,
+    y: i16,
+    direction: Direction,
 }
 
 impl Position {

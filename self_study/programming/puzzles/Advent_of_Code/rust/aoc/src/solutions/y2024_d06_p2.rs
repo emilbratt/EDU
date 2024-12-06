@@ -1,4 +1,3 @@
-// TRY: 2179(high) 1703(correct)
 use std::fs;
 
 const INPUT: &str = "y2024_d06.in";
@@ -25,9 +24,9 @@ impl Direction {
 }
 
 struct Position {
-    pub x: i16,
-    pub y: i16,
-    pub direction: Direction,
+    x: i16,
+    y: i16,
+    direction: Direction,
 }
 
 impl Position {
