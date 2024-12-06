@@ -1,9 +1,11 @@
 use std::fs;
 
-const INPUT: &str = "y2024d04.in";
+const INPUT: &str = "y2024_d04.in";
 
+// ASCII helper: https://typst.app/tools/ascii-table#q=XMAS
 const XMAS: &[u8; 4] = &[88, 77, 65, 83];
 const XMAS_REV: &[u8; 4] = &[83, 65, 77, 88];
+
 const LF: &u8 = &10;
 
 pub fn main() {

@@ -1,7 +1,7 @@
 use std::fs;
 
 pub fn main() {
-    let input: String = fs::read_to_string("y2015d02.in").unwrap();
+    let input: String = fs::read_to_string("y2015_d02.in").unwrap();
 
     let mut res: i64 = 0;
 
@@ -17,17 +17,17 @@ pub fn main() {
         let y = y.parse::<i64>().unwrap();
         let z = z.parse::<i64>().unwrap();
 
-        let lwh = vec![
-            x * y,
-            y * z,
-            z * x,
-        ];
+        let mut lwh = vec![x, y, z];
+        lwh.sort();
+        lwh.reverse();
 
-        let dimension: i64 = lwh.iter().map(|n| 2 * n).sum();
+        let a = lwh.pop().unwrap();
+        let b = lwh.pop().unwrap();
+        let c = lwh.pop().unwrap();
 
-        let slack = lwh.iter().min().unwrap().to_owned();
+        let ribbon = (a+a+b+b) + (a*b*c);
 
-        res += dimension + slack;
+        res += ribbon;
     }
 
     print!("{res}");

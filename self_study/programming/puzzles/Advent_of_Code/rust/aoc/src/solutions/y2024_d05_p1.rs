@@ -2,7 +2,7 @@ use std::fs;
 
 use std::collections::HashMap;
 
-const INPUT: &str = "y2024d05.in";
+const INPUT: &str = "y2024_d05.in";
 
 pub fn main() {
     let input: String = fs::read_to_string(INPUT).unwrap();
@@ -47,6 +47,7 @@ fn is_ordered(page_numbers: &Vec<u8>, pge_ord_rls: &HashMap<u8, Vec<u8>>) -> boo
 
 fn get_rules(s: &str) -> HashMap<u8, Vec<u8>> {
     let mut rules: HashMap<u8, Vec<u8>> = HashMap::new();
+    // ..I found that using Vec<u8> was somehow faster than using a HashSet?..
 
     for line in s.lines() {
         let mut split = line.split('|');
@@ -55,7 +56,9 @@ fn get_rules(s: &str) -> HashMap<u8, Vec<u8>> {
         let value = split.next().unwrap().parse::<u8>().unwrap();
 
         rules.entry(key)
-            .and_modify(|key| key.push(value))
+            .and_modify(
+                |key| key.push(value)
+            )
             .or_insert(
                 Vec::from([value])
             );

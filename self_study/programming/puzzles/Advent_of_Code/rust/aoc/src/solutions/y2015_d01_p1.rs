@@ -1,7 +1,7 @@
 use std::fs;
 
 pub fn main() {
-    let input: Vec<u8> = fs::read("y2015d01.in").unwrap();
+    let input: Vec<u8> = fs::read("y2015_d01.in").unwrap();
 
     let mut res: i64 = 0;
 

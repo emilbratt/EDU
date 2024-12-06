@@ -1,7 +1,7 @@
 use std::fs;
 
 pub fn main() {
-    let input = fs::read_to_string("y2024d03.in").unwrap();
+    let input = fs::read_to_string("y2024_d03.in").unwrap();
 
     let mut res: i64 = 0;
 

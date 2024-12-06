@@ -9,7 +9,7 @@ struct Point<T> {
 }
 
 pub fn main() {
-    let input: Vec<u8> = fs::read("y2015d03.in").unwrap();
+    let input: Vec<u8> = fs::read("y2015_d03.in").unwrap();
 
     let mut points: HashSet<Point<i64>> = HashSet::new();
 

@@ -2,7 +2,7 @@ use std::fs;
 
 use std::collections::HashMap;
 
-const INPUT: &str = "y2024d05.in";
+const INPUT: &str = "y2024_d05.in";
 
 pub fn main() {
     let input: String = fs::read_to_string(INPUT).unwrap();
@@ -79,7 +79,9 @@ fn get_rules(s: &str) -> HashMap<u8, Vec<u8>> {
         let value = split.next().unwrap().parse::<u8>().unwrap();
 
         rules.entry(key)
-            .and_modify(|key| key.push(value))
+            .and_modify(
+                |key| key.push(value)
+            )
             .or_insert(
                 Vec::from([value])
             );

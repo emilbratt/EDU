@@ -1,6 +1,6 @@
 use std::fs;
 
-const INPUT: &str = "y2024d04.in";
+const INPUT: &str = "y2024_d04.in";
 
 const MAS: &[u8; 3] = &[77, 65, 83];
 const SAM: &[u8; 3] = &[83, 65, 77];

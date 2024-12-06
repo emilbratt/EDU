@@ -1,7 +1,10 @@
 use std::fs;
 
+// Beautiful solution here:
+// https://github.com/wrightdylan/advent-of-code-2024/blob/main/src/day03.rs#L15
+
 pub fn main() {
-    let input: Vec<u8> = fs::read("y2024d03.in").unwrap();
+    let input: Vec<u8> = fs::read("y2024_d03.in").unwrap();
 
     let mut res: i64 = 0;
 
