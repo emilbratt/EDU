@@ -30,10 +30,10 @@ struct Position {
 }
 
 impl Position {
-    fn new(x: i16, y: i16,) -> Self {
+    fn new(y: i16, x: i16,) -> Self {
         Self {
-            x,
             y,
+            x,
             direction: Direction::N,
         }
     }
