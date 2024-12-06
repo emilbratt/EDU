@@ -1,7 +1,4 @@
-// TRY: 5225(high), 4602(correct)
 use std::fs;
-
-use std::str;
 
 const INPUT: &str = "y2024_d06.in";
 
@@ -15,10 +12,21 @@ enum Direction {
     N, S, E, W,
 }
 
+impl Direction {
+    fn turn_right(&mut self) {
+        *self = match self {
+            Direction::N => Direction::E,
+            Direction::E => Direction::S,
+            Direction::S => Direction::W,
+            Direction::W => Direction::N,
+        };
+    }
+}
+
 struct Position {
     pub x: i16,
     pub y: i16,
-    direction: Direction,
+    pub direction: Direction,
 }
 
 impl Position {
@@ -30,13 +38,8 @@ impl Position {
         }
     }
 
-    fn turn(&mut self) {
-        self.direction = match self.direction {
-            Direction::N => Direction::E,
-            Direction::E => Direction::S,
-            Direction::S => Direction::W,
-            Direction::W => Direction::N,
-        };
+    fn turn_right(&mut self) {
+        self.direction.turn_right()
     }
 
     fn step(&mut self, reverse: bool) {
@@ -112,7 +115,7 @@ pub fn main() {
     while p.y >= 0 && p.y() < grid.len() && p.x >= 0 && p.x() < grid[0].len() {
         if grid[p.y()][p.x()] == OBSTACLE {
             p.step(true);
-            p.turn();
+            p.turn_right();
         }
 
         if grid[p.y()][p.x()] != MARKED {
