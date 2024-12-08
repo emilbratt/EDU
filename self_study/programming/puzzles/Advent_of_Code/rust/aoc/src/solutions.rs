@@ -46,8 +46,16 @@ pub fn get(year: Year, day: Day, part: Part) -> Option<Solution> {
         (Year::Year2024, Day::Day04, Part::Part2) => y2024_d04_p2::main,
 
         // --- Day 5: Print Queue ---
+        (Year::Year2024, Day::Day05, Part::Part1) => y2024_d05_p1::main,
+        (Year::Year2024, Day::Day05, Part::Part2) => y2024_d05_p2::main,
+
+        // --- Day 6: Guard Gallivant ---
         (Year::Year2024, Day::Day06, Part::Part1) => y2024_d06_p1::main,
         (Year::Year2024, Day::Day06, Part::Part2) => y2024_d06_p2::main,
+
+        // --- Day 7: Bridge Repair ---
+        (Year::Year2024, Day::Day07, Part::Part1) => y2024_d07_p1::main,
+        (Year::Year2024, Day::Day07, Part::Part2) => y2024_d07_p2::main,
 
         // --- Day 6: Guard Gallivant ---
         _ => return None,
@@ -92,3 +100,6 @@ mod y2024_d05_p2;
 
 mod y2024_d06_p1;
 mod y2024_d06_p2;
+
+mod y2024_d07_p1;
+mod y2024_d07_p2;

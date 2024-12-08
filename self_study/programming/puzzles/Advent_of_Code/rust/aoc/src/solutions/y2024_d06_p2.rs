@@ -122,6 +122,8 @@ pub fn main() {
         p.step(false);
     }
 
+    let limit = visited * 2;
+
     // This is a brute-force solution where we place obstacle and have the guard run around.
     // I wonder if there are faster solutions.
     let mut placed = 0;
@@ -134,7 +136,7 @@ pub fn main() {
                 grid[y][x] = OBSTACLE;
 
                 // Do a walk until x steps are taken and see if we do not escape the grid.
-                if walk(&grid, visited, start_y, start_x) {
+                if walk(&grid, limit, start_y, start_x) {
                     placed += 1;
                 }
 
@@ -163,7 +165,7 @@ fn walk(grid: &Vec<Vec<u8>>, limit: u64, start_y: i16, start_x: i16) -> bool {
 
         // If reached limit, we assume the guard is stuck in a loop.
         count += 1;
-        if count > limit * 2 {
+        if count > limit {
             return true;
         }
 

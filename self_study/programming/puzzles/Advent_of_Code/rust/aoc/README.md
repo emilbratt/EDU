@@ -46,7 +46,11 @@ When adding new solution file, copy the code block below to save some time.
 ```rs
 use std::fs;
 
-const INPUT: &str = "y2015d01.in";
+const LINE_FEED: u8 = 10;
+const DOT: u8 = 46;
+const HASHTAG: u8 = 35;
+
+const INPUT: &str = "y_d.in";
 
 pub fn main() {
     let input: Vec<u8> = fs::read(INPUT).unwrap();
