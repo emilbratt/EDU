@@ -12,17 +12,14 @@ pub fn main() {
 
     for line in input.lines() {
         let mut split = line.split(": ");
+
         let target: u64 = split.next().unwrap().parse::<u64>().unwrap();
 
-        let mut numbers = split.next().unwrap().split_whitespace();
-        let mut parsed: Vec<u64> = Vec::new();
+        let numbers = split.next().unwrap().split_whitespace();
 
-        while let Some(v) = numbers.next() {
-            let n = v.parse::<u64>().unwrap();
-            parsed.push(n);
-        }
-        
-        if is_equal_target(target, &parsed, 0, parsed[0]){
+        let parsed: Vec<u64> = numbers.into_iter().map(|n| n.parse().unwrap()).collect();
+
+        if is_equal_target(target, &parsed, 0, parsed[0]) {
             res += target;
         }
     }
