@@ -14,32 +14,36 @@ pub fn main() {
         let mut split = line.split(": ");
         let target: u64 = split.next().unwrap().parse::<u64>().unwrap();
 
-        let mut numbers = split.next().unwrap().split_whitespace();
         let mut parsed: Vec<u64> = Vec::new();
-        let mut un_parsed: Vec<&str> = Vec::new();
-
+        let mut numbers = split.next().unwrap().split_whitespace();
         while let Some(v) = numbers.next() {
-            un_parsed.push(&v);
             let n = v.parse::<u64>().unwrap();
             parsed.push(n);
         }
-        
-        if rec(target, &parsed, 0, parsed[0]){
+
+        if is_equal_target(target, &parsed, 0, parsed[0]){
             res += target;
         }
     }
 
+    assert_eq!(res, 44841372855953);
     print!("{res}");
 }
 
-fn rec(target: u64, numbers: &Vec<u64>, i: usize, res: u64) -> bool {
-    while i + 1 < numbers.len() {
+fn is_equal_target(target: u64, numbers: &Vec<u64>, i: usize, res: u64) -> bool {
+    while i + 1 < numbers.len() && res <= target {
         let i = i + 1;
-        let b = rec(target, &numbers, i, res*numbers[i]);
-        let a = rec(target, &numbers, i, res+numbers[i]);
-        let c = rec(target, &numbers, i, format!("{}{}",res, numbers[i]).parse::<u64>().unwrap());
-        return a || b || c;
+        if is_equal_target(target, &numbers, i, res+numbers[i]) {
+            return true;
+        }
+        if is_equal_target(target, &numbers, i, res*numbers[i]) {
+            return true;
+        }
+        if is_equal_target(target, &numbers, i, format!("{}{}",res, numbers[i]).parse::<u64>().unwrap()) {
+            return true;
+        }
+        return false;
     }
-    
+
     res == target
 }

@@ -22,21 +22,26 @@ pub fn main() {
             parsed.push(n);
         }
         
-        if rec(target, &parsed, 0, parsed[0]){
+        if is_equal_target(target, &parsed, 0, parsed[0]){
             res += target;
         }
     }
 
+    assert_eq!(res, 2501605301465);
     print!("{res}");
 }
 
-fn rec(target: u64, numbers: &Vec<u64>, i: usize, res: u64) -> bool {
-    while i + 1 < numbers.len() {
+fn is_equal_target(target: u64, numbers: &Vec<u64>, i: usize, res: u64) -> bool {
+    while i + 1 < numbers.len() && res <= target {
         let i = i + 1;
-        let b = rec(target, &numbers, i, res*numbers[i]);
-        let a = rec(target, &numbers, i, res+numbers[i]);
-        return a || b;
+        if is_equal_target(target, &numbers, i, res+numbers[i]) {
+            return true;
+        }
+        if is_equal_target(target, &numbers, i, res*numbers[i]) {
+            return true;
+        }
+        return false;
     }
-    
+
     res == target
 }
