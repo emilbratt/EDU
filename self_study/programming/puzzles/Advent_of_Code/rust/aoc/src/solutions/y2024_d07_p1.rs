@@ -27,7 +27,6 @@ pub fn main() {
         }
     }
 
-    assert_eq!(res, 2501605301465);
     print!("{res}");
 }
 

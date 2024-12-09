@@ -43,35 +43,12 @@ impl Position {
     }
 
     fn step(&mut self, reverse: bool) {
+        let incr = if reverse { 1 } else { -1 };
         match self.direction {
-            Direction::N => {
-                if !reverse {
-                    self.y -= 1
-                } else {
-                    self.y += 1
-                }
-            }
-            Direction::E => {
-                if !reverse {
-                    self.x += 1
-                } else {
-                    self.x -= 1
-                }
-            }
-            Direction::S => {
-                if !reverse {
-                    self.y += 1
-                } else {
-                    self.y -= 1
-                }
-            }
-            Direction::W => {
-                if !reverse {
-                    self.x -= 1
-                } else {
-                    self.x += 1
-                }
-            }
+            Direction::N => self.y += incr,
+            Direction::E => self.x -= incr,
+            Direction::S => self.y -= incr,
+            Direction::W => self.x += incr,
         }
     }
 
