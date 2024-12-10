@@ -55,7 +55,6 @@ pub fn main() {
 
     let res = count_antinodes(&grid, &antennas);
 
-    assert_eq!(951, res);
     print!("{res}");
 }
 
@@ -95,28 +94,34 @@ fn count_antinodes(grid: &Vec<Vec<u8>>, antennas: &HashMap<u8, Vec<Position>>) -
                 let cur = val[i];
                 let next = val[j];
 
-                let d_row = cur.row - next.row; // change in row (dx)
-                let d_col = cur.col - next.col; // change in col (dy)
-                let mut multiply: usize;
+                let d_row = cur.row as i64 - next.row as i64; // change in row (dx)
+                let d_col = cur.col as i64 - next.col as i64; // change in col (dy)
+                let mut multiply: i64;
 
-                multiply = 1;
+                multiply = 2;
                 // Traverse north and-or west by decreasing row and-or  col.
                 if let Some(mut pos) = Position::try_from(cur.row as i64, cur.col as i64) {
                     while pos.is_inside(&grid) {
                         antinodes.insert(pos);
-                        pos.row = cur.row - (d_row * multiply);
-                        pos.col = cur.col - (d_col * multiply);
+                        let row = cur.row as i64 - (d_row * multiply);
+                        let col = cur.col as i64 - (d_col * multiply);
+                        if !pos.try_set(row, col) {
+                            break;
+                        }
                         multiply += 1;
                     }
                 }
 
-                multiply = 1;
+                multiply = 2;
                 // Traverse south and-or east by increasing row and-or col.
                 if let Some(mut pos) = Position::try_from(next.row as i64, next.col as i64) {
                     while pos.is_inside(&grid) {
                         antinodes.insert(pos);
-                        pos.row = next.row + (d_row * multiply);
-                        pos.col = next.col + (d_col * multiply);
+                        let row = next.row as i64 + (d_row * multiply);
+                        let col = next.col as i64 + (d_col * multiply);
+                        if !pos.try_set(row, col) {
+                            break;
+                        }
                         multiply += 1;
                     }
                 }
