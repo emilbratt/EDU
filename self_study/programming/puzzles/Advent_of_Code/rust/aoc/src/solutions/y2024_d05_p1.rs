@@ -56,12 +56,8 @@ fn get_rules(s: &str) -> HashMap<u8, Vec<u8>> {
         let value = split.next().unwrap().parse::<u8>().unwrap();
 
         rules.entry(key)
-            .and_modify(
-                |key| key.push(value)
-            )
-            .or_insert(
-                Vec::from([value])
-            );
+            .and_modify(|key| key.push(value))
+            .or_insert(Vec::from([value]));
     }
 
     rules

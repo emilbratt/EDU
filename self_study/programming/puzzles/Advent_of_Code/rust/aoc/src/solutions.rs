@@ -57,7 +57,10 @@ pub fn get(year: Year, day: Day, part: Part) -> Option<Solution> {
         (Year::Year2024, Day::Day07, Part::Part1) => y2024_d07_p1::main,
         (Year::Year2024, Day::Day07, Part::Part2) => y2024_d07_p2::main,
 
-        // --- Day 6: Guard Gallivant ---
+        // --- Day 8: Resonant Collinearity ---
+        (Year::Year2024, Day::Day08, Part::Part1) => y2024_d08_p1::main,
+        (Year::Year2024, Day::Day08, Part::Part2) => y2024_d08_p2::main,
+
         _ => return None,
     };
 
@@ -103,3 +106,6 @@ mod y2024_d06_p2;
 
 mod y2024_d07_p1;
 mod y2024_d07_p2;
+
+mod y2024_d08_p1;
+mod y2024_d08_p2;
