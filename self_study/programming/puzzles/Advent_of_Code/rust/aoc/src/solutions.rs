@@ -61,6 +61,10 @@ pub fn get(year: Year, day: Day, part: Part) -> Option<Solution> {
         (Year::Year2024, Day::Day08, Part::Part1) => y2024_d08_p1::main,
         (Year::Year2024, Day::Day08, Part::Part2) => y2024_d08_p2::main,
 
+        // --- Day 9: Disk Fragmenter ---
+        (Year::Year2024, Day::Day09, Part::Part1) => y2024_d09_p1::main,
+        (Year::Year2024, Day::Day09, Part::Part2) => y2024_d09_p2::main,
+
         _ => return None,
     };
 
@@ -109,3 +113,6 @@ mod y2024_d07_p2;
 
 mod y2024_d08_p1;
 mod y2024_d08_p2;
+
+mod y2024_d09_p1;
+mod y2024_d09_p2;

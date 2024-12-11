@@ -1,4 +1,4 @@
-// use std::fmt;
+use std::fs;
 
 #[derive(Debug, Copy, Clone)]
 pub enum Year {
@@ -107,6 +107,33 @@ impl Part {
             2 => Self::Part2,
             n => panic!("{n} is not a valid part"),
         }
+    }
+}
+
+pub fn try_from_file(path: &str) -> Option<Vec<(Year, Day, Part)>> {
+    let f = match fs::read_to_string(path) {
+        Err(_) => return None,
+        Ok(f) => f,
+    };
+
+    let mut options: Vec<(Year, Day, Part)> = Vec::new();
+    for line in f.lines() {
+        if line.starts_with('#') {
+            continue;
+        }
+        let mut split = line.split(',');
+        let year = split.next().unwrap().parse::<u16>().unwrap();
+        let day = split.next().unwrap().parse::<u8>().unwrap();
+        let part = split.next().unwrap().parse::<u8>().unwrap();
+        let option = (Year::new(year), Day::new(day), Part::new(part));
+        options.push(option);
+    }
+
+    if options.is_empty() {
+        println!("No options found in {path}");
+        None
+    } else {
+        Some(options)
     }
 }
 

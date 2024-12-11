@@ -46,9 +46,10 @@ When adding new solution file, copy the code block below to save some time.
 ```rs
 use std::fs;
 
-const LINE_FEED: u8 = 10;
+const CHAR_NUMBER_OFFSET: u8 = 48;
 const DOT: u8 = 46;
 const HASHTAG: u8 = 35;
+const LINE_FEED: u8 = 10;
 
 const INPUT: &str = "y_d.in";
 

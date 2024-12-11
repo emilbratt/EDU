@@ -7,32 +7,41 @@ mod solutions;
 mod options;
 
 const DEBUG: bool = false;
-
-const YEAR: options::Year = options::Year::Year2024;
-const DAY: options::Day   = options::Day::Day07;
-const PART: options::Part = options::Part::Part2;
-
-const USE_CONST_OPTIONS: bool = false;
+const OPTIONS_IN: &str = "options.in"; // a csv list of year,day,part
 
 fn main() {
-    if USE_CONST_OPTIONS {
-        solve(YEAR, DAY, PART);
-    } else {
-        let instant = Instant::now();
+    let options: Vec<(options::Year, options::Day, options::Part)>;
 
-        for year in 2015..=2024 {
-            for day in 1..=25 {
-                for part in 1..=2 {
-                    let (y, d, p) = options::get(year, day, part);
-                    solve(y, d, p);
+    options = match options::try_from_file(OPTIONS_IN) {
+        Some(options) => {
+            println!("Selecting puzzles from {OPTIONS_IN}");
+            options
+        }
+        None => {
+            println!("Selecting all puzzles");
+            let mut options: Vec<(options::Year, options::Day, options::Part)> = Vec::new();
+            for year in 2015..=2024 {
+                for day in 1..=25 {
+                    for part in 1..=2 {
+                        options.push(options::get(year, day, part));
+                    }
                 }
             }
+
+            options
         }
+    };
 
-        let elapsed = instant.elapsed().as_millis();
+    let instant = Instant::now();
 
-        println!("Total: {} ms", elapsed);
+    for option in options {
+        let (year, day, part) = option;
+        solve(year, day, part);
     }
+
+    let elapsed = instant.elapsed().as_millis();
+
+    println!("Total: {} ms", elapsed);
 }
 
 fn solve(year: options::Year, day: options::Day, part: options::Part) {
