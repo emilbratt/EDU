@@ -39,11 +39,10 @@ pub fn main() {
     // Calculate that checksum.
     let mut i = 0;
     let mut res: usize = 0;
-    for b in blocks.iter() {
-        if *b != 0 {
-            let id = b - FILE_ID_OFFSET;
-            res += (i * id);
-        }
+    for b in blocks {
+        if b == 0 { continue }
+        let id = b - FILE_ID_OFFSET;
+        res += (i * id);
         i += 1;
     }
 
