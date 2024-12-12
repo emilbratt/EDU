@@ -22,12 +22,16 @@ pub fn main() {
     // Move file blocks.
     let mut i = 0;
     let mut j = blocks.len() - 1;
-    while i < j {
+    loop {
         while blocks[i] != IS_FREE_BLOCK {
             i += 1;
         }
         while blocks[j] == IS_FREE_BLOCK {
             j -= 1;
+        }
+
+        if i >= j {
+            break;
         }
 
         blocks.swap(i, j);
@@ -39,10 +43,11 @@ pub fn main() {
     // Calculate that checksum.
     let mut i = 0;
     let mut res: usize = 0;
-    for b in blocks {
-        if b == 0 { continue }
-        let id = b - FILE_ID_OFFSET;
-        res += (i * id);
+    for b in blocks.iter() {
+        if *b != 0 {
+            let id = b - FILE_ID_OFFSET;
+            res += (i * id);
+        }
         i += 1;
     }
 
