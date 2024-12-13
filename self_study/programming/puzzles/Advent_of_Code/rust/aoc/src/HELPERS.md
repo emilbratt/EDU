@@ -35,13 +35,36 @@ fn gridify(input: Vec<u8>) -> Vec<Vec<u8>> {
 
 #### Print gridified input - Vec<Vec<u8>>
 ```rust
-fn p_grid(grid: &Vec<Vec<u8>>) {
+// For u8 holding any value
+const NANO_SECONDS: u32 = 5000000;
+const SLEEP: std::time::Duration = std::time::Duration::new(0, NANO_SECONDS);
+fn p_grid(grid: &Vec<Vec<u8>>, sleep: u64) {
+    let mut s = String::with_capacity(grid.len() * grid[0].len());
     for row in 0..grid.len() {
         for col in 0..grid[row].len() {
-            print!("{}", grid[row][col] as char)
+            let c = if grid[row][col] <= 9 { '.' } else { (grid[row][col] + 48) as char };
+            s.push(c);
         }
-        println!();
+        s.push('\n');
     }
+    println!("{s}");
+    std::thread::sleep(SLEEP);
+}
+
+// For u8 holding numerics in range 0-9
+const NANO_SECONDS: u32 = 5000000;
+const SLEEP: std::time::Duration = std::time::Duration::new(0, NANO_SECONDS);
+fn p_numeric_grid(grid: &Vec<Vec<u8>>) {
+    let mut s = String::with_capacity(grid.len() * grid[0].len());
+    for row in 0..grid.len() {
+        for col in 0..grid[row].len() {
+            let c = if grid[row][col] > 9 { '.' } else { (grid[row][col] + 48) as char };
+            s.push(c);
+        }
+        s.push('\n');
+    }
+    println!("{s}");
+    std::thread::sleep(SLEEP);
 }
 ```
 
@@ -70,7 +93,7 @@ impl Position {
 }
 ```
 
-#### HashMap - Iterate over Key Value pair in
+#### HashMap - Iterate over Key Value pair
 ```rust
 use std::collections::HashMap;
 
@@ -86,7 +109,7 @@ for (key, val) in map.iter() {
 ```
 
 
-#### HashMap - Insert or add-and-then-insert
+#### HashMap - Insert or modify existing
 ```rust
 use std::collections::HashMap;
 

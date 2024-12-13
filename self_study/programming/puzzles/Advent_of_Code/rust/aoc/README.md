@@ -20,7 +20,7 @@ curl https://adventofcode.com/2024/day/1/input --cookie "session=${AOC_SESSION}"
 
 ### Run solution
 
-Run with `cargo run`.\
+Run with `cargo run --release`.\
 All solutions are isolated (no shared code).\
 This means that you can copy code directly from the solution file e.g. src/solutions/y2024d01p1.rs\
 ..and into your crate if you want.
