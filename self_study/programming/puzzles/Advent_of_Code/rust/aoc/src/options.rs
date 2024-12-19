@@ -118,15 +118,14 @@ pub fn try_from_file(path: &str) -> Option<Vec<(Year, Day, Part)>> {
 
     let mut options: Vec<(Year, Day, Part)> = Vec::new();
     for line in f.lines() {
-        if line.starts_with('#') {
-            continue;
+        if !line.starts_with('#') {
+            let mut split = line.split(',');
+            let year = split.next().unwrap().parse::<u16>().unwrap();
+            let day = split.next().unwrap().parse::<u8>().unwrap();
+            let part = split.next().unwrap().parse::<u8>().unwrap();
+            let option = (Year::new(year), Day::new(day), Part::new(part));
+            options.push(option);
         }
-        let mut split = line.split(',');
-        let year = split.next().unwrap().parse::<u16>().unwrap();
-        let day = split.next().unwrap().parse::<u8>().unwrap();
-        let part = split.next().unwrap().parse::<u8>().unwrap();
-        let option = (Year::new(year), Day::new(day), Part::new(part));
-        options.push(option);
     }
 
     if options.is_empty() {

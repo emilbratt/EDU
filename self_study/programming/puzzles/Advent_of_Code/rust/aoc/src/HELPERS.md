@@ -38,7 +38,7 @@ fn gridify(input: Vec<u8>) -> Vec<Vec<u8>> {
 // For u8 holding any value
 const NANO_SECONDS: u32 = 5000000;
 const SLEEP: std::time::Duration = std::time::Duration::new(0, NANO_SECONDS);
-fn p_grid(grid: &Vec<Vec<u8>>, sleep: u64) {
+fn p_grid(grid: &Vec<Vec<u8>>) {
     let mut s = String::with_capacity(grid.len() * grid[0].len());
     for row in 0..grid.len() {
         for col in 0..grid[row].len() {

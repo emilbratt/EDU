@@ -44,8 +44,6 @@ I have three things in mind when solving.\
 When adding new solution file, copy the code block below to save some time.
 
 ```rs
-use std::fs;
-
 const CHAR_NUMBER_OFFSET: u8 = 48;
 const DOT: u8 = 46;
 const HASHTAG: u8 = 35;
@@ -54,8 +52,8 @@ const LINE_FEED: u8 = 10;
 const INPUT: &str = "y_d.in";
 
 pub fn main() {
-    let input: Vec<u8> = fs::read(INPUT).unwrap();
-    let input: String = fs::read_to_string(INPUT).unwrap();
+    let input: Vec<u8> = std::fs::read(INPUT).unwrap();
+    let input: String = std::fs::read_to_string(INPUT).unwrap();
 
     print!("N/A");
 }

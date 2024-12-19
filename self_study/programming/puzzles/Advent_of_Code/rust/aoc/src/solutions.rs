@@ -28,6 +28,11 @@ pub fn get(year: Year, day: Day, part: Part) -> Option<Solution> {
         (Year::Year2015, Day::Day05, Part::Part1) => y2015_d05_p1::main,
         (Year::Year2015, Day::Day05, Part::Part2) => y2015_d05_p2::main,
 
+        // YEAR 2023
+        // --- Day 1: Trebuchet?! ---
+        (Year::Year2023, Day::Day01, Part::Part1) => y2023_d01_p1::main,
+        (Year::Year2023, Day::Day01, Part::Part2) => y2023_d01_p2::main,
+
         // YEAR 2024
         // --- Day 1: Historian Hysteria ---
         (Year::Year2024, Day::Day01, Part::Part1) => y2024_d01_p1::main,
@@ -88,6 +93,10 @@ mod y2015_d04_p2;
 
 mod y2015_d05_p1;
 mod y2015_d05_p2;
+
+// 2023
+mod y2023_d01_p1;
+mod y2023_d01_p2;
 
 // 2024
 mod y2024_d01_p1;

@@ -15,6 +15,10 @@ fn main() {
     options = match options::try_from_file(OPTIONS_IN) {
         Some(options) => {
             println!("Selecting puzzles from {OPTIONS_IN}");
+            for &(year, day, part) in options.iter() {
+                println!(" -> {:?} {:?} {:?}", year, day, part)
+            }
+            println!();
             options
         }
         None => {
