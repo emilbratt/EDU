@@ -26,7 +26,7 @@ pub fn main() {
         res += minutes;
 
         // Every 3rd line is empty, or if last (None), we break.
-        if lines.next().is_none() { break}
+        if lines.next().is_none() { break }
     }
     print!("{res}");
 }
