@@ -1,7 +1,5 @@
 use std::fs;
 
-use chrono::{DateTime, NaiveDateTime};
-
 const INPUT: &str = "y2025_5.in";
 const STEPS_RIGHT: usize = 2;
 
