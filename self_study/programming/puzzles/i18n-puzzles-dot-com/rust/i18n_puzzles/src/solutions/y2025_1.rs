@@ -7,7 +7,7 @@ pub fn main() {
 
     let mut res: usize = 0;
     for line in input_str.lines() {
-        match (valid_sms(line), valid_tweet(line)) {
+        match (fits_sms(line), fits_tweet(line)) {
             (true, true) => res += 13,
             (true, false) => res += 11,
             (false, true) => res += 7,
@@ -17,10 +17,10 @@ pub fn main() {
     print!("{res}");
 }
 
-fn valid_sms(s: &str) -> bool {
+fn fits_sms(s: &str) -> bool {
     s.len() <= 160
 }
 
-fn valid_tweet(s: &str) -> bool {
+fn fits_tweet(s: &str) -> bool {
     s.chars().count() <= 140
 }

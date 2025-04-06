@@ -20,7 +20,7 @@ pub fn main() {
 
 fn valid_length(s: &str) -> bool {
     let count = s.chars().count();
-    count >= 4 && count <= 12
+    (4..=12).contains(&count)
 }
 
 fn has_lower_case(s: &str) -> bool {
@@ -52,7 +52,7 @@ fn has_non_ascii(s: &str) -> bool {
 
 fn has_digit(s: &str) -> bool {
     for c in s.chars() {
-        if c.is_digit(10) {
+        if c.is_ascii_digit() {
             return true;
         }
     }

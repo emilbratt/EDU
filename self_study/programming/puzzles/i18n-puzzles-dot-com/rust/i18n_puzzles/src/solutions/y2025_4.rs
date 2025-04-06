@@ -1,7 +1,6 @@
 use std::fs;
 
 use chrono::{DateTime, NaiveDateTime};
-use chrono_tz;
 
 const INPUT: &str = "y2025_4.in";
 
@@ -27,7 +26,7 @@ pub fn main() {
         res += minutes;
 
         // Every 3rd line is empty, or if last (None), we break.
-        if let None = lines.next() { break }
+        if lines.next().is_none() { break}
     }
     print!("{res}");
 }
