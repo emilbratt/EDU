@@ -18,6 +18,9 @@ pub fn get(year: Year, puzzle: Puzzle) -> Option<Solution> {
         // --- Puzzle 4: A trip around the world ---
         (Year::Year2025, Puzzle::P04) => y2025_4::main,
 
+        // --- Puzzle 5: Don't step in it... ---
+        (Year::Year2025, Puzzle::P05) => y2025_5::main,
+
         _ => return None,
     };
 
@@ -29,3 +32,4 @@ mod y2025_1;
 mod y2025_2;
 mod y2025_3;
 mod y2025_4;
+mod y2025_5;
