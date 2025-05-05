@@ -21,6 +21,9 @@ pub fn get(year: Year, puzzle: Puzzle) -> Option<Solution> {
         // --- Puzzle 5: Don't step in it... ---
         (Year::Year2025, Puzzle::P05) => y2025_5::main,
 
+        // --- Puzzle 6: Mojibake puzzle dictionary ---
+        (Year::Year2025, Puzzle::P06) => y2025_6::main,
+
         _ => return None,
     };
 
@@ -33,3 +36,4 @@ mod y2025_2;
 mod y2025_3;
 mod y2025_4;
 mod y2025_5;
+mod y2025_6;
