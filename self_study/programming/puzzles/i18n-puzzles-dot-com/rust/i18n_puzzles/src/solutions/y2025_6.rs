@@ -1,94 +1,77 @@
-use encoding::{Encoding, DecoderTrap};
-use encoding::all::ISO_8859_1;
-
 use std::fs;
 
 const INPUT: &str = "y2025_6.in";
 
-// struct Word<'a> {
-//     word: &'a str,
-//     len: usize,
-//     index: usize,
-// }
-
 pub fn main() {
-    let mut res = 0;
+    // Tuple: (word-length, line-number, word)
+    let mut word_list: Vec<(usize, usize, String)> = Vec::new();
 
-    println!();
+    // Tuple: (word-length, char-index, character-to-match)
+    let mut cross_word: Vec<(usize, usize, char)> = Vec::new();
+
     let input_str: String = fs::read_to_string(INPUT).unwrap();
-    let input = fs::read(INPUT).unwrap();
 
-    let mut all_words: Vec<String> = Vec::new();
-    let mut cur_word: Vec<u8> = Vec::new();
-    let mut index = 0;
-    for b in input.into_iter() {
-        if b as char == '\n' {
-            let word = match (index % 3 == 0, index % 5 == 0) {
+    let mut first_part = true;
+    for (i, line) in input_str.lines().enumerate() {
+        if line.is_empty() {
+            // An empty line means we have arrived at the 2nd half of the input.
+            first_part = false;
+        }
+
+        if first_part {
+            let line_number = i + 1;
+            let word = match (line_number % 3 == 0, line_number % 5 == 0) {
                 // every 3rd
-                (true, false) => {
-                    ISO_8859_1.decode(&cur_word, DecoderTrap::Strict).unwrap()
-                }
-
+                (true, false) => fix_word(line),
                 // every 5th
-                (false, true) => ISO_8859_1.decode(&cur_word, DecoderTrap::Strict).unwrap(),
-                
+                (false, true) => fix_word(line),
                 // every 15th
-                (true, true) => String::from_utf8(cur_word.clone()).unwrap(),
-
+                (true, true) => fix_word(&fix_word(line)),
                 // every else
-                (false, false) => String::from_utf8(cur_word.clone()).unwrap(),
+                (false, false) => line.to_string(),
             };
 
-            all_words.push(word);
-            cur_word.clear();
-            index += 1;
+            let entry: (usize, usize, String) = (word.chars().count(), line_number, word);
+            word_list.push(entry);
         } else {
-            cur_word.push(b);
+            let line = line.trim();
+
+            for (i, c) in line.chars().enumerate() {
+                if c != '.' {
+                    let entry: (usize, usize, char) = (line.chars().count(), i, c);
+                    cross_word.push(entry);
+                    break;
+                }
+            }
         }
     }
 
-    for word in all_words {
-        println!("{}", word);
-        // println!();
+    let res = solve(word_list, cross_word);
+
+    print!("{res}");
+}
+
+fn fix_word(line: &str) -> String {
+    let raw_bytes = line
+        .chars()
+        .map(|c| c as u8)
+        .collect::<Vec<u8>>();
+
+    String::from_utf8(raw_bytes).unwrap()
+}
+
+fn solve(word_list: Vec<(usize, usize, String)>, cross_word: Vec<(usize, usize, char)>) -> usize {
+    let mut res = 0;
+
+    'cw: for (cw_len, char_index, cw_character) in cross_word.into_iter() {
+        'wl: for (wl_len, line_number, wl_word) in word_list.iter() {
+            if cw_len != *wl_len { continue; }
+            if wl_word.chars().nth(char_index).unwrap() == cw_character {
+                res += line_number;
+                break 'wl
+            }
+        }
     }
 
-
-    // let mut split = input_str.split("\n\n");
-    // let words = split.next().unwrap();
-    // // let mut word_vec: Vec<Word> = Vec::with_capacity(words.len());
-
-    // let mut v_words: Vec<(&str, usize, usize)> = Vec::with_capacity(words.len());
-    // for (index, word) in words.lines().enumerate() {
-    //     // let len = word.chars().count();
-    //     // word_vec.push( Word { word, len, index, } );
-
-    //     let word: &str = match (index % 3 == 0, index % 5 == 0) {
-    //         // every 3rd
-    //         (true, false) => word,
-
-    //         // every 5th
-    //         (false, true) => word,
-            
-    //         // every 15th
-    //         (true, true) => word,
-
-    //         // every else
-    //         (false, false) => word,
-    //     };
-
-    //     let v: (&str, usize, usize) = (&word, word.chars().count(), index);
-    //     v_words.push(v);
-    // }
-
-    // for (w, len, index) in v_words {
-    //     // println!("{}", w);
-    // }
-
-    // let crossword = split.next().unwrap();
-    // println!("{}", crossword);
-
-    // print!("{res}");
-
-
-    println!();
+    res
 }

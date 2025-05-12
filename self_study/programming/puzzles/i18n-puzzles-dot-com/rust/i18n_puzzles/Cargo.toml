@@ -6,5 +6,3 @@ edition = "2024"
 [dependencies]
 chrono = "0.4.40"
 chrono-tz = "0.10.3"
-encoding = "0.2.33"
-#encoding_rs = "0.8.35"
