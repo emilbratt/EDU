@@ -1,7 +1,7 @@
 use std::fs;
 use std::collections::HashMap;
 
-use chrono::{DateTime, NaiveDateTime};
+use chrono::DateTime;
 
 const INPUT: &str = "y2025_2.in";
 
@@ -23,8 +23,9 @@ pub fn main() {
 
     for (key, val) in timestamps.into_iter() {
         if val >= 4 {
-            let res = DateTime::from_timestamp(key, 0).unwrap();
-            print!("'{}'", res.format("%Y-%m-%dT%H:%M:%S+00:00"));
+            let res = DateTime::from_timestamp(key, 0).unwrap().format("%Y-%m-%dT%H:%M:%S+00:00");
+            assert_eq!("2020-10-25T01:30:00+00:00", res.to_string());
+            print!("'{}'", res);
             return;
         }
     }

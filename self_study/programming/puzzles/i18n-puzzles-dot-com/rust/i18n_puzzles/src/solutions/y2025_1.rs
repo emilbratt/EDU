@@ -7,13 +7,15 @@ pub fn main() {
 
     let mut res: usize = 0;
     for line in input_str.lines() {
-        match (fits_sms(line), fits_tweet(line)) {
-            (true, true) => res += 13,
-            (true, false) => res += 11,
-            (false, true) => res += 7,
-            _ => (),
-        }
+        res += match (fits_sms(line), fits_tweet(line)) {
+            (true, true) => 13,
+            (true, false) => 11,
+            (false, true) => 7,
+            _ => 0,
+        };
     }
+
+    assert_eq!(107989, res);
     print!("{res}");
 }
 

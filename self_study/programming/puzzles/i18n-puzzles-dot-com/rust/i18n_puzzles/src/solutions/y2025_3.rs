@@ -7,11 +7,11 @@ pub fn main() {
 
     let mut res: usize = 0;
     for line in input_str.lines() {
-        if !valid_length(line) { continue }
-        if !has_lower_case(line) { continue }
-        if !has_upper_case(line) { continue }
-        if !has_non_ascii(line) { continue }
-        if !has_digit(line) { continue }
+        if !valid_length(line) { continue; }
+        if !has_lower_case(line) { continue; }
+        if !has_upper_case(line) { continue; }
+        if !has_non_ascii(line) { continue; }
+        if !has_digit(line) { continue; }
 
         res += 1;
     }

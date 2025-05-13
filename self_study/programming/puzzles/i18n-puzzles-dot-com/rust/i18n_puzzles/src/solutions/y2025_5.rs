@@ -1,7 +1,6 @@
 use std::fs;
 
 const INPUT: &str = "y2025_5.in";
-const STEPS_RIGHT: usize = 2;
 
 pub fn main() {
     let input_str: String = fs::read_to_string(INPUT).unwrap();
@@ -14,7 +13,8 @@ pub fn main() {
                 res += 1;
             }
         }
-        cur_col = (cur_col + STEPS_RIGHT) % line.chars().count();
+        cur_col = (cur_col + 2) % line.chars().count();
     }
+    assert_eq!(74, res);
     print!("{res}");
 }

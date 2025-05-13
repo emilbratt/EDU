@@ -47,7 +47,7 @@ pub fn main() {
     }
 
     let res = solve(word_list, cross_word);
-
+    assert_eq!(11252, res);
     print!("{res}");
 }
 

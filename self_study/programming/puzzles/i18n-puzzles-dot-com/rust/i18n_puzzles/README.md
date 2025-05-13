@@ -6,6 +6,8 @@
 
 These are puzzles heavily based on internationalization.
 
+My goal is to find the best balance between performance and readable code.
+
 ### Copyright
 
 Puzzles and puzzle inputs were created by Martijn van Iersel / i18n-puzzles.com.

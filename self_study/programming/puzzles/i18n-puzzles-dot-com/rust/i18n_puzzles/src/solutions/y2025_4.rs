@@ -28,6 +28,7 @@ pub fn main() {
         // Every 3rd line is empty, or if last (None), we break.
         if lines.next().is_none() { break }
     }
+    assert_eq!(16451, res);
     print!("{res}");
 }
 
