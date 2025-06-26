@@ -54,9 +54,9 @@ The dev-tools in yor IDE depend on having the file and folder structure intact.
 
 
 ## Run in a Container (Podman)
-Open a container with a bind-mount for the current working directory which mounts to /App inside the container
+Open a container with a bind-mount for "mydnneer" which binds to /App inside the container
 
 Change sdk version for your use case
 ```sh
-podman run --privileged -it --rm --mount type=bind,source="$(pwd)",target=/App mcr.microsoft.com/dotnet/sdk:8.0
+podman run -it --rm --mount type=bind,source="$(pwd)/mydinner",target=/App,Z,U=true --workdir /App mcr.microsoft.com/dotnet/sdk:8.0 dotnet run
 ```
