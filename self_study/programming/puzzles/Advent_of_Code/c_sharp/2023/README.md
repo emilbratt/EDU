@@ -26,17 +26,17 @@ You can run everything in a container from this directory (swap podman with dock
 
 Run all solves
 ```sh
-podman run --privileged -it --rm --mount type=bind,source="$(pwd)",target=/App --workdir /App mcr.microsoft.com/dotnet/sdk:8.0 dotnet run
+podman run -it --rm --mount type=bind,source="$(pwd)",target=/App,U=true --workdir /App mcr.microsoft.com/dotnet/sdk:8.0 dotnet run
 ```
 
 Run day 5
 ```sh
-podman run --privileged -it --rm --mount type=bind,source="$(pwd)",target=/App --workdir /App mcr.microsoft.com/dotnet/sdk:8.0 dotnet run 5
+podman run -it --rm --mount type=bind,source="$(pwd)",target=/App,U=true --workdir /App mcr.microsoft.com/dotnet/sdk:8.0 dotnet run 5
 ```
 
 Run day 5 part 2
 ```sh
-podman run --privileged -it --rm --mount type=bind,source="$(pwd)",target=/App --workdir /App mcr.microsoft.com/dotnet/sdk:8.0 dotnet run 5 2
+podman run -it --rm --mount type=bind,source="$(pwd)",target=/App,U=true --workdir /App mcr.microsoft.com/dotnet/sdk:8.0 dotnet run 5 2
 ```
 
 ### Day 8 Part 2
