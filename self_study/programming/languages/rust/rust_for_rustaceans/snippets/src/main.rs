@@ -3,7 +3,20 @@
 mod _1_foundations;
 mod _2_types;
 
+static mut CHAPTER: usize = 0;
+
 fn main() {
-    _1_foundations::main();
-    _2_types::main();
+    chapter("Foundations", _1_foundations::main);
+    chapter("Types", _2_types::main);
+}
+
+fn chapter(title: &str, f: impl FnOnce()) {
+    let chapter = unsafe {
+        CHAPTER += 1;
+        *(&raw const CHAPTER)
+    };
+
+    println!("---Chapter {}. {}---", chapter, title);
+    f();
+    println!();
 }
