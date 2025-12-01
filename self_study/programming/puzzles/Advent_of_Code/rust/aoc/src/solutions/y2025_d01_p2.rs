@@ -9,7 +9,6 @@ fn solve(input: &[u8]) -> i32 {
     let mut res = 0;
 
     let mut position: i32 = 50; // Dial position.
-    let wrap_around: i32 = 100; // Dial goes from 0 to 99 = 100 values so we do modulo 100 to simulate dialing.
     let mut s = String::new(); // Parsed value here..
     let mut left = true; // Simluates dialing left => we represent it as negative value
 
@@ -21,12 +20,20 @@ fn solve(input: &[u8]) -> i32 {
                 v => s.push(*b as char),
             }
         } else {
-            let v = s.parse::<i32>().unwrap();
-            position += if left { -v } else { v };
-            if position < 0 || position >= wrap_around {
-                position = position % wrap_around;
+            let mut v = s.parse::<i32>().unwrap();
+
+            // This solution is obviously very slow and can be much faster.
+            // I might write a better/faster solution later. :)
+            while v > 0 {
+                position += if left { -1 } else { 1 };
+
+                if position < 0 { position = 99; }
+                else if position > 99 { position = 0 }
+
+                if position == 0 { res += 1 }
+                v -= 1;
             }
-            if position == 0 { res += 1 }
+
             s.clear();
         }
     }

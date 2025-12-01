@@ -73,7 +73,7 @@ pub fn get(year: Year, day: Day, part: Part) -> Option<Solution> {
         // YEAR 2025
         // --- Day 1: Secret Entrance ---
         (Year::Year2025, Day::Day01, Part::Part1) => y2025_d01_p1::main,
-        // (Year::Year2024, Day::Day01, Part::Part2) => y2024_d01_p2::main,
+        (Year::Year2025, Day::Day01, Part::Part2) => y2025_d01_p2::main,
 
         _ => return None,
     };
@@ -133,3 +133,4 @@ mod y2024_d09_p2;
 
 // 2025
 mod y2025_d01_p1;
+mod y2025_d01_p2;
