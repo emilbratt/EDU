@@ -27,16 +27,11 @@ fn solve(input: &[u8]) -> i32 {
             while v > 0 {
                 position += if left { -1 } else { 1 };
 
-<<<<<<< HEAD
-                if position < 0 { position = 99; }
-                else if position > 99 { position = 0 }
-=======
                 if position < 0 {
                     position = 99;
                 } else if position > 99 {
                     position = 0;
                 }
->>>>>>> 9059ef4 (AoC Day 1 Part 2 solved)
 
                 if position == 0 { res += 1 }
                 v -= 1;
