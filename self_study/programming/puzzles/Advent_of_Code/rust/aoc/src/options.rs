@@ -12,6 +12,7 @@ pub enum Year {
     Year2022,
     Year2023,
     Year2024,
+    Year2025,
 }
 
 impl Year {
@@ -27,6 +28,7 @@ impl Year {
             2022 => Self::Year2022,
             2023 => Self::Year2023,
             2024 => Self::Year2024,
+            2025 => Self::Year2025,
             n => panic!("{n} is not a valid year"),
         }
     }
