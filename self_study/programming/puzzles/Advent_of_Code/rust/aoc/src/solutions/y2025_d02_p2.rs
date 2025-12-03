@@ -44,7 +44,7 @@ fn parse_input(bytes: &[u8]) -> Vec<(i64,i64)> {
     ranges
 }
 
-fn solve(ranges: &Vec<(i64,i64)>) -> u64 {
+fn solve(ranges: &[(i64,i64)]) -> u64 {
     let mut found: Vec<u64> = Vec::new();
 
     for (left, right) in ranges {
