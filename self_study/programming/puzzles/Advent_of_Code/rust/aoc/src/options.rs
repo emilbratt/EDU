@@ -1,4 +1,4 @@
-use std::fs;
+use std::{fs, env};
 
 #[derive(Debug, Copy, Clone)]
 pub enum Year {
@@ -110,6 +110,21 @@ impl Part {
             n => panic!("{n} is not a valid part"),
         }
     }
+}
+
+pub fn try_from_args() -> Option<(Year, Day, Part)> {
+    let args: Vec<String> = env::args().collect();
+
+    let (year, day, part) = match args.as_slice() {
+        [_exe, y, d, p] =>  (y.as_str(), d.as_str(), p.as_str()),
+        _ => return None,
+    };
+
+    let year = year.parse::<u16>().unwrap();
+    let day = day.parse::<u8>().unwrap();
+    let part = part.parse::<u8>().unwrap();
+
+    Some((Year::new(year), Day::new(day), Part::new(part)))
 }
 
 pub fn try_from_file(path: &str) -> Option<Vec<(Year, Day, Part)>> {

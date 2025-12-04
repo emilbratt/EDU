@@ -79,6 +79,10 @@ pub fn get(year: Year, day: Day, part: Part) -> Option<Solution> {
         (Year::Year2025, Day::Day02, Part::Part1) => y2025_d02_p1::main,
         (Year::Year2025, Day::Day02, Part::Part2) => y2025_d02_p2::main,
 
+        // --- Day 3: Lobby ---
+        (Year::Year2025, Day::Day03, Part::Part1) => y2025_d03_p1::main,
+        (Year::Year2025, Day::Day03, Part::Part2) => y2025_d03_p2::main,
+
         _ => return None,
     };
 
@@ -141,3 +145,6 @@ mod y2025_d01_p2;
 
 mod y2025_d02_p1;
 mod y2025_d02_p2;
+
+mod y2025_d03_p1;
+mod y2025_d03_p2;
