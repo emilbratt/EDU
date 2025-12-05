@@ -9,7 +9,7 @@ pub fn main() {
     for row in 0..grid.len() {
         for col in 0..grid[row].len() {
             pos.set(row, col);
-            if let Some(v) =  pos.get(0, 0, &grid) {
+            if let Some(v) = pos.get(0, 0, &grid) {
                 if v == '@' {
                     ans += check(&mut pos, &grid);
                 }
