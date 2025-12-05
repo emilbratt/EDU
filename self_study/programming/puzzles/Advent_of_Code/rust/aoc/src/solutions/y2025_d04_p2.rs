@@ -42,7 +42,7 @@ fn check(pos: &Position, grid: &[Vec<char>]) -> bool {
         }
     }
 
-    if count < 4 { true } else { false }
+    count < 4
 }
 
 fn gridify(input: Vec<u8>) -> Vec<Vec<char>> {
