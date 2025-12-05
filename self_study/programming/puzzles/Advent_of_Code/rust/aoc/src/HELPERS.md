@@ -2,63 +2,29 @@
 
 #### Turn input into dimensional vector (grid)
 ```rust
-const LINE_FEED: u8 = 10;
-
-fn gridify(input: Vec<u8>) -> Vec<Vec<u8>> {
-    let mut grid: Vec<Vec<u8>> = vec![Vec::new()];
-    let mut columns: Option<usize> = None;
-    let mut i: usize = 0;
-    for b in input {
-        if b == LINE_FEED {
-            match columns {
-                // First round (length = None), save length of first row.
-                None => columns = Some(grid[i].len()),
-
-                // Make sure that every row has equal amount of columns e.g. is a grid.
-                Some(v) => assert_eq!(grid[i].len(), v),
-            }
-
-            // Add the next vector as an empty one.
-            grid.push(Vec::with_capacity(grid[i].len()));
-            // ..and move index to the next vector.
-            i += 1;
-        } else {
-            grid[i].push(b);
-        }
-    }
-
-    assert!(grid.len() > 1);
-
-    grid
+fn gridify(input: Vec<u8>, is_integer: bool) -> Vec<Vec<u8>> {
+    let subtract: u8 = if is_integer { b'0' } else { 0 };
+    input.split(|&b| b == b'\n')
+        .filter(|line| !line.is_empty())
+        .map(|line| {
+            line.iter()
+                .map(|b| b-subtract)
+                .collect()
+        })
+        .collect()
 }
 ```
 
 #### Print gridified input - Vec<Vec<u8>>
 ```rust
-// For u8 holding any value
 const NANO_SECONDS: u32 = 5000000;
 const SLEEP: std::time::Duration = std::time::Duration::new(0, NANO_SECONDS);
-fn p_grid(grid: &Vec<Vec<u8>>) {
+fn p_grid(grid: &Vec<Vec<u8>>, is_integer: bool) {
+    let add: u8 = if is_integer { b'0' } else { 0 };
     let mut s = String::with_capacity(grid.len() * grid[0].len());
     for row in 0..grid.len() {
         for col in 0..grid[row].len() {
-            let c = if grid[row][col] <= 9 { '.' } else { (grid[row][col] + 48) as char };
-            s.push(c);
-        }
-        s.push('\n');
-    }
-    println!("{s}");
-    std::thread::sleep(SLEEP);
-}
-
-// For u8 holding numerics in range 0-9
-const NANO_SECONDS: u32 = 5000000;
-const SLEEP: std::time::Duration = std::time::Duration::new(0, NANO_SECONDS);
-fn p_numeric_grid(grid: &Vec<Vec<u8>>) {
-    let mut s = String::with_capacity(grid.len() * grid[0].len());
-    for row in 0..grid.len() {
-        for col in 0..grid[row].len() {
-            let c = if grid[row][col] > 9 { '.' } else { (grid[row][col] + 48) as char };
+            let c = if grid[row][col] <= 9 { '.' } else { (grid[row][col] + add) as char };
             s.push(c);
         }
         s.push('\n');
