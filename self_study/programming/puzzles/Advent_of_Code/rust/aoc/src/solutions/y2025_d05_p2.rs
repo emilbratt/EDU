@@ -17,7 +17,6 @@ pub fn main() {
     srt(&mut ranges);
     let ans = solve(&ranges);
     print!("{ans}");
-    assert_eq!(ans, 345995423801866);
 }
 
 fn srt(ranges: &mut [(i64, i64)]) {
