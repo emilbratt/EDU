@@ -2,8 +2,75 @@ use crate::options::{Year, Day, Part};
 
 type Solution = Box<dyn Fn() + 'static>;
 
-// I might write a macro to handle this in the future,
-// but I like how structured this is.
+// Solution files go in ./solutions/y{YYYY}_d{DD}_p{P}.rs and are defind as modules here.
+
+// 2015
+mod y2015_d01_p1;
+mod y2015_d01_p2;
+
+mod y2015_d02_p1;
+mod y2015_d02_p2;
+
+mod y2015_d03_p1;
+mod y2015_d03_p2;
+
+mod y2015_d04_p1;
+mod y2015_d04_p2;
+
+mod y2015_d05_p1;
+mod y2015_d05_p2;
+
+// 2023
+mod y2023_d01_p1;
+mod y2023_d01_p2;
+
+// 2024
+mod y2024_d01_p1;
+mod y2024_d01_p2;
+
+mod y2024_d02_p1;
+mod y2024_d02_p2;
+
+mod y2024_d03_p1;
+mod y2024_d03_p2;
+
+mod y2024_d04_p1;
+mod y2024_d04_p2;
+
+mod y2024_d05_p1;
+mod y2024_d05_p2;
+
+mod y2024_d06_p1;
+mod y2024_d06_p2;
+
+mod y2024_d07_p1;
+mod y2024_d07_p2;
+
+mod y2024_d08_p1;
+mod y2024_d08_p2;
+
+mod y2024_d09_p1;
+mod y2024_d09_p2;
+
+// 2025
+mod y2025_d01_p1;
+mod y2025_d01_p2;
+
+mod y2025_d02_p1;
+mod y2025_d02_p2;
+
+mod y2025_d03_p1;
+mod y2025_d03_p2;
+
+mod y2025_d04_p1;
+mod y2025_d04_p2;
+
+mod y2025_d05_p1;
+mod y2025_d05_p2;
+
+mod y2025_d06_p1;
+mod y2025_d06_p2;
+
 pub fn get(year: Year, day: Day, part: Part) -> Option<Solution> {
     let solution = match (year, day, part) {
 
@@ -91,74 +158,12 @@ pub fn get(year: Year, day: Day, part: Part) -> Option<Solution> {
         (Year::Year2025, Day::Day05, Part::Part1) => y2025_d05_p1::main,
         (Year::Year2025, Day::Day05, Part::Part2) => y2025_d05_p2::main,
 
+        // --- Day 6: Trash Compactor ---
+        (Year::Year2025, Day::Day06, Part::Part1) => y2025_d06_p1::main,
+        (Year::Year2025, Day::Day06, Part::Part2) => y2025_d06_p2::main,
+
         _ => return None,
     };
 
     Some(Box::new(solution))
 }
-
-// Solution files go in ./solutions/y{YYYY}_d{DD}_p{P}.rs and are defind as modules here.
-
-// 2015
-mod y2015_d01_p1;
-mod y2015_d01_p2;
-
-mod y2015_d02_p1;
-mod y2015_d02_p2;
-
-mod y2015_d03_p1;
-mod y2015_d03_p2;
-
-mod y2015_d04_p1;
-mod y2015_d04_p2;
-
-mod y2015_d05_p1;
-mod y2015_d05_p2;
-
-// 2023
-mod y2023_d01_p1;
-mod y2023_d01_p2;
-
-// 2024
-mod y2024_d01_p1;
-mod y2024_d01_p2;
-
-mod y2024_d02_p1;
-mod y2024_d02_p2;
-
-mod y2024_d03_p1;
-mod y2024_d03_p2;
-
-mod y2024_d04_p1;
-mod y2024_d04_p2;
-
-mod y2024_d05_p1;
-mod y2024_d05_p2;
-
-mod y2024_d06_p1;
-mod y2024_d06_p2;
-
-mod y2024_d07_p1;
-mod y2024_d07_p2;
-
-mod y2024_d08_p1;
-mod y2024_d08_p2;
-
-mod y2024_d09_p1;
-mod y2024_d09_p2;
-
-// 2025
-mod y2025_d01_p1;
-mod y2025_d01_p2;
-
-mod y2025_d02_p1;
-mod y2025_d02_p2;
-
-mod y2025_d03_p1;
-mod y2025_d03_p2;
-
-mod y2025_d04_p1;
-mod y2025_d04_p2;
-
-mod y2025_d05_p1;
-mod y2025_d05_p2;
