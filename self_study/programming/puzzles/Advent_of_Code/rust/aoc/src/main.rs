@@ -1,10 +1,11 @@
 #![allow(non_snake_case)]
 #![allow(unused)]
 
-use std::{env, time::Instant};
+use std::{env, path::Path, time::Instant}; 
 
-mod solutions;
+mod downloader;
 mod options;
+mod solutions;
 
 const LATEST_YEAR: u16 = 2025;
 const OPTIONS_IN: &str = "options.in"; // a csv list of year,day,part
@@ -34,6 +35,26 @@ fn main() {
                 }
             }
         }
+    }
+
+    if !Path::new("session.in").exists() {
+        panic!("Create file session.in and store session coockie for AoC in it..")
+    }
+    let session = std::fs::read_to_string("session.in").unwrap().lines().next().unwrap().to_string();
+    let mut session: Option<String> = None;
+    for (y,d, p) in options.iter() {
+        if let None = session {
+            session = Some(
+                format!("session={}", std::fs::read_to_string("session.in").unwrap().lines().next().unwrap())
+            )
+        }
+
+        if let Some(session) = &session {
+            downloader::download(session, y.as_str(), d.as_str());
+        } else {
+            unreachable!();
+        }
+
     }
 
     let instant = Instant::now();

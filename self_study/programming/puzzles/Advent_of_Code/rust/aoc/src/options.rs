@@ -1,4 +1,4 @@
-use std::{fs, env};
+use std::{env, fs};
 
 #[derive(Debug, Copy, Clone)]
 pub enum Year {
@@ -29,8 +29,24 @@ impl Year {
             2023 => Self::Year2023,
             2024 => Self::Year2024,
             2025 => Self::Year2025,
-            n => panic!("{n} is not a valid year"),
+            _ => unreachable!(),
         }
+    }
+
+    pub fn as_str(&self) -> &str {
+        match self {
+            Self::Year2015 => "2015",
+            Self::Year2016 => "2016",
+            Self::Year2017 => "2017",
+            Self::Year2018 => "2018",
+            Self::Year2019 => "2019",
+            Self::Year2020 => "2020",
+            Self::Year2021 => "2021",
+            Self::Year2022 => "2022",
+            Self::Year2023 => "2023",
+            Self::Year2024 => "2024",
+            Self::Year2025 => "2025",
+    }
     }
 }
 
@@ -91,7 +107,37 @@ impl Day {
             23 => Self::Day23,
             24 => Self::Day24,
             25 => Self::Day25,
-            n => panic!("{n} is not a valid day"),
+            _ => unreachable!(),
+        }
+    }
+
+    pub fn as_str(&self) -> &str {
+        match self {
+            Self::Day01 => "01",
+            Self::Day02 => "02",
+            Self::Day03 => "03",
+            Self::Day04 => "04",
+            Self::Day05 => "05",
+            Self::Day06 => "06",
+            Self::Day07 => "07",
+            Self::Day08 => "08",
+            Self::Day09 => "09",
+            Self::Day10 => "10",
+            Self::Day11 => "11",
+            Self::Day12 => "12",
+            Self::Day13 => "13",
+            Self::Day14 => "14",
+            Self::Day15 => "15",
+            Self::Day16 => "16",
+            Self::Day17 => "17",
+            Self::Day18 => "18",
+            Self::Day19 => "19",
+            Self::Day20 => "20",
+            Self::Day21 => "21",
+            Self::Day22 => "22",
+            Self::Day23 => "23",
+            Self::Day24 => "24",
+            Self::Day25 => "25",
         }
     }
 }
@@ -107,7 +153,14 @@ impl Part {
         match part {
             1 => Self::Part1,
             2 => Self::Part2,
-            n => panic!("{n} is not a valid part"),
+            _ => unreachable!(),
+        }
+    }
+
+    pub fn as_str(&self) -> &str {
+        match self {
+            Self::Part1 => "1",
+            Self::Part2 => "2",
         }
     }
 }
