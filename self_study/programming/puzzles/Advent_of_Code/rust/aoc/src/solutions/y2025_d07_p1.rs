@@ -39,8 +39,8 @@ fn solve(grid: Vec<Vec<char>>) -> i64 {
 
             if grid[row][col] == '^' {
                 ans += 1;
-                d.push_back((row, col+1));
-                d.push_back((row, col-1));
+                d.push_back((row+1, col+1));
+                d.push_back((row+1, col-1));
                 break;
             }
             row += 1;
