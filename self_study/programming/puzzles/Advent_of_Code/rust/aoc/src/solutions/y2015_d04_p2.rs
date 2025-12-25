@@ -1,5 +1,3 @@
-#![allow(unused)]
-
 use std::fs;
 
 pub const INPUT: &str = "y2015_d04.in";
