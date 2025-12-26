@@ -34,6 +34,5 @@ pub fn main() {
         }
     }
 
-
     print!("{ans}");
 }
