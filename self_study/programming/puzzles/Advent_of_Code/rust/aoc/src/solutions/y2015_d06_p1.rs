@@ -21,10 +21,10 @@ pub fn main() {
     for ins in instructions {
         for row in ins.row_from..=ins.row_to {
             for col in ins.col_from..=ins.col_to {
-                match ins.action {
-                    Action::On => lights[row][col] = true,
-                    Action::Off => lights[row][col] = false,
-                    Action::Toggle => lights[row][col] = !lights[row][col],
+                lights[row][col] = match ins.action {
+                    Action::On => true,
+                    Action::Off => false,
+                    Action::Toggle => !lights[row][col],
                 };
             }
         }
