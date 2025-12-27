@@ -15,12 +15,6 @@ struct Instruction {
 }
 
 pub fn main() {
-    let a = false;
-    let b = a as u8;
-    println!();
-    println!("bool: {}", b);
-    println!();
-
     let input = std::fs::read_to_string(INPUT).unwrap();
     let mut lights: Vec<[bool; 1000]> = vec![[false; 1000]; 1000];
     let instructions = parse_input(&input);
