@@ -23,6 +23,9 @@ mod y2015_d05_p2;
 mod y2015_d06_p1;
 mod y2015_d06_p2;
 
+mod y2015_d07_p1;
+mod y2015_d07_p2;
+
 // 2023
 mod y2023_d01_p1;
 mod y2023_d01_p2;
@@ -104,6 +107,10 @@ pub fn get(year: Year, day: Day, part: Part) -> Option<Solution> {
         // --- Day 6: Probably a Fire Hazard ---
         (Year::Year2015, Day::Day06, Part::Part1) => y2015_d06_p1::main,
         (Year::Year2015, Day::Day06, Part::Part2) => y2015_d06_p2::main,
+
+        // --- Day 7: Some Assembly Required ---
+        (Year::Year2015, Day::Day07, Part::Part1) => y2015_d07_p1::main,
+        (Year::Year2015, Day::Day07, Part::Part2) => y2015_d07_p2::main,
 
         // YEAR 2023
         // --- Day 1: Trebuchet?! ---
