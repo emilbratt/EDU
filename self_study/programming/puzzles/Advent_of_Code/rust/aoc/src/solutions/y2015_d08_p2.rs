@@ -4,8 +4,8 @@ pub fn main() {
         .unwrap()
         .lines()
         .fold(0, |acc, line| {
-            // Exploting the debug functionality using format!(),
-            // this will expand the string for. :):)
+            // Taking advantage of the debug functionality using format!(),
+            // this will expand the string for us . :):)
             acc + format!("{:?}", line).len() - line.len()
         });
     print!("{ans}");

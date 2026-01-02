@@ -29,6 +29,9 @@ mod y2015_d07_p2;
 mod y2015_d08_p1;
 mod y2015_d08_p2;
 
+mod y2015_d09_p1;
+mod y2015_d09_p2;
+
 // 2023
 mod y2023_d01_p1;
 mod y2023_d01_p2;
@@ -118,6 +121,10 @@ pub fn get(year: Year, day: Day, part: Part) -> Option<Solution> {
         // --- Day 8: Matchsticks ---
         (Year::Year2015, Day::Day08, Part::Part1) => y2015_d08_p1::main,
         (Year::Year2015, Day::Day08, Part::Part2) => y2015_d08_p2::main,
+
+        // --- Day 9: All in a Single Night ---
+        (Year::Year2015, Day::Day09, Part::Part1) => y2015_d09_p1::main,
+        (Year::Year2015, Day::Day09, Part::Part2) => y2015_d09_p2::main,
 
         // YEAR 2023
         // --- Day 1: Trebuchet?! ---
