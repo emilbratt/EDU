@@ -1,5 +1,3 @@
-use std::u32;
-
 pub fn main() {
     let input = std::fs::read("y2015_d10.in").unwrap();
     let mut numbers: Vec<u32> = Vec::with_capacity(input.len()*100);
