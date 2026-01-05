@@ -1,4 +1,4 @@
-use crate::options::{Year, Day, Part};
+use crate::options::{Day, Part, Year};
 
 type Solution = Box<dyn Fn() + 'static>;
 
@@ -40,6 +40,9 @@ mod y2015_d11_p2;
 
 mod y2015_d12_p1;
 mod y2015_d12_p2;
+
+mod y2015_d13_p1;
+mod y2015_d13_p2;
 
 // 2023
 mod y2023_d01_p1;
@@ -97,7 +100,6 @@ mod y2025_d07_p2;
 
 pub fn get(year: Year, day: Day, part: Part) -> Option<Solution> {
     let solution = match (year, day, part) {
-
         // YEAR 2015
         // --- Day 1: Not Quite Lisp ---
         (Year::Year2015, Day::Day01, Part::Part1) => y2015_d01_p1::main,
@@ -146,6 +148,10 @@ pub fn get(year: Year, day: Day, part: Part) -> Option<Solution> {
         // --- Day 12: JSAbacusFramework.io ---
         (Year::Year2015, Day::Day12, Part::Part1) => y2015_d12_p1::main,
         (Year::Year2015, Day::Day12, Part::Part2) => y2015_d12_p2::main,
+
+        // --- Day 13: Knights of the Dinner Table ---
+        (Year::Year2015, Day::Day13, Part::Part1) => y2015_d13_p1::main,
+        (Year::Year2015, Day::Day13, Part::Part2) => y2015_d13_p2::main,
 
         // YEAR 2023
         // --- Day 1: Trebuchet?! ---
