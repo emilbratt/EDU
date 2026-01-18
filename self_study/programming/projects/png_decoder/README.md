@@ -27,8 +27,8 @@ Chunk layout:
 
     Note: all integer fields in the PNG file format are stored in big endian order.
 
-First chunk is always IHDR (header)
-Last chunk is always IEND (serves as an end-of-file marker.)
+First chunk is always IHDR (image header)
+Last chunk is always IEND (image end of file)
 </pre>
 
 run tests..
