@@ -150,11 +150,8 @@ fn decode_png<R: Read>(rdr: &mut R) -> io::Result<Png> {
     // data len = 13 bytes, crc len = 4 bytes, total = 17 bytes.
     let mut ihdr_buf = [0u8; 13];
     rdr.read_exact(&mut ihdr_buf);
-    let mut png = match decode_ihdr(ihdr_buf) {
-        Ok(png) => png,
-        Err(e) => return Err(e),
-    };
-    let _ihdr_crc = rdr.read_u32::<BigEndian>();
+    let _ihdr_crc = rdr.read_u32::<BigEndian>(); // ignored for now..
+    let mut png = decode_ihdr(ihdr_buf)?;
 
     if png.bit_depth != 8 {
         let (kind, err) = (io::ErrorKind::InvalidData, "Only 8-bit PNG supported");
