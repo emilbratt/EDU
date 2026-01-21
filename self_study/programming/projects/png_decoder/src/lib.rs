@@ -2,6 +2,7 @@
 #![allow(unused)]
 
 use std::fs::File;
+use std::path::Path;
 use std::io::{self, BufReader, Read};
 
 use byteorder::{BigEndian, ReadBytesExt};
@@ -118,7 +119,10 @@ fn next_chunk<R: Read>(rdr: &mut R) -> io::Result<Chunk> {
     Ok(Chunk { c_type, data, crc })
 }
 
-fn decode_png<R: Read>(rdr: &mut R) -> io::Result<Png> {
+pub fn decode(path: &Path) -> io::Result<Png> {
+    let f = File::open(path)?;
+    let mut rdr = BufReader::new(f);
+
     // PNG SIGNATURE
     let mut first_eight_bytes = [0u8; 8];
     rdr.read_exact(&mut first_eight_bytes);
@@ -164,11 +168,11 @@ fn decode_png<R: Read>(rdr: &mut R) -> io::Result<Png> {
 
     // All good, lets decode the png data
     loop {
-        let chunk = next_chunk(rdr)?;
+        let chunk = next_chunk(&mut rdr)?;
 
         let name = str::from_utf8(&chunk.c_type).unwrap();
         match &chunk.c_type {
-            b"IEND" => break,
+            b"IEND" => return Ok(png),
             b"IDAT" => png.idat.extend_from_slice(&chunk.data),
             name => (),
         }
@@ -176,19 +180,8 @@ fn decode_png<R: Read>(rdr: &mut R) -> io::Result<Png> {
         println!("chunk type: '{name}'");
     }
 
-    println!("\nSize: {}x{} | bit depth: {} | clr type: {}", png.width, png.height, png.bit_depth, png.color_type);
-
-    Ok(png)
-}
-
-pub fn decode(f: File) {
-    let mut signature_buf = [0u8; 8];
-    let mut chunk_buf = [0u8; 4];
-    let mut rdr = BufReader::new(f);
-    let png = decode_png(&mut rdr);
-
-    println!("image bytes:");
-    hex(&png.unwrap().idat);
+    let (kind, err) = (io::ErrorKind::InvalidData, "last chunk type was not 'IEND'");
+    return Err(io::Error::new(kind,err));
 }
 
 #[cfg(test)]
@@ -197,6 +190,7 @@ mod tests {
 
     #[test]
     fn two_by_two() {
-        decode(File::open("images/2x2.png").unwrap());
+        let png = decode(Path::new("images/2x2.png")).unwrap();
+        println!("\nSize: {}x{} | bit depth: {} | clr type: {}", png.width, png.height, png.bit_depth, png.color_type);
     }
 }
