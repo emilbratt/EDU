@@ -164,18 +164,16 @@ fn decode_png<R: Read>(rdr: &mut R) -> io::Result<Png> {
 
     // All good, lets decode the png data
     loop {
-        match next_chunk(rdr) {
-            Ok(chunk) => {
-                let name = str::from_utf8(&chunk.c_type).unwrap();
-                println!("chunk type: '{name}'");
-                match &chunk.c_type {
-                    b"IEND" => break,
-                    b"IDAT" => png.idat.extend_from_slice(&chunk.data),
-                    name => (),
-                }
-            }
-            Err(e) => return Err(e),
+        let chunk = next_chunk(rdr)?;
+
+        let name = str::from_utf8(&chunk.c_type).unwrap();
+        match &chunk.c_type {
+            b"IEND" => break,
+            b"IDAT" => png.idat.extend_from_slice(&chunk.data),
+            name => (),
         }
+
+        println!("chunk type: '{name}'");
     }
 
     println!("\nSize: {}x{} | bit depth: {} | clr type: {}", png.width, png.height, png.bit_depth, png.color_type);
