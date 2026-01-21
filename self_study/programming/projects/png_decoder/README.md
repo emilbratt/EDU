@@ -1,3 +1,5 @@
+### PNG
+
 <pre>
 PNG spec. in short.. - https://www.libpng.org/pub/png/spec/1.2/PNG-Contents.html
 
@@ -29,6 +31,40 @@ Chunk layout:
 
 First chunk is always IHDR (image header)
 Last chunk is always IEND (image end of file)
+</pre>
+
+### Chunks
+
+<pre>
+Critical chunks (must appear in this order, except PLTE is optional):
+
+        Name  Multiple  Ordering constraints
+                OK?
+
+        IHDR    No      Must be first
+        PLTE    No      Before IDAT
+        IDAT    Yes     Multiple IDATs must be consecutive
+        IEND    No      Must be last
+
+Ancillary chunks (need not appear in this order):
+
+        Name  Multiple  Ordering constraints
+                OK?
+
+        cHRM    No      Before PLTE and IDAT
+        gAMA    No      Before PLTE and IDAT
+        iCCP    No      Before PLTE and IDAT
+        sBIT    No      Before PLTE and IDAT
+        sRGB    No      Before PLTE and IDAT
+        bKGD    No      After PLTE; before IDAT
+        hIST    No      After PLTE; before IDAT
+        tRNS    No      After PLTE; before IDAT
+        pHYs    No      Before IDAT
+        sPLT    Yes     Before IDAT
+        tIME    No      None
+        iTXt    Yes     None
+        tEXt    Yes     None
+        zTXt    Yes     None
 </pre>
 
 run tests..

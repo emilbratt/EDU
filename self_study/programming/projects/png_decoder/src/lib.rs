@@ -6,15 +6,28 @@ use std::io::{self, BufReader, Read};
 
 use byteorder::{BigEndian, ReadBytesExt};
 
-const PNG_SIGNATURE: [u8; 8] = [137, 80, 78, 71, 13, 10, 26, 10];
+const PNG_SIGNATURE: [u8; 8] = [137, b'P', b'N', b'G', 13, 10, 26, 10];
+const IHDR: [u8; 4] = [b'I', b'H', b'D', b'R'];
 
+#[derive(Default, Debug)]
+pub struct Png {
+    width: u32,
+    height: u32,
+    bit_depth: u8,
+    color_type: u8,
+    idat: Vec<u8>,
+}
+
+// FIXME: make a zero-copy (no un-needed mem-allocation) in the future..
+#[derive(Debug)]
 struct Chunk {
-    chunk_type: [u8; 4],
+    c_type: [u8; 4],
     data: Vec<u8>,
+    crc: u32,
 }
 
 // just to print out the hex values..
-fn hex(bytes: &[u8]) -> String {
+fn hex(bytes: &[u8]) {
     println!("bytes: {:?}", bytes);
     let mut s = String::with_capacity(bytes.len());
     for b in bytes {
@@ -22,10 +35,11 @@ fn hex(bytes: &[u8]) -> String {
         s.push_str( format!("{:0>2} ", fmt).as_str() );
     }
     println!("Hex: {}\n", s);
-    s
 }
 
-fn decode_ihdr(bytes: &[u8]) -> io::Result<()> {
+// IHDR    multiple: No      Must be first
+fn decode_ihdr(bytes: [u8; 13]) -> io::Result<Png> {
+
     println!("decode_ihdr()\n{:?}", bytes);
 
     let mut cursor = std::io::Cursor::new(bytes);
@@ -63,101 +77,123 @@ fn decode_ihdr(bytes: &[u8]) -> io::Result<()> {
     let interlace = cursor.read_u8()?;
     println!("interlace: {interlace}");
 
-    Ok(())
+    let png = Png {
+        width,
+        height,
+        bit_depth,
+        color_type,
+        idat: Vec::new(),
+    };
+
+    Ok(png)
 }
 
-fn decode_plte(bytes: &[u8]) -> io::Result<()> {
-    println!("decode_plte()\n{:?}", bytes);
-    unimplemented!();
-}
-
-fn decode_idat(bytes: &[u8]) -> io::Result<()> {
-    println!("decode_idat()\n{:?}", bytes);
-    unimplemented!();
-}
-
-fn read_chunks<R: Read>(rdr: &mut R) -> io::Result<()> {
-    let mut chunk_type = [0u8; 4];
-
-    loop {
-        // CHUNK LENGTH
-        // reads 4 bytes into a u32 type -> read_u32 using the big-endian byte order.
-        let length = match rdr.read_u32::<BigEndian>() {
-            Ok(len) => {
-                len as usize
-            }
-            Err(e) if e.kind() == io::ErrorKind::UnexpectedEof => {
-                println!("unexpected end of file..");
-                return Err(e);
-            }
-            Err(e) => {
-                println!("Error: {:?}", e);
-                return Err(e);
-            }
-        };
-
-        // CHUNK TYPE
-        // reads 4 bytes into chunk_type.
-        rdr.read_exact(&mut chunk_type)?;
-        let chunk_name = str::from_utf8(&chunk_type).unwrap_or("????");
-
-        // CHUNK DATA
-        let mut data = vec![0u8; length];
-        rdr.read_exact(&mut data)?;
-
-        // CHUNK CRC (Cyclic Redundancy Check)
-        let crc = rdr.read_u32::<BigEndian>()?;
-
-        match chunk_name {
-            "IHDR" => decode_ihdr(&data),
-            "PLTE" => decode_plte(&data),
-            "IDAT" => decode_idat(&data),
-            _ => {
-                println!("{}", chunk_name);
-                Ok(())
-            }
-        };
-
-        // println!("{chunk_name} | {length} bytes | crc=0x{:08x})\ndata: {:?}\n", crc, data);
-        if chunk_name == "IEND" {
-            println!("IEND reached..");
-            return Ok(());
+fn next_chunk<R: Read>(rdr: &mut R) -> io::Result<Chunk> {
+    let chunk_len = match rdr.read_u32::<BigEndian>() {
+        Ok(len) => {
+            len as usize
         }
+        Err(e) if e.kind() == io::ErrorKind::UnexpectedEof => {
+            println!("unexpected end of file..");
+            return Err(e);
+        }
+        Err(e) => {
+            println!("Error: {:?}", e);
+            return Err(e);
+        }
+    };
 
-        println!();
-    }
+    // CHUNK TYPE
+    // reads 4 bytes into chunk_type.
+    let mut c_type = [0u8; 4];
+    rdr.read_exact(&mut c_type)?;
 
-    panic!("No end of file marker..");
+    // CHUNK DATA
+    let mut data = vec![0u8; chunk_len];
+    rdr.read_exact(&mut data)?;
+
+    // CHUNK CRC (Cyclic Redundancy Check)
+    let crc = rdr.read_u32::<BigEndian>()?;
+
+    Ok(Chunk { c_type, data, crc })
 }
 
-fn read_png<R: Read>(rdr: &mut R) -> io::Result<()> {
-    let mut signature = [0u8; 8];
-    rdr.read_exact(&mut signature);
-    hex(&signature);
+fn decode_png<R: Read>(rdr: &mut R) -> io::Result<Png> {
+    // PNG SIGNATURE
+    let mut first_eight_bytes = [0u8; 8];
+    rdr.read_exact(&mut first_eight_bytes);
+    hex(&first_eight_bytes);
 
-    if signature == PNG_SIGNATURE {
-        read_chunks(rdr)
-    } else {
-        let (kind, err) = (io::ErrorKind::InvalidData, "not a valid PNG file");
-        Err(io::Error::new(kind,err))
+    if first_eight_bytes != PNG_SIGNATURE {
+        let (kind, err) = (io::ErrorKind::InvalidData, "not a PNG file (did not start with png magic bytes");
+        return Err(io::Error::new(kind,err));
     }
+
+    // PNG HEADER
+    // next chunk must be the "IHDR" type.
+    let ihdr_data_len = rdr.read_u32::<BigEndian>()?;
+    if ihdr_data_len != 13 {
+        let (kind, err) = (
+            io::ErrorKind::InvalidData,
+            format!("Invalid data length for IHDR chunk. Data length = '{}', but expected length is 13", ihdr_data_len)
+        );
+        return Err(io::Error::new(kind,err));
+    }
+    // Verify that it is in fact "IHDR"
+    let mut next_four_bytes = [0u8; 4];
+    rdr.read_exact(&mut next_four_bytes);
+    if next_four_bytes != IHDR {
+        let (kind, err) = (io::ErrorKind::InvalidData, "First PNG chunk is not of type \"IHDR\"");
+        return Err(io::Error::new(kind,err));
+    }
+
+    // data len = 13 bytes, crc len = 4 bytes, total = 17 bytes.
+    let mut ihdr_buf = [0u8; 13];
+    rdr.read_exact(&mut ihdr_buf);
+    let mut png = match decode_ihdr(ihdr_buf) {
+        Ok(png) => png,
+        Err(e) => return Err(e),
+    };
+    let _ihdr_crc = rdr.read_u32::<BigEndian>();
+
+    if png.bit_depth != 8 {
+        let (kind, err) = (io::ErrorKind::InvalidData, "Only 8-bit PNG supported");
+        return Err(io::Error::new(kind,err));
+    }
+    if png.color_type != 2 && png.color_type != 6 {
+        let (kind, err) = (io::ErrorKind::InvalidData, "Only RGB/RGBA PNG supported");
+        return Err(io::Error::new(kind,err));
+    }
+
+    // All good, lets decode the png data
+    loop {
+        match next_chunk(rdr) {
+            Ok(chunk) => {
+                let name = str::from_utf8(&chunk.c_type).unwrap();
+                println!("chunk type: '{name}'");
+                match &chunk.c_type {
+                    b"IEND" => break,
+                    b"IDAT" => png.idat.extend_from_slice(&chunk.data),
+                    name => (),
+                }
+            }
+            Err(e) => return Err(e),
+        }
+    }
+
+    println!("\nSize: {}x{} | bit depth: {} | clr type: {}", png.width, png.height, png.bit_depth, png.color_type);
+
+    Ok(png)
 }
 
-pub fn load() -> io::Result<()> {
+pub fn decode(f: File) {
     let mut signature_buf = [0u8; 8];
     let mut chunk_buf = [0u8; 4];
-    let f = File::open("images/2x2.png").unwrap();
     let mut rdr = BufReader::new(f);
-    read_png(&mut rdr)
-    // let n = rdr.read(&mut signature_buf)?;
-    // assert_eq!(n, 8);
-    // assert_eq!(PNG_SIGNATURE, signature_buf);
-    // hex(&signature_buf);
+    let png = decode_png(&mut rdr);
 
-    // rdr.read(&mut chunk_buf);
-    // hex(&chunk_buf);
-
-    // Ok(())
+    println!("image bytes:");
+    hex(&png.unwrap().idat);
 }
 
 #[cfg(test)]
@@ -165,7 +201,7 @@ mod tests {
     use super::*;
 
     #[test]
-    fn a() {
-        load();
+    fn two_by_two() {
+        decode(File::open("images/2x2.png").unwrap());
     }
 }
