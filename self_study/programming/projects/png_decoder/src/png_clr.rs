@@ -30,14 +30,14 @@ pub struct CHRM {
 impl TryFrom<&[u8]> for CHRM {
     type Error = &'static str;
 
-    fn try_from(data: &[u8]) -> Result<Self, Self::Error> {
-        if data.len() != 32 {
+    fn try_from(bytes: &[u8]) -> Result<Self, Self::Error> {
+        if bytes.len() != 32 {
             return Err("cHRM chunk must be exactly 32 bytes");
         }
 
         // helper closure for clarity
         let read_u32 = |i: usize| -> u32 {
-            u32::from_be_bytes(data[i..i + 4].try_into().unwrap())
+            u32::from_be_bytes(bytes[i..i + 4].try_into().unwrap())
         };
 
         let chrm = Self {
@@ -53,7 +53,7 @@ impl TryFrom<&[u8]> for CHRM {
 
         if chrm.white_point_x == 0 || chrm.white_point_y == 0 {
             // FIXME: The PNG spec allows decoders to ignore invalid cHRM chunks.
-            Err("Invalid white point")
+            Err("cHRM chunk contains an invalid white point")
         } else {
             Ok(chrm)
         }
@@ -69,19 +69,19 @@ pub struct PHYS {
 impl TryFrom<&[u8]> for PHYS {
     type Error = &'static str;
 
-    fn try_from(data: &[u8]) -> Result<Self, Self::Error> {
-        if data.len() != 9 {
+    fn try_from(bytes: &[u8]) -> Result<Self, Self::Error> {
+        if bytes.len() != 9 {
             return Err("pHYs chunk must be exactly 9 bytes");
         }
 
         let phys = Self {
-            pixel_per_unit_x: u32::from_be_bytes(data[0..4].try_into().unwrap()),
-            pixel_per_unit_y: u32::from_be_bytes(data[4..8].try_into().unwrap()),
-            unit_specifier:   u8::from_be_bytes(data[8..9].try_into().unwrap()),
+            pixel_per_unit_x: u32::from_be_bytes(bytes[0..4].try_into().unwrap()),
+            pixel_per_unit_y: u32::from_be_bytes(bytes[4..8].try_into().unwrap()),
+            unit_specifier: u8::from_be_bytes(bytes[8..9].try_into().unwrap()),
         };
 
         if phys.unit_specifier > 1 {
-           Err("Invalid unit_specifier")
+           Err("pHYs chunk contains an invalid unit specifier")
         } else {
             Ok(phys)
         }
