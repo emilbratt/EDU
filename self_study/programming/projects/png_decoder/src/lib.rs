@@ -10,6 +10,9 @@ use flate2::read::ZlibDecoder;
 const PNG_SIGNATURE: [u8; 8] = [137, b'P', b'N', b'G', 13, 10, 26, 10];
 
 mod png_clr;
+mod png_unfilter;
+
+use png_unfilter::unfilter;
 use png_clr::{CHRM, GAMA, PHYS, SRGB};
 
 #[derive(Debug)]
@@ -18,6 +21,7 @@ pub struct Image {
     height: u32,
     pixels: Vec<u8>,
 }
+
 impl Image {
     pub fn rows(&self) -> Vec<&[u8]> {
         let width = self.width as usize;
@@ -41,6 +45,7 @@ enum InterlaceMethod {
     NoInterlace = 0,
     Adam7 = 1,
 }
+
 impl TryFrom<u8> for InterlaceMethod {
     type Error = &'static str;
 
@@ -64,12 +69,11 @@ pub struct PngIhdr {
     interlace_method: InterlaceMethod,
 }
 
-// FIXME: make a zero-copy (no un-needed mem-allocation) in the future..
 #[derive(Debug)]
 struct Chunk {
     c_type: [u8; 4],
     data: Vec<u8>,
-    crc: u32,
+    crc: u32, // FIXME: implement cyclic redundency check..
 }
 
 // just to print out the hex values..
@@ -215,7 +219,7 @@ pub fn decode(path: &Path) -> io::Result<Image> {
     let mut gama: Option<GAMA> = None;
     let mut chrm: Option<CHRM> = None;
     let mut phys: Option<PHYS> = None;
-    let mut plte: Option<&str> = None; // fix type, not using &str..
+    let mut plte: Option<&str> = None; // FIXME: implement proper type..
 
     // All good up until here, lets decode the remaining png chunks
     loop {
@@ -224,6 +228,11 @@ pub fn decode(path: &Path) -> io::Result<Image> {
         println!("{name} -> data length: {}", chunk.data.len());
 
         match &chunk.c_type {
+            b"PLTE" => {
+                // FIXME: handle gracefully (remove assertion)
+                assert!(idat.is_empty()); // ..must precede the first IDAT chunk
+                plte = Some("please implement me :)");
+            }
             b"pHYs" => {
                 // FIXME: handle gracefully (remove assertion)
                 assert!(idat.is_empty()); // ..must precede the first IDAT chunk
@@ -307,12 +316,12 @@ pub fn decode(path: &Path) -> io::Result<Image> {
     println!("\nSize: {}x{} | bit depth: {} | clr type: {}", png.width, png.height, png.bit_depth, png.color_type);
 
     let image = match png.color_type {
-        2 => rgb_to_rgba(&pixels),
+        2 => add_alpha_channel(&pixels),
         6 => pixels,
         _ => unreachable!(),
     };
 
-    Ok( Image {
+    Ok(Image {
         width: png.width,
         height: png.height,
         pixels: image,
@@ -320,7 +329,8 @@ pub fn decode(path: &Path) -> io::Result<Image> {
 
 }
 
-fn rgb_to_rgba(data: &[u8]) -> Vec<u8> {
+// if RGB, convert to RGBA by adding full opacity (255) on all pixels
+fn add_alpha_channel(data: &[u8]) -> Vec<u8> {
     let mut out = Vec::with_capacity(data.len() / 3 * 4);
     for chunk in data.chunks_exact(3) {
         out.extend_from_slice(chunk);
@@ -329,102 +339,6 @@ fn rgb_to_rgba(data: &[u8]) -> Vec<u8> {
     out
 }
 
-fn unfilter(data: &[u8], width: usize, height: usize, bpp: usize) -> Result<Vec<u8>, &'static str> {
-    let stride = width * bpp;
-    let expected_len = height * (stride + 1);
-
-    if data.len() != expected_len {
-        return Err("Invalid filtered data length");
-    }
-
-    let mut out = vec![0u8; height * stride];
-    let mut i = 0;
-
-    for y in 0..height {
-        let filter = data[i];
-        i += 1;
-
-        let (above, current_and_below) = out.split_at_mut(y * stride);
-
-        let prev_row = if y == 0 {
-            None
-        } else {
-            Some(&above[(y - 1) * stride..y * stride])
-        };
-
-        let cur_row = &mut current_and_below[..stride];
-
-        // Copy filtered bytes
-        cur_row.copy_from_slice(&data[i..i + stride]);
-
-        match filter {
-            0 => {}
-            1 => filter_sub(cur_row, bpp),
-            2 => filter_up(cur_row, prev_row),
-            3 => filter_avg(cur_row, prev_row, bpp),
-            4 => filter_paeth(cur_row, prev_row, bpp),
-            _ => return Err("Unknown PNG filter"),
-        }
-
-        i += stride;
-    }
-
-    Ok(out)
-}
-
-fn filter_sub(row: &mut [u8], bpp: usize) {
-    for i in bpp..row.len() {
-        row[i] = row[i].wrapping_add(row[i - bpp]);
-    }
-}
-
-fn filter_up(row: &mut [u8], prev: Option<&[u8]>) {
-    if let Some(prev) = prev {
-        for i in 0..row.len() {
-            row[i] = row[i].wrapping_add(prev[i]);
-        }
-    }
-}
-
-fn filter_avg(row: &mut [u8], prev: Option<&[u8]>, bpp: usize) {
-    for i in 0..row.len() {
-        let left = if i >= bpp { row[i - bpp] } else { 0 };
-        let up = prev.map_or(0, |p| p[i]);
-        row[i] = row[i].wrapping_add(((left as u16 + up as u16) / 2) as u8);
-    }
-}
-
-fn filter_paeth(row: &mut [u8], prev: Option<&[u8]>, bpp: usize) {
-    for i in 0..row.len() {
-        let a = if i >= bpp { row[i - bpp] } else { 0 };
-        let b = prev.map_or(0, |p| p[i]);
-        let c = if i >= bpp {
-            prev.map_or(0, |p| p[i - bpp])
-        } else {
-            0
-        };
-
-        row[i] = row[i].wrapping_add(paeth(a, b, c));
-    }
-}
-fn paeth(a: u8, b: u8, c: u8) -> u8 {
-    let a = a as i32;
-    let b = b as i32;
-    let c = c as i32;
-
-    let p = a + b - c;
-    let pa = (p - a).abs();
-    let pb = (p - b).abs();
-    let pc = (p - c).abs();
-
-    if pa <= pb && pa <= pc {
-        a as u8
-    } else if pb <= pc {
-        b as u8
-    } else {
-        c as u8
-    }
-}
 
 #[cfg(test)]
 mod tests {
