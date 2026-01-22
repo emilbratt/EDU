@@ -218,16 +218,19 @@ pub fn decode(path: &Path) -> io::Result<Png> {
         }
     }
 
+    println!("decode complete!\n");
 
     let mut decoder = ZlibDecoder::new(&*idat);
     let mut out = Vec::new();
-    if let Err(e) = decoder.read_to_end(&mut out).map_err(|e| e.to_string()) {
-        return Err(io::Error::new(io::ErrorKind::InvalidData,e))
-    } else {
-        idat = out;
+    match decoder.read_to_end(&mut out).map_err(|e| e.to_string()) {
+        Err(e) => return Err(io::Error::new(io::ErrorKind::InvalidData,e)),
+        Ok(_) => png.data = out,
     }
 
-    png.data = idat;
+    if let Some(srgb) = srgb { println!("srgb: {:?}", srgb); }
+    if let Some(gama) = gama { println!("gama: {:?}", gama); }
+    if let Some(chrm) = chrm { println!("chrm: {:?}", chrm); }
+    if let Some(phys) = phys { println!("phys: {:?}", phys); }
 
     Ok(png)
 }

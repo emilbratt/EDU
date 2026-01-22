@@ -15,8 +15,6 @@ impl TryFrom<&[u8]> for GAMA {
     }
 }
 
-
-
 #[derive(Debug)]
 pub struct CHRM {
    white_point_x: u32,
