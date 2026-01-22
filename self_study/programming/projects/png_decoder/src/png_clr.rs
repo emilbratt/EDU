@@ -108,7 +108,7 @@ impl TryFrom<&[u8]> for SRGB {
         if b <= 3 {
             Ok(unsafe { std::mem::transmute(b) })
         } else {
-            Err("sRGB chunk must contain a byte value between 0 and 3 but we got '{byte}'")
+            Err("sRGB chunk must contain a byte value between 0 and 3")
         }
     }
 }

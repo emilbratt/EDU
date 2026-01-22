@@ -13,11 +13,32 @@ mod png_clr;
 use png_clr::{CHRM, GAMA, PHYS, SRGB};
 
 #[derive(Default, Debug)]
+enum InterlaceMethod {
+    #[default]
+    NoInterlace = 0,
+    Adam7 = 1,
+}
+impl TryFrom<u8> for InterlaceMethod {
+    type Error = &'static str;
+
+    fn try_from(b: u8) -> Result<Self, Self::Error> {
+        if b <= 1 {
+            Ok(unsafe { std::mem::transmute(b) })
+        } else {
+            Err("Interlace method byte value must be between 0 and 1")
+        }
+    }
+}
+
+#[derive(Default, Debug)]
 pub struct Png {
     width: u32,
     height: u32,
     bit_depth: u8,
     color_type: u8,
+    compression_method: u8,
+    filter_method: u8,
+    interlace_method: InterlaceMethod,
     data: Vec<u8>,
 }
 
@@ -42,53 +63,52 @@ fn hex(bytes: &[u8]) {
 
 // IHDR    multiple: No      Must be first
 fn decode_ihdr(bytes: [u8; 13]) -> io::Result<Png> {
-
-    println!("decode_ihdr()\n{:?}", bytes);
-
     let mut cursor = std::io::Cursor::new(bytes);
 
     let width = cursor.read_u32::<BigEndian>()?;
     let height = cursor.read_u32::<BigEndian>()?;
-    println!("size {width}x{height}");
 
     // single-byte integer giving the number of bits per sample
     let bit_depth = cursor.read_u8()?;
-    println!("bit_depth: {bit_depth}");
 
     // Color type is a single-byte integer that describes the interpretation of the image data. Color type codes
     // represent sums of the following values:
     //  - 1 (palette used),
     //  - 2 (color used)
     //  - 4 (alpha channel used).
-    // Valid values are 0, 2, 3, 4, and 6.
+    // Valid values are 0, 2, 3, 4, 8, and 16.
     let color_type = cursor.read_u8()?;
-    println!("color_type: {color_type}");
+    assert!(color_type <= 4 || color_type == 8 || color_type == 16); // FIXME: handle gracefully..
 
     // Compression method is a single-byte integer that indicates the method used to compress the image data.
     // At present, only compression method 0 (deflate/inflate compression with a sliding window of at most 32768 bytes)
     // is defined. All standard PNG images must be compressed with this scheme.
-    let compression = cursor.read_u8()?;
-    println!("compression: {compression}");
+    let compression_method = cursor.read_u8()?;
+    assert_eq!(compression_method, 0); // FIXME: handle gracefully..
 
     // Filter method is a single-byte integer that indicates the preprocessing method applied to the image data before
     // compression. At present, only filter method 0 (adaptive filtering with five basic filter types) is defined.
-    let filter = cursor.read_u8()?;
-    println!("filter: {filter}");
+    let filter_method = cursor.read_u8()?;
+    assert_eq!(filter_method, 0);
 
     // Interlace method is a single-byte integer that indicates the transmission order of the image data. Two values
     // are currently defined: 0 (no interlace) or 1 (Adam7 interlace).
-    let interlace = cursor.read_u8()?;
-    println!("interlace: {interlace}");
+    let b = cursor.read_u8()?;
+    let interlace_method = match InterlaceMethod::try_from(b) {
+        Ok(v) => v,
+        Err(e) => return Err(io::Error::new(io::ErrorKind::InvalidData,e)),
+    };
 
-    let png = Png {
+    Ok(Png {
         width,
         height,
         bit_depth,
         color_type,
+        compression_method,
+        filter_method,
+        interlace_method,
         data: Vec::new(),
-    };
-
-    Ok(png)
+    })
 }
 
 fn next_chunk<R: Read>(rdr: &mut R) -> io::Result<Chunk> {
@@ -230,6 +250,15 @@ pub fn decode(path: &Path) -> io::Result<Png> {
     if let Some(gama) = gama { println!("gama: {:?}", gama); }
     if let Some(chrm) = chrm { println!("chrm: {:?}", chrm); }
     if let Some(phys) = phys { println!("phys: {:?}", phys); }
+
+    println!("\nPNG:");
+    println!("width: {}", png.width);
+    println!("height: {}", png.height);
+    println!("bit_depth: {}", png.bit_depth);
+    println!("color_type: {}", png.color_type);
+    println!("compression_method: {}", png.compression_method);
+    println!("filter_method: {}", png.filter_method);
+    println!("interlace_method: {:?}", png.interlace_method);
 
     Ok(png)
 }
