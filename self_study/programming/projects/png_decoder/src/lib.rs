@@ -179,7 +179,6 @@ pub fn decode(path: &Path) -> io::Result<Png> {
             b"pHYs" => {
                 // FIXME: handle gracefully (remove assertion)
                 assert!(idat.is_empty()); // ..must precede the first IDAT chunk
-                assert!(plte.is_none());  // ..must precede PLTE IDAT chunk
                 match PHYS::try_from(chunk.data.as_slice()) {
                     Ok(v) => phys = Some(v),
                     Err(e) => return Err(io::Error::new(io::ErrorKind::InvalidData,e)),
@@ -188,7 +187,7 @@ pub fn decode(path: &Path) -> io::Result<Png> {
             b"cHRM" => {
                 // FIXME: handle gracefully (remove assertion)
                 assert!(idat.is_empty()); // ..must precede the first IDAT chunk
-                assert!(plte.is_none());  // ..must precede PLTE IDAT chunk
+                assert!(plte.is_none());  // ..must precede PLTE chunk
                 match CHRM::try_from(chunk.data.as_slice()) {
                     Ok(v) => chrm = Some(v),
                     Err(e) => return Err(io::Error::new(io::ErrorKind::InvalidData,e)),
@@ -197,7 +196,7 @@ pub fn decode(path: &Path) -> io::Result<Png> {
             b"sRGB" => {
                 // FIXME: handle gracefully (remove assertion)
                 assert!(idat.is_empty()); // ..must precede the first IDAT chunk
-                assert!(plte.is_none());  // ..must precede PLTE IDAT chunk
+                assert!(plte.is_none());  // ..must precede PLTE chunk
                 match SRGB::try_from(chunk.data.as_slice()) {
                     Ok(v) => srgb = Some(v),
                     Err(e) => return Err(io::Error::new(io::ErrorKind::InvalidData,e)),
@@ -206,7 +205,7 @@ pub fn decode(path: &Path) -> io::Result<Png> {
             b"gAMA" => {
                 // FIXME: handle gracefully (remove assertion)
                 assert!(idat.is_empty()); // ..must precede the first IDAT chunk
-                assert!(plte.is_none());  // ..must precede PLTE IDAT chunk
+                assert!(plte.is_none());  // ..must precede PLTE chunk
                 match GAMA::try_from(chunk.data.as_slice()) {
                     Ok(v) => gama = Some(v),
                     Err(e) => return Err(io::Error::new(io::ErrorKind::InvalidData,e)),
