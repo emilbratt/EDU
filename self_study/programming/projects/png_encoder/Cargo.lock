@@ -3,5 +3,14 @@
 version = 4
 
 [[package]]
+name = "mycrc"
+version = "0.3.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "c3c7ae4c0bfaa74ad78aad42e54688e68e825d0a6346fc36987fbd76888a2b2a"
+
+[[package]]
 name = "png_encoder"
 version = "0.1.0"
+dependencies = [
+ "mycrc",
+]
