@@ -29,7 +29,7 @@ impl TryFrom<u8> for InterlaceMethod {
         if b <= 1 {
             Ok(unsafe { std::mem::transmute(b) })
         } else {
-            Err("Interlace method byte value must be between 0 and 1")
+            Err("byte value for interlace method must be between 0 and 1")
         }
     }
 }
@@ -128,7 +128,7 @@ fn decode_ihdr(bytes: [u8; 13]) -> io::Result<PngImage> {
         compression_method,
         filter_method,
         interlace_method,
-        pixels: Vec::new(),
+        pixels: Vec::with_capacity((width*height*4) as usize),
     })
 }
 
@@ -276,7 +276,7 @@ pub fn decode(path: &Path) -> io::Result<PngImage> {
         Err(e) => return Err(io::Error::new(io::ErrorKind::InvalidData,e)),
     };
 
-    let image = match png.color_type {
+    let pixels = match png.color_type {
         2 => add_alpha_channel(&pixels),
         6 => pixels,
         _ => unreachable!(),
@@ -296,7 +296,7 @@ pub fn decode(path: &Path) -> io::Result<PngImage> {
     println!("interlace_method: {:?}", png.interlace_method);
     println!("\nSize: {}x{} | bit depth: {} | clr type: {}", png.width, png.height, png.bit_depth, png.color_type);
 
-    png.pixels = image;
+    png.pixels = pixels;
 
     Ok(png)
 }
