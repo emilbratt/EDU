@@ -1,4 +1,3 @@
-#![allow(dead_code)]
 #![allow(unused)]
 
 use std::fs::File;
@@ -6,9 +5,12 @@ use std::path::Path;
 use std::io::{self, BufReader, Read};
 
 use byteorder::{BigEndian, ReadBytesExt};
+use flate2::read::ZlibDecoder;
 
 const PNG_SIGNATURE: [u8; 8] = [137, b'P', b'N', b'G', 13, 10, 26, 10];
-const IHDR: [u8; 4] = [b'I', b'H', b'D', b'R'];
+
+mod png_clr;
+use png_clr::{CHRM, PHYS, SRGB};
 
 #[derive(Default, Debug)]
 pub struct Png {
@@ -16,7 +18,7 @@ pub struct Png {
     height: u32,
     bit_depth: u8,
     color_type: u8,
-    idat: Vec<u8>,
+    data: Vec<u8>,
 }
 
 // FIXME: make a zero-copy (no un-needed mem-allocation) in the future..
@@ -83,7 +85,7 @@ fn decode_ihdr(bytes: [u8; 13]) -> io::Result<Png> {
         height,
         bit_depth,
         color_type,
-        idat: Vec::new(),
+        data: Vec::new(),
     };
 
     Ok(png)
@@ -91,17 +93,8 @@ fn decode_ihdr(bytes: [u8; 13]) -> io::Result<Png> {
 
 fn next_chunk<R: Read>(rdr: &mut R) -> io::Result<Chunk> {
     let chunk_len = match rdr.read_u32::<BigEndian>() {
-        Ok(len) => {
-            len as usize
-        }
-        Err(e) if e.kind() == io::ErrorKind::UnexpectedEof => {
-            println!("unexpected end of file..");
-            return Err(e);
-        }
-        Err(e) => {
-            println!("Error: {:?}", e);
-            return Err(e);
-        }
+        Ok(len) => len as usize,
+        Err(e) => return Err(e),
     };
 
     // CHUNK TYPE
@@ -146,7 +139,7 @@ pub fn decode(path: &Path) -> io::Result<Png> {
     // Verify that it is in fact "IHDR"
     let mut next_four_bytes = [0u8; 4];
     rdr.read_exact(&mut next_four_bytes);
-    if next_four_bytes != IHDR {
+    if &next_four_bytes != b"IHDR" {
         let (kind, err) = (io::ErrorKind::InvalidData, "First PNG chunk is not of type \"IHDR\"");
         return Err(io::Error::new(kind,err));
     }
@@ -166,22 +159,65 @@ pub fn decode(path: &Path) -> io::Result<Png> {
         return Err(io::Error::new(kind,err));
     }
 
-    // All good, lets decode the png data
+    let mut srgb: Option<SRGB> = None;
+    let mut gama: Option<u32> = None;
+    let mut chrm: Option<CHRM> = None;
+    let mut phys: Option<PHYS> = None;
+
+    // All good, lets decode the remaining png chunks
     loop {
         let chunk = next_chunk(&mut rdr)?;
 
         let name = str::from_utf8(&chunk.c_type).unwrap();
-        match &chunk.c_type {
-            b"IEND" => return Ok(png),
-            b"IDAT" => png.idat.extend_from_slice(&chunk.data),
-            name => (),
-        }
+        println!("\n'{name}', length: {}, data: {:?}", chunk.data.len(), chunk.data);
 
-        println!("chunk type: '{name}'");
+        match &chunk.c_type {
+            b"pHYs" => {
+                match PHYS::try_from(chunk.data.as_slice()) {
+                    Ok(v) => phys = Some(v),
+                    Err(e) => return Err(io::Error::new(io::ErrorKind::InvalidData,e)),
+                }
+            }
+            b"cHRM" => {
+                match CHRM::try_from(chunk.data.as_slice()) {
+                    Ok(v) => chrm = Some(v),
+                    Err(e) => return Err(io::Error::new(io::ErrorKind::InvalidData,e)),
+                }
+            }
+            b"gAMA" => {
+                if chunk.data.len() != 4 {
+                    let (kind, err) = (io::ErrorKind::InvalidData, "gAMA chunk: data field has wrong length");
+                    return Err(io::Error::new(kind,err));
+                }
+                gama = Some(
+                    u32::from_be_bytes(chunk.data[0..4].try_into().unwrap())
+                );
+            }
+            b"sRGB" => {
+                if chunk.data.len() != 1 {
+                    let (kind, err) = (io::ErrorKind::InvalidData, "sRGB chunk: data field has wrong length");
+                    return Err(io::Error::new(kind,err));
+                }
+                if let Ok(v) = SRGB::try_from(chunk.data[0]) {
+                    srgb = Some(v);
+                }
+            }
+            b"IDAT" => png.data.extend_from_slice(&chunk.data),
+            b"IEND" => break,
+            _ => println!("FIXME: chunk type '{name}' is not implemented!"),
+        }
     }
 
-    let (kind, err) = (io::ErrorKind::InvalidData, "last chunk type was not 'IEND'");
-    return Err(io::Error::new(kind,err));
+
+    let mut decoder = ZlibDecoder::new(&*png.data);
+    let mut out = Vec::new();
+    if let Err(e) = decoder.read_to_end(&mut out).map_err(|e| e.to_string()) {
+        return Err(io::Error::new(io::ErrorKind::InvalidData,e))
+    }
+
+    png.data = out;
+
+    Ok(png)
 }
 
 #[cfg(test)]
@@ -190,7 +226,8 @@ mod tests {
 
     #[test]
     fn two_by_two() {
-        let png = decode(Path::new("images/2x2.png")).unwrap();
+        let png = decode(Path::new("images/3x2.png")).unwrap();
         println!("\nSize: {}x{} | bit depth: {} | clr type: {}", png.width, png.height, png.bit_depth, png.color_type);
+        println!("idat: {:?}", png.data);
     }
 }
