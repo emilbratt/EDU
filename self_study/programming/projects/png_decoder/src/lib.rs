@@ -78,7 +78,7 @@ fn hex(bytes: &[u8]) {
         let fmt = format!("{:X}", b);
         s.push_str( format!("{:0>2} ", fmt).as_str() );
     }
-    println!("Hex: {}\n", s);
+    println!("Hex: {}", s);
 }
 
 fn decode_ihdr(bytes: [u8; 13]) -> io::Result<PngImage> {
@@ -208,7 +208,7 @@ pub fn decode(path: &Path) -> io::Result<PngImage> {
     loop {
         let chunk = next_chunk(&mut rdr)?;
         let name = str::from_utf8(&chunk.c_type).unwrap();
-        println!("{name} -> data length: {}", chunk.data.len());
+        println!("found chunk type '{name}' with data length: {}", chunk.data.len());
 
         match &chunk.c_type {
             b"PLTE" => {
@@ -256,7 +256,6 @@ pub fn decode(path: &Path) -> io::Result<PngImage> {
             _ => println!("FIXME: chunk type '{name}' is not implemented!"),
         }
     }
-    println!("decode complete!\n");
 
     let bpp = match png.color_type {
         2 => 3,
@@ -277,11 +276,17 @@ pub fn decode(path: &Path) -> io::Result<PngImage> {
         Err(e) => return Err(io::Error::new(io::ErrorKind::InvalidData,e)),
     };
 
+    let image = match png.color_type {
+        2 => add_alpha_channel(&pixels),
+        6 => pixels,
+        _ => unreachable!(),
+    };
+
+    println!("decode complete!");
     if let Some(srgb) = srgb { println!("srgb: {:?}", srgb); }
     if let Some(gama) = gama { println!("gama: {:?}", gama); }
     if let Some(chrm) = chrm { println!("chrm: {:?}", chrm); }
     if let Some(phys) = phys { println!("phys: {:?}", phys); }
-
     println!("width: {}", png.width);
     println!("height: {}", png.height);
     println!("bit_depth: {}", png.bit_depth);
@@ -289,14 +294,7 @@ pub fn decode(path: &Path) -> io::Result<PngImage> {
     println!("compression_method: {}", png.compression_method);
     println!("filter_method: {}", png.filter_method);
     println!("interlace_method: {:?}", png.interlace_method);
-
     println!("\nSize: {}x{} | bit depth: {} | clr type: {}", png.width, png.height, png.bit_depth, png.color_type);
-
-    let image = match png.color_type {
-        2 => add_alpha_channel(&pixels),
-        6 => pixels,
-        _ => unreachable!(),
-    };
 
     png.pixels = image;
 
