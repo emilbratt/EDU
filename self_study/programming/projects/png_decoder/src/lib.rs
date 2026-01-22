@@ -276,9 +276,9 @@ pub fn decode(path: &Path) -> io::Result<PngImage> {
         Err(e) => return Err(io::Error::new(io::ErrorKind::InvalidData,e)),
     };
 
-    let pixels = match png.color_type {
-        2 => add_alpha_channel(&pixels),
-        6 => pixels,
+    match png.color_type {
+        2 => png.pixels = add_alpha_channel(&pixels),
+        6 => png.pixels = pixels,
         _ => unreachable!(),
     };
 
@@ -295,8 +295,6 @@ pub fn decode(path: &Path) -> io::Result<PngImage> {
     println!("filter_method: {}", png.filter_method);
     println!("interlace_method: {:?}", png.interlace_method);
     println!("\nSize: {}x{} | bit depth: {} | clr type: {}", png.width, png.height, png.bit_depth, png.color_type);
-
-    png.pixels = pixels;
 
     Ok(png)
 }
