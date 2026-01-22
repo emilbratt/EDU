@@ -159,11 +159,14 @@ pub fn decode(path: &Path) -> io::Result<Png> {
         return Err(io::Error::new(kind,err));
     }
 
+    let mut idat: Vec<u8> = Vec::new();
+
     // FIXME: these are not in use, they are only loaded when their respective chunk is found..
     let mut srgb: Option<SRGB> = None;
     let mut gama: Option<GAMA> = None;
     let mut chrm: Option<CHRM> = None;
     let mut phys: Option<PHYS> = None;
+    let mut plte: Option<&str> = None; // fix type, not using &str..
 
     // All good up until here, lets decode the remaining png chunks
     loop {
@@ -174,43 +177,57 @@ pub fn decode(path: &Path) -> io::Result<Png> {
 
         match &chunk.c_type {
             b"pHYs" => {
+                // FIXME: handle gracefully (remove assertion)
+                assert!(idat.is_empty()); // ..must precede the first IDAT chunk
+                assert!(plte.is_none());  // ..must precede PLTE IDAT chunk
                 match PHYS::try_from(chunk.data.as_slice()) {
                     Ok(v) => phys = Some(v),
                     Err(e) => return Err(io::Error::new(io::ErrorKind::InvalidData,e)),
                 }
             }
             b"cHRM" => {
+                // FIXME: handle gracefully (remove assertion)
+                assert!(idat.is_empty()); // ..must precede the first IDAT chunk
+                assert!(plte.is_none());  // ..must precede PLTE IDAT chunk
                 match CHRM::try_from(chunk.data.as_slice()) {
                     Ok(v) => chrm = Some(v),
                     Err(e) => return Err(io::Error::new(io::ErrorKind::InvalidData,e)),
                 }
             }
             b"sRGB" => {
+                // FIXME: handle gracefully (remove assertion)
+                assert!(idat.is_empty()); // ..must precede the first IDAT chunk
+                assert!(plte.is_none());  // ..must precede PLTE IDAT chunk
                 match SRGB::try_from(chunk.data.as_slice()) {
                     Ok(v) => srgb = Some(v),
                     Err(e) => return Err(io::Error::new(io::ErrorKind::InvalidData,e)),
                 }
             }
             b"gAMA" => {
+                // FIXME: handle gracefully (remove assertion)
+                assert!(idat.is_empty()); // ..must precede the first IDAT chunk
+                assert!(plte.is_none());  // ..must precede PLTE IDAT chunk
                 match GAMA::try_from(chunk.data.as_slice()) {
                     Ok(v) => gama = Some(v),
                     Err(e) => return Err(io::Error::new(io::ErrorKind::InvalidData,e)),
                 }
             }
-            b"IDAT" => png.data.extend_from_slice(&chunk.data),
+            b"IDAT" => idat.extend_from_slice(&chunk.data),
             b"IEND" => break,
             _ => println!("FIXME: chunk type '{name}' is not implemented!"),
         }
     }
 
 
-    let mut decoder = ZlibDecoder::new(&*png.data);
+    let mut decoder = ZlibDecoder::new(&*idat);
     let mut out = Vec::new();
     if let Err(e) = decoder.read_to_end(&mut out).map_err(|e| e.to_string()) {
         return Err(io::Error::new(io::ErrorKind::InvalidData,e))
+    } else {
+        idat = out;
     }
 
-    png.data = out;
+    png.data = idat;
 
     Ok(png)
 }
