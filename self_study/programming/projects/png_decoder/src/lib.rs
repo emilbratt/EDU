@@ -195,19 +195,6 @@ pub fn decode(path: &Path) -> io::Result<PngImage> {
     let _ihdr_crc = rdr.read_u32::<BigEndian>(); // ignored for now..
     let mut png = decode_ihdr(ihdr_buf)?;
 
-    if png.bit_depth != 8 {
-        return Err(io::Error::new(
-            io::ErrorKind::InvalidData,
-            "Only 8-bit PNG supported")
-        );
-    }
-    if png.color_type != 2 && png.color_type != 6 {
-        return Err(io::Error::new(
-            io::ErrorKind::InvalidData,
-            "Only RGB/RGBA PNG supported")
-        );
-    }
-
     let mut idat: Vec<u8> = Vec::new();
 
     // FIXME: these are not in use, they are only loaded when their respective chunk is found..
@@ -277,15 +264,15 @@ pub fn decode(path: &Path) -> io::Result<PngImage> {
         _ => return Err(io::Error::new(io::ErrorKind::InvalidData,"Unsupported color type")),
     };
 
-    let mut idat_raw = Vec::new();
+    let mut idat_deflate = Vec::new();
     let mut decoder = ZlibDecoder::new(&*idat);
     let mut out = Vec::new();
     match decoder.read_to_end(&mut out).map_err(|e| e.to_string()) {
         Err(e) => return Err(io::Error::new(io::ErrorKind::InvalidData,e)),
-        Ok(_) => idat_raw = out,
+        Ok(_) => idat_deflate = out,
     }
 
-    let pixels = match unfilter(&idat_raw, png.width as usize, png.height as usize, bpp) {
+    let pixels = match unfilter(&idat_deflate, png.width as usize, png.height as usize, bpp) {
         Ok(raw) => raw,
         Err(e) => return Err(io::Error::new(io::ErrorKind::InvalidData,e)),
     };
