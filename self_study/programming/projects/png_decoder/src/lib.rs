@@ -10,7 +10,7 @@ use flate2::read::ZlibDecoder;
 const PNG_SIGNATURE: [u8; 8] = [137, b'P', b'N', b'G', 13, 10, 26, 10];
 
 mod png_clr;
-use png_clr::{CHRM, PHYS, SRGB};
+use png_clr::{CHRM, GAMA, PHYS, SRGB};
 
 #[derive(Default, Debug)]
 pub struct Png {
@@ -159,12 +159,13 @@ pub fn decode(path: &Path) -> io::Result<Png> {
         return Err(io::Error::new(kind,err));
     }
 
+    // FIXME: these are not in use, they are only loaded when their respective chunk is found..
     let mut srgb: Option<SRGB> = None;
-    let mut gama: Option<u32> = None;
+    let mut gama: Option<GAMA> = None;
     let mut chrm: Option<CHRM> = None;
     let mut phys: Option<PHYS> = None;
 
-    // All good, lets decode the remaining png chunks
+    // All good up until here, lets decode the remaining png chunks
     loop {
         let chunk = next_chunk(&mut rdr)?;
 
@@ -184,22 +185,16 @@ pub fn decode(path: &Path) -> io::Result<Png> {
                     Err(e) => return Err(io::Error::new(io::ErrorKind::InvalidData,e)),
                 }
             }
-            b"gAMA" => {
-                if chunk.data.len() != 4 {
-                    let (kind, err) = (io::ErrorKind::InvalidData, "gAMA chunk: data field has wrong length");
-                    return Err(io::Error::new(kind,err));
-                }
-                gama = Some(
-                    u32::from_be_bytes(chunk.data[0..4].try_into().unwrap())
-                );
-            }
             b"sRGB" => {
-                if chunk.data.len() != 1 {
-                    let (kind, err) = (io::ErrorKind::InvalidData, "sRGB chunk: data field has wrong length");
-                    return Err(io::Error::new(kind,err));
+                match SRGB::try_from(chunk.data.as_slice()) {
+                    Ok(v) => srgb = Some(v),
+                    Err(e) => return Err(io::Error::new(io::ErrorKind::InvalidData,e)),
                 }
-                if let Ok(v) = SRGB::try_from(chunk.data[0]) {
-                    srgb = Some(v);
+            }
+            b"gAMA" => {
+                match GAMA::try_from(chunk.data.as_slice()) {
+                    Ok(v) => gama = Some(v),
+                    Err(e) => return Err(io::Error::new(io::ErrorKind::InvalidData,e)),
                 }
             }
             b"IDAT" => png.data.extend_from_slice(&chunk.data),

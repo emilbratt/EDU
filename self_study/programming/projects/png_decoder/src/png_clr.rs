@@ -1,4 +1,23 @@
 #[derive(Debug)]
+pub struct GAMA(u32);
+
+impl TryFrom<&[u8]> for GAMA {
+    type Error = &'static str;
+
+    fn try_from(bytes: &[u8]) -> Result<Self, Self::Error> {
+        if bytes.len() != 4 {
+            return Err("gAMA chunk must be exactly 4 bytes");
+        }
+
+        Ok(GAMA
+            (u32::from_be_bytes(bytes[0..4].try_into().unwrap()))
+        )
+    }
+}
+
+
+
+#[derive(Debug)]
 pub struct CHRM {
    white_point_x: u32,
    white_point_y: u32,
@@ -79,12 +98,17 @@ pub enum SRGB {
     AbsoluteColorimetric = 3,
 }
 
-impl TryFrom<u8> for SRGB {
+impl TryFrom<&[u8]> for SRGB {
     type Error = &'static str;
 
-    fn try_from(byte: u8) -> Result<Self, Self::Error> {
-        if byte <= 3 {
-            Ok(unsafe { std::mem::transmute(byte) })
+    fn try_from(bytes: &[u8]) -> Result<Self, Self::Error> {
+        if bytes.len() != 1 {
+            return Err("sRGB chunk must be exactly 1 byte");
+        }
+        let b = u8::from_be(bytes[0]);
+
+        if b <= 3 {
+            Ok(unsafe { std::mem::transmute(b) })
         } else {
             Err("sRGB chunk must contain a byte value between 0 and 3 but we got '{byte}'")
         }
