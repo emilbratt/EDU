@@ -15,30 +15,6 @@ mod png_unfilter;
 use png_unfilter::unfilter;
 use png_clr::{CHRM, GAMA, PHYS, SRGB};
 
-#[derive(Debug)]
-pub struct Image {
-    width: u32,
-    height: u32,
-    pixels: Vec<u8>,
-}
-
-impl Image {
-    pub fn rows(&self) -> Vec<&[u8]> {
-        let width = self.width as usize;
-        let height = self.height as usize;
-        let row_len = width * 4;
-
-        let mut rows = Vec::with_capacity(height);
-        for y in 0..height {
-            let start = y * row_len;
-            let end = start + row_len;
-            rows.push(&self.pixels[start..end]);
-        }
-
-        rows
-    }
-}
-
 #[derive(Default, Debug)]
 enum InterlaceMethod {
     #[default]
@@ -59,7 +35,7 @@ impl TryFrom<u8> for InterlaceMethod {
 }
 
 #[derive(Default, Debug)]
-pub struct PngIhdr {
+pub struct PngImage {
     width: u32,
     height: u32,
     bit_depth: u8,
@@ -67,6 +43,24 @@ pub struct PngIhdr {
     compression_method: u8,
     filter_method: u8,
     interlace_method: InterlaceMethod,
+    pixels: Vec<u8>,
+}
+
+impl PngImage {
+    pub fn rows(&self) -> Vec<&[u8]> {
+        let width = self.width as usize;
+        let height = self.height as usize;
+        let row_len = width * 4; // there are 4 channels (RGBA) for every pixel..
+
+        let mut rows = Vec::with_capacity(height);
+        for y in 0..height {
+            let start = y * row_len;
+            let end = start + row_len;
+            rows.push(&self.pixels[start..end]);
+        }
+
+        rows
+    }
 }
 
 #[derive(Debug)]
@@ -87,24 +81,25 @@ fn hex(bytes: &[u8]) {
     println!("Hex: {}\n", s);
 }
 
-// IHDR    multiple: No      Must be first
-fn decode_ihdr(bytes: [u8; 13]) -> io::Result<PngIhdr> {
+fn decode_ihdr(bytes: [u8; 13]) -> io::Result<PngImage> {
     let mut cursor = std::io::Cursor::new(bytes);
 
     let width = cursor.read_u32::<BigEndian>()?;
     let height = cursor.read_u32::<BigEndian>()?;
 
     // single-byte integer giving the number of bits per sample
+    // Valid values are 0, 2, 3, 4, 8, and 16.
     let bit_depth = cursor.read_u8()?;
+    assert!([0,2,4,8,16].contains(&bit_depth)); // FIXME: handle gracefully..,
 
     // Color type is a single-byte integer that describes the interpretation of the image data. Color type codes
     // represent sums of the following values:
     //  - 1 (palette used),
     //  - 2 (color used)
     //  - 4 (alpha channel used).
-    // Valid values are 0, 2, 3, 4, 8, and 16.
+    // Valid values are  0, 2, 3, 4, or 6.
     let color_type = cursor.read_u8()?;
-    assert!(color_type <= 4 || color_type == 8 || color_type == 16); // FIXME: handle gracefully..
+    assert!([0,2,3,4,6].contains(&color_type)); // FIXME: handle gracefully..,
 
     // Compression method is a single-byte integer that indicates the method used to compress the image data.
     // At present, only compression method 0 (deflate/inflate compression with a sliding window of at most 32768 bytes)
@@ -125,7 +120,7 @@ fn decode_ihdr(bytes: [u8; 13]) -> io::Result<PngIhdr> {
         Err(e) => return Err(io::Error::new(io::ErrorKind::InvalidData,e)),
     };
 
-    Ok(PngIhdr {
+    Ok(PngImage {
         width,
         height,
         bit_depth,
@@ -133,6 +128,7 @@ fn decode_ihdr(bytes: [u8; 13]) -> io::Result<PngIhdr> {
         compression_method,
         filter_method,
         interlace_method,
+        pixels: Vec::new(),
     })
 }
 
@@ -157,7 +153,7 @@ fn next_chunk<R: Read>(rdr: &mut R) -> io::Result<Chunk> {
     Ok(Chunk { c_type, data, crc })
 }
 
-pub fn decode(path: &Path) -> io::Result<Image> {
+pub fn decode(path: &Path) -> io::Result<PngImage> {
     let f = File::open(path)?;
     let mut rdr = BufReader::new(f);
 
@@ -280,12 +276,6 @@ pub fn decode(path: &Path) -> io::Result<Image> {
         6 => 4,
         _ => return Err(io::Error::new(io::ErrorKind::InvalidData,"Unsupported color type")),
     };
-    if png.bit_depth == 16 {
-        unimplemented!("bit depth of 16 is not implemented, yet..");
-    }
-    if png.bit_depth != 8 {
-        return Err(io::Error::new(io::ErrorKind::InvalidData,"Unsupported bit depth"));
-    }
 
     let mut idat_raw = Vec::new();
     let mut decoder = ZlibDecoder::new(&*idat);
@@ -321,12 +311,9 @@ pub fn decode(path: &Path) -> io::Result<Image> {
         _ => unreachable!(),
     };
 
-    Ok(Image {
-        width: png.width,
-        height: png.height,
-        pixels: image,
-    })
+    png.pixels = image;
 
+    Ok(png)
 }
 
 // if RGB, convert to RGBA by adding full opacity (255) on all pixels
@@ -339,15 +326,14 @@ fn add_alpha_channel(data: &[u8]) -> Vec<u8> {
     out
 }
 
-
 #[cfg(test)]
 mod tests {
     use super::*;
 
     #[test]
     fn two_by_two() {
-        let img = decode(Path::new("images/3x2.png")).unwrap();
-        let rows = img.rows();
+        let png = decode(Path::new("images/3x2.png")).unwrap();
+        let rows = png.rows();
         let mut c = 1;
         for row in rows.iter() {
             println!("row: {c}");

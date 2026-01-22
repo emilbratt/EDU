@@ -6,12 +6,12 @@ impl TryFrom<&[u8]> for GAMA {
 
     fn try_from(bytes: &[u8]) -> Result<Self, Self::Error> {
         if bytes.len() != 4 {
-            return Err("gAMA chunk must be exactly 4 bytes");
+            Err("gAMA chunk must be exactly 4 bytes")
+        } else {
+            Ok(GAMA
+                (u32::from_be_bytes(bytes[0..4].try_into().unwrap()))
+            )
         }
-
-        Ok(GAMA
-            (u32::from_be_bytes(bytes[0..4].try_into().unwrap()))
-        )
     }
 }
 
@@ -81,7 +81,7 @@ impl TryFrom<&[u8]> for PHYS {
         };
 
         if phys.unit_specifier > 1 {
-           Err("pHYs chunk contains an invalid unit specifier")
+            Err("pHYs chunk contains an invalid unit specifier")
         } else {
             Ok(phys)
         }
@@ -103,8 +103,8 @@ impl TryFrom<&[u8]> for SRGB {
         if bytes.len() != 1 {
             return Err("sRGB chunk must be exactly 1 byte");
         }
-        let b = u8::from_be(bytes[0]);
 
+        let b = u8::from_be(bytes[0]);
         if b <= 3 {
             Ok(unsafe { std::mem::transmute(b) })
         } else {
