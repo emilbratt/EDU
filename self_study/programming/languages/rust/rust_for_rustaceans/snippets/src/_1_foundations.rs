@@ -75,3 +75,19 @@ fn d() {
 
     println!("MutStr: {}", s);
 }
+
+
+// Generic traits.
+//  with generic type parameter
+trait Foo<T> {
+    fn hi() -> T;
+}
+//  with generic associated type
+trait Bar {
+    type Baz;
+    type Bob;
+
+    fn hello(&self, _: &Self::Baz) -> Self::Bob;
+}
+// Rationale: use the one with associated types whenever you can,
+//            however, it will not allow multiple implementations
