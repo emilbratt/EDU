@@ -1,60 +1,37 @@
 #![allow(non_snake_case)]
-#![allow(unused)]
+// #![allow(unused)]
 
-use std::{env, path::Path, time::Instant}; 
+use std::{path::Path, time::Instant};
 
 mod downloader;
 mod options;
 mod solutions;
 
-const LATEST_YEAR: u16 = 2025;
 const OPTIONS_IN: &str = "options.in"; // a csv list of year,day,part
 
 fn main() {
-    let mut options: Vec<(options::Year, options::Day, options::Part)> = Vec::new();
+    let mut options = options::try_from_args();
+    if options.is_empty() {
+        options = options::try_from_file(OPTIONS_IN);
+    }
 
-    if let Some(value) = options::try_from_args() {
-        println!("Selecting puzzles from cli args: {:?}", value);
-        options.push(value);
-    } else if let Some(try_options) = options::try_from_file(OPTIONS_IN) {
-        options = try_options;
-        println!("Selecting puzzles from {OPTIONS_IN}");
-        for (year, day, part) in options.iter() {
-            println!(" -> {:?} {:?} {:?}", year, day, part)
-        }
-        println!();
-    } else {
-        println!("Selecting all puzzles");
-        for year in 2015..=LATEST_YEAR {
-            for day in 1..=25 {
-                if year == 2025 && day > 12 {
-                    continue;
-                }
-                for part in 1..=2 {
-                    options.push(options::get(year, day, part));
-                }
-            }
+    let mut input_exists = true;
+    for (y,d,_) in options.iter() {
+        if !Path::new(&format!("y{}_d{}.in", y.as_str(), d.as_str())).exists() {
+            input_exists = false;
         }
     }
 
-    if !Path::new("session.in").exists() {
-        panic!("Create file session.in and store session coockie for AoC in it..")
-    }
-    let session = std::fs::read_to_string("session.in").unwrap().lines().next().unwrap().to_string();
-    let mut session: Option<String> = None;
-    for (y,d, p) in options.iter() {
-        if let None = session {
-            session = Some(
-                format!("session={}", std::fs::read_to_string("session.in").unwrap().lines().next().unwrap())
-            )
+    if !input_exists {
+        let f = Path::new("session.in");
+        if !f.exists() {
+            panic!("Create file session.in and store session coockie for AoC in it..")
         }
-
-        if let Some(session) = &session {
-            downloader::download(session, y.as_str(), d.as_str());
-        } else {
-            unreachable!();
+        let session = std::fs::read_to_string(f).unwrap().lines().next().unwrap().to_string();
+        let session = format!("session={}", session);
+        for (y,d, _) in options.iter() {
+            downloader::download(&session, y.as_str(), d.as_str());
         }
-
     }
 
     let instant = Instant::now();

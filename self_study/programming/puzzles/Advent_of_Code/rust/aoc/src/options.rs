@@ -46,7 +46,7 @@ impl Year {
             Self::Year2023 => "2023",
             Self::Year2024 => "2024",
             Self::Year2025 => "2025",
-    }
+        }
     }
 }
 
@@ -156,37 +156,42 @@ impl Part {
             _ => unreachable!(),
         }
     }
-
-    pub fn as_str(&self) -> &str {
-        match self {
-            Self::Part1 => "1",
-            Self::Part2 => "2",
-        }
-    }
 }
 
-pub fn try_from_args() -> Option<(Year, Day, Part)> {
-    let args: Vec<String> = env::args().collect();
+pub fn try_from_args() -> Vec<(Year, Day, Part)> {
+    let mut options: Vec<(Year, Day, Part)> = Vec::new();
 
-    let (year, day, part) = match args.as_slice() {
-        [_exe, y, d, p] =>  (y.as_str(), d.as_str(), p.as_str()),
-        _ => return None,
+    let args = &env::args().collect::<Vec<String>>()[1..];
+    match args {
+        [y, d, p] =>  {
+            let year = Year::new(y.parse::<u16>().unwrap());
+            let day = Day::new(d.parse::<u8>().unwrap());
+            let part = Part::new(p.parse::<u8>().unwrap());
+            options.push((year, day, part));
+        }
+        [y, d] => {
+            let year = Year::new(y.parse::<u16>().unwrap());
+            let day = Day::new(d.parse::<u8>().unwrap());
+            options.push( (year, day, Part::Part1) );
+            options.push( (year, day, Part::Part2) );
+        }
+        [_] => {
+            panic!("Pass at least a year and a day (passing part 1 or 2 is optional)");
+        }
+        _ => return options,
     };
 
-    let year = year.parse::<u16>().unwrap();
-    let day = day.parse::<u8>().unwrap();
-    let part = part.parse::<u8>().unwrap();
-
-    Some((Year::new(year), Day::new(day), Part::new(part)))
+    options
 }
 
-pub fn try_from_file(path: &str) -> Option<Vec<(Year, Day, Part)>> {
+pub fn try_from_file(path: &str) -> Vec<(Year, Day, Part)> {
+    let mut options: Vec<(Year, Day, Part)> = Vec::new();
+
     let f = match fs::read_to_string(path) {
-        Err(_) => return None,
+        Err(_) => return options,
         Ok(f) => f,
     };
 
-    let mut options: Vec<(Year, Day, Part)> = Vec::new();
     for line in f.lines() {
         if !line.starts_with('#') {
             let mut split = line.split(',');
@@ -198,18 +203,5 @@ pub fn try_from_file(path: &str) -> Option<Vec<(Year, Day, Part)>> {
         }
     }
 
-    if options.is_empty() {
-        println!("No options found in {path}");
-        None
-    } else {
-        Some(options)
-    }
-}
-
-pub fn get(year: u16, day: u8, part: u8) -> (Year, Day, Part) {
-    (
-        Year::new(year),
-        Day::new(day),
-        Part::new(part),
-    )
+    options
 }
