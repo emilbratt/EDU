@@ -1,6 +1,3 @@
-#![allow(non_snake_case)]
-// #![allow(unused)]
-
 use std::{path::Path, time::Instant};
 
 mod downloader;
