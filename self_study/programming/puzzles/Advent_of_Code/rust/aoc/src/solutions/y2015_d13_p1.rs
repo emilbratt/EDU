@@ -1,5 +1,3 @@
-use std::i32;
-
 pub fn main() {
     let mut input = std::fs::read_to_string("y2015_d13.in").unwrap();
     let happiness_data: Vec<(&str, i32, &str)> = parse_input(&input);

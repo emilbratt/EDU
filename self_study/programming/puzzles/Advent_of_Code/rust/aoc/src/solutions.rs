@@ -44,6 +44,9 @@ mod y2015_d12_p2;
 mod y2015_d13_p1;
 mod y2015_d13_p2;
 
+mod y2015_d14_p1;
+mod y2015_d14_p2;
+
 // 2023
 mod y2023_d01_p1;
 mod y2023_d01_p2;
@@ -152,6 +155,10 @@ pub fn get(year: Year, day: Day, part: Part) -> Option<Solution> {
         // --- Day 13: Knights of the Dinner Table ---
         (Year::Year2015, Day::Day13, Part::Part1) => y2015_d13_p1::main,
         (Year::Year2015, Day::Day13, Part::Part2) => y2015_d13_p2::main,
+
+        // --- Day 14: Reindeer Olympics ---
+        (Year::Year2015, Day::Day14, Part::Part1) => y2015_d14_p1::main,
+        (Year::Year2015, Day::Day14, Part::Part2) => y2015_d14_p2::main,
 
         // YEAR 2023
         // --- Day 1: Trebuchet?! ---
