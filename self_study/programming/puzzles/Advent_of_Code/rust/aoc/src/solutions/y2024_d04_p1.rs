@@ -27,7 +27,7 @@ fn run(input: &[u8]) -> i64 {
     cols += 1; // we need to also account for line feed '\n'.
 
     for i in 0..input.len() {
-        if horizontal(i, input, cols) {
+        if horizontal(i, input) {
             res += 1;
         }
 
@@ -41,7 +41,7 @@ fn run(input: &[u8]) -> i64 {
     res
 }
 
-fn horizontal(i: usize, v: &[u8], cols: usize) -> bool {
+fn horizontal(i: usize, v: &[u8]) -> bool {
     let word: &[u8; 4] = match (v.get(i), v.get(i+1), v.get(i+2), v.get(i+3)) {
         (Some(b1) ,Some(b2) ,Some(b3) ,Some(b4)) if b4 != LF => &[*b1 ,*b2 ,*b3 ,*b4],
         _ => return false,

@@ -1,5 +1,5 @@
 const INPUT: &str = "y2025_d02.in";
-use std::{thread, time};
+
 pub fn main() {
     let bytes = std::fs::read(INPUT).unwrap();
 
@@ -60,8 +60,7 @@ fn solve(ranges: &[(i64,i64)]) -> u64 {
 }
 
 fn check(b: &[u8]) -> Option<u64> {
-    let mut digits: Vec<i64> = Vec::new();
-    for div in (1..=b.len()/2) {
+    for div in 1..=b.len()/2 {
         if b.len() % div == 0 {
             let mut invalid = true;
             let first_chunk = &b[0..div];

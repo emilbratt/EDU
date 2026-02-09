@@ -1,7 +1,7 @@
 const TIME: usize = 2503;
 
 pub fn main() {
-    let mut input = std::fs::read_to_string("y2015_d14.in").unwrap();
+    let input = std::fs::read_to_string("y2015_d14.in").unwrap();
     let reindeers = parse_input(&input);
 
     let mut ans = 0;

@@ -49,7 +49,7 @@ pub fn main() {
                 }
                 if &input[start..i] == b"red" {
                     if let Some((_, scope)) = stack.last_mut() {
-                        if let ScopeType::Object(b) = scope {
+                        if let ScopeType::Object(_b) = scope {
                             *scope = ScopeType::Object(true);
                         }
                     }

@@ -4,7 +4,6 @@ const INPUT: &str = "y2024_d06.in";
 
 const LINE_FEED: u8 = 10;
 const START_MARK: u8 = 94;
-const DOT: u8 = 46;
 const OBSTACLE: u8 = 35;
 const MARKED: u8 = 88;
 

@@ -12,7 +12,7 @@ pub fn main() {
 }
 
 fn solve(mut v: Vec<u32>, iterations: usize) -> usize {
-    for n in 0..iterations {
+    for _ in 0..iterations {
         let mut cur = v[0];
         let mut count = 0;
         let mut new: Vec<u32> = Vec::with_capacity(v.len());

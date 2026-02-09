@@ -21,7 +21,6 @@ pub fn main() {
 
 fn srt(ranges: &mut [(i64, i64)]) {
     for i in 0..ranges.len()-1 {
-        let mut j = i+1;
         for j in i..ranges.len() {
             if ranges[j].0 < ranges[i].0 {
                 ranges.swap(i, j);

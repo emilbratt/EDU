@@ -1,13 +1,7 @@
-use std::fs;
-
-const LINE_FEED: u8 = 10;
-const DOT: u8 = 46;
-const HASHTAG: u8 = 35;
-
 const INPUT: &str = "y2024_d07.in";
 
 pub fn main() {
-    let input: String = fs::read_to_string(INPUT).unwrap();
+    let input: String = std::fs::read_to_string(INPUT).unwrap();
     let mut res: u64 = 0;
 
     for line in input.lines() {

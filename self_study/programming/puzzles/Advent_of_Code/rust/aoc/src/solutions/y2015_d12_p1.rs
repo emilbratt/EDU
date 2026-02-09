@@ -1,6 +1,6 @@
 pub fn main() {
-    let mut input: Vec<u8> = std::fs::read("y2015_d12.in").unwrap();
-    
+    let input: Vec<u8> = std::fs::read("y2015_d12.in").unwrap();
+
     let mut ans = 0;
     let mut cur = String::new();
     for b in input {

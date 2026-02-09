@@ -1,9 +1,9 @@
-use std::collections::{HashMap, HashSet};
+use std::collections::HashSet;
 
 pub fn main() {
     let input = std::fs::read_to_string("y2015_d09.in").unwrap();
 
-    let mut distances = parse_input(&input);
+    let distances = parse_input(&input);
     let mut cities: HashSet<&str> = HashSet::new();
     for d in distances.iter() {
         cities.insert(d.0);

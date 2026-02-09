@@ -4,7 +4,6 @@ use std::collections::{HashMap, HashSet};
 
 const LINE_FEED: u8 = 10;
 const DOT: u8 = 46;
-const HASHTAG: u8 = 35;
 
 const INPUT: &str = "y2024_d08.in";
 
@@ -37,8 +36,6 @@ pub fn main() {
     for row in 0..grid.len() {
         for col in 0..grid[row].len() {
             if grid[row][col] == DOT { continue; }
-            let key = (row, col);
-            let value = grid[row][col];
 
             let pos = Position { row, col };
             let key = grid[row][col];
@@ -86,7 +83,7 @@ fn gridify(input: Vec<u8>) -> Vec<Vec<u8>> {
 
 fn count_antinodes(grid: &Vec<Vec<u8>>, antennas: &HashMap<u8, Vec<Position>>) -> i64 {
     let mut antinodes: HashSet<Position> = HashSet::new();
-    for (key, val) in antennas.iter() {
+    for (_, val) in antennas.iter() {
         for i in 0..val.len() - 1 {
             for j in i+1..val.len() {
                 let cur = val[i];

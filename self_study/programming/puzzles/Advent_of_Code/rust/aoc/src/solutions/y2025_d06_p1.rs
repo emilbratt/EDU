@@ -1,5 +1,3 @@
-use core::num;
-
 const INPUT: &str = "y2025_d06.in";
 
 pub fn main() {
@@ -44,6 +42,6 @@ fn parse_input(s: &str) -> (Vec<Vec<i64>>, Vec<char>) {
             numbers.push(num);
         }
     }
-    
+
     (numbers, operators)
 }

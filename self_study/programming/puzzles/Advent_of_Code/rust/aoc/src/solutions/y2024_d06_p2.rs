@@ -166,20 +166,3 @@ fn gridify(input: &Vec<u8>) -> Vec<Vec<u8>> {
 
     grid
 }
-
-fn start_position(grid: &Vec<Vec<u8>>) -> (i16, i16) {
-    let mut x = 0;
-    let mut y = 0;
-    for row in grid {
-        for b in row {
-            if b == &START_MARK {
-                return (y, x);
-            }
-            x += 1;
-        }
-        x = 0;
-        y += 1;
-    }
-
-    (y, x)
-}

@@ -26,7 +26,7 @@ pub fn main() {
                     Action::Off => {
                         // Do have to do a checked subtraction in case current value is 0 (no negative values allowed).
                         if let Some(n) = lights[row][col].checked_sub(1) {
-                            lights[row][col] = n;    
+                            lights[row][col] = n;
                         }
                     }
                     Action::Toggle => lights[row][col] += 2,
@@ -47,7 +47,7 @@ pub fn main() {
 fn parse_input(input: &str) -> Vec<Instruction> {
     input
         .lines()
-        .map(|mut l| {
+        .map(|l| {
             let mut split = l.rsplit(' ');
             let point_b = split.next().unwrap();
             let mut split_point = point_b.split(',');

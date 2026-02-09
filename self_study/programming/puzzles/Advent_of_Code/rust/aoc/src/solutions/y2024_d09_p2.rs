@@ -1,9 +1,6 @@
 use std::fs;
-use std::collections::HashMap;
 
 const CHAR_NUMBER_OFFSET: u8 = 48;
-const DOT: u8 = 46;
-const HASHTAG: u8 = 35;
 const LINE_FEED: u8 = 10;
 
 const INPUT: &str = "y2024_d09.in";
@@ -15,7 +12,7 @@ pub fn main() {
     assert!(FILE_ID_OFFSET > 0);
     assert!(IS_FREE_BLOCK == 0);
 
-    let mut input: Vec<u8> = fs::read(INPUT).unwrap();
+    let input: Vec<u8> = fs::read(INPUT).unwrap();
 
     let mut blocks: Vec<usize> = get_disk_layout(input);
 
@@ -61,7 +58,7 @@ pub fn main() {
     for b in blocks.iter() {
         if *b != 0 {
             let id = b - FILE_ID_OFFSET;
-            res += (i * id);
+            res += i * id;
         }
         i += 1;
     }
@@ -81,14 +78,14 @@ fn get_disk_layout(input: Vec<u8>) -> Vec<usize> {
         if is_file {
             // Add file id for all blocks occupied by its size (n).
             assert!(n > 0 && n <= 9);
-            for i in 0..n {
+            for _ in 0..n {
                 blocks.push(id);
             }
             id += 1;
 
         } else {
             // Add '0' padding occupying free space (n) after the file.
-            for i in 0..n {
+            for _ in 0..n {
                 blocks.push(IS_FREE_BLOCK);
             }
         }

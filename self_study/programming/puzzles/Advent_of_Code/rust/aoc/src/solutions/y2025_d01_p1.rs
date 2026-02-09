@@ -18,7 +18,7 @@ fn solve(input: &[u8]) -> i32 {
             match *b as char {
                 'R' => left = false,
                 'L' => left = true,
-                v => s.push(*b as char),
+                _v => s.push(*b as char),
             }
         } else {
             let v = s.parse::<i32>().unwrap();

@@ -1,6 +1,3 @@
-use core::num;
-use std::hint::unreachable_unchecked;
-
 const INPUT: &str = "y2025_d06.in";
 
 pub fn main() {

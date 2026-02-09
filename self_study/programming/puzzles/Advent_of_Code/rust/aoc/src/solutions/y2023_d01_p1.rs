@@ -20,10 +20,10 @@ pub fn main() {
         }
 
         match (first, last) {
-            ( Some(f), Some(l) ) => res += (f * 10 + l),
+            ( Some(f), Some(l) ) => res += f * 10 + l,
 
             // edge case for lines holding only one dgit meaning last will equal the first.
-            ( Some(f_and_l), None ) => res += (f_and_l * 10 + f_and_l),
+            ( Some(f_and_l), None ) => res += f_and_l * 10 + f_and_l,
 
             _ => panic!(),
         }

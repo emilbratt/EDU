@@ -25,7 +25,7 @@ pub fn main() {
     let b = resolve("a", VecDeque::from(instructions_a));
 
     for instr in instructions_b.iter_mut() {
-        if let Instruction::Assign(v, out) = instr {
+        if let Instruction::Assign(_, out) = instr {
             if out == "b" {
                 *instr = Instruction::Assign(b.to_string(), out.to_string());
                 break;

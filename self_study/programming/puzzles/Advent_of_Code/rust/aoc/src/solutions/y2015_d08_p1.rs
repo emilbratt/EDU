@@ -17,7 +17,7 @@ pub fn main() {
                         byte => unreachable!("Did not expect character '{}'", byte as char) // we only consider the above rules..
                     }
                 }
-                byte => i += 1,
+                _ => i += 1,
             }
         }
     }
