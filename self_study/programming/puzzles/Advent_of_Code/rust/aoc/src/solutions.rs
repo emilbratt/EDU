@@ -101,6 +101,9 @@ mod y2025_d06_p2;
 mod y2025_d07_p1;
 mod y2025_d07_p2;
 
+mod y2025_d08_p1;
+mod y2025_d08_p2;
+
 pub fn get(year: Year, day: Day, part: Part) -> Option<Solution> {
     let solution = match (year, day, part) {
         // YEAR 2015
@@ -230,6 +233,10 @@ pub fn get(year: Year, day: Day, part: Part) -> Option<Solution> {
         // --- Day 7: Laboratories ---
         (Year::Year2025, Day::Day07, Part::Part1) => y2025_d07_p1::main,
         (Year::Year2025, Day::Day07, Part::Part2) => y2025_d07_p2::main,
+
+        // --- Day 8: Playground ---
+        (Year::Year2025, Day::Day08, Part::Part1) => y2025_d08_p1::main,
+        (Year::Year2025, Day::Day08, Part::Part2) => y2025_d08_p2::main,
 
         _ => return None,
     };

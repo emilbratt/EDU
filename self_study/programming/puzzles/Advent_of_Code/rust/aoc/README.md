@@ -2,16 +2,13 @@
 
 ### Input files
 
-Place your input files here.\
-Make sure it has the same name as the solution file.
+* get session cookie using inspection tool in your browser
 
-For example:\
-for solution y2024_d01_p1.rs -> src/solutions/y2024_d01_p1.rs\
-create input y2024_d01.in -> ./y2024_d01.in
+Program will automatically download input files. Make sure to create file "session.in"
+and put your session token inside it..
 
-Download input with curl
+Manually download input with curl
 ```sh
-# get session cookie (use your browsers inspection tools) and set envar
 AOC_SESSION=746c5645f5...........................
 
 # run curl for select year and day, example uses year 2024 and day 1
@@ -20,7 +17,8 @@ curl https://adventofcode.com/2024/day/1/input --cookie "session=${AOC_SESSION}"
 
 ### Run solution
 
-Run with `cargo run --release`.\
+* at least two args (year day) is needed
+Run with for example `cargo run 2025 1 1`.\
 All solutions are isolated (no shared code).\
 This means that you can copy code directly from the solution file e.g. src/solutions/y2024d01p1.rs\
 ..and into your crate if you want.
